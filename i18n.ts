@@ -1,0 +1,23 @@
+import i18n from "i18next";
+import Backend from "i18next-http-backend";
+import LanguageDetector from "i18next-browser-languagedetector";
+import { initReactI18next } from "react-i18next";
+
+i18n
+  .use(Backend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    fallbackLng: "en",
+    lng: "en", // یا "zh"
+    supportedLngs: ["en", "zh"],
+    debug: false,
+    interpolation: {
+      escapeValue: false,
+    },
+    backend: {
+      loadPath: "/locales/{{lng}}/common.json",
+    },
+  });
+
+export default i18n;

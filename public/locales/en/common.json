@@ -1,0 +1,16 @@
+{
+  "greeting": "Hello!",
+  "login": "Login",
+  "register": "Register",
+  "forgotPassword": "Forgot Your Password?",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "email": "Email",
+  "password": "Password",
+  "mobile": "Mobile Number",
+  "bio": "Bio",
+  "whatsapp": "WhatsApp Number",
+  "weChat": "WeChat",
+  "address": "Address",
+  "welcomeText": "Welcome to Silk Road"
+}
