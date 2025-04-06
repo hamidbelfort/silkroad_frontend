@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Mail, Lock, User, Loader2 } from "lucide-react";
+import { TermsCheckbox } from "./termsCheckbox";
 
 interface RegisterFormInputs {
   name: string;
@@ -21,6 +22,7 @@ export default function RegisterForm() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isAgreed, setIsAgreed] = useState(false);
 
   const onSubmit = async (data: RegisterFormInputs) => {
     setLoading(true);
@@ -135,15 +137,20 @@ export default function RegisterForm() {
             {error}
           </p>
         )}
-
+        <TermsCheckbox
+          onChange={(checked) => setIsAgreed(checked)}
+        />
         {/* Submit */}
         <Button
           type="submit"
           className="w-full"
-          disabled={loading}
+          disabled={!isAgreed || loading}
         >
           {loading ? (
-            <Loader2 className="animate-spin w-4 h-4 mr-2" />
+            <>
+              <Loader2 className="animate-spin w-4 h-4 mr-2" />
+              SigninUp...
+            </>
           ) : (
             "Sign up"
           )}
