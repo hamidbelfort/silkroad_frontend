@@ -12,5 +12,11 @@
   "whatsapp": "WhatsApp 号码",
   "weChat": "微信",
   "address": "地址",
-  "welcomeText": "欢迎来到丝绸之路"
+  "welcomeText": "欢迎来到丝绸之路",
+  "menu": "菜单",
+  "navbar": {
+    "home": "首页",
+    "about": "关于我们",
+    "contact": "联系我们"
+  }
 }

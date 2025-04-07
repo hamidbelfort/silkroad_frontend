@@ -1,31 +1,146 @@
-const Footer = () => {
-  return (
-    <footer className="relative bg-background text-foreground pt-0">
-      {/* موج SVG بالای فوتر */}
-      <div className="w-full overflow-hidden leading-none">
-        <svg
-          className="w-full h-auto"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1440 320"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="#273036"
-            fillOpacity="0.7"
-            d="M0,96L21.8,85.3C43.6,75,87,53,131,53.3C174.5,53,218,75,262,80C305.5,85,349,75,393,101.3C436.4,128,480,192,524,197.3C567.3,203,611,149,655,144C698.2,139,742,181,785,208C829.1,235,873,245,916,224C960,203,1004,149,1047,122.7C1090.9,96,1135,96,1178,106.7C1221.8,117,1265,139,1309,149.3C1352.7,160,1396,160,1418,160L1440,160L1440,0L1418.2,0C1396.4,0,1353,0,1309,0C1265.5,0,1222,0,1178,0C1134.5,0,1091,0,1047,0C1003.6,0,960,0,916,0C872.7,0,829,0,785,0C741.8,0,698,0,655,0C610.9,0,567,0,524,0C480,0,436,0,393,0C349.1,0,305,0,262,0C218.2,0,175,0,131,0C87.3,0,44,0,22,0L0,0Z"
-          />
-        </svg>
-      </div>
+"use client";
+import { useEffect, useState } from "react";
+import { Facebook, Twitter, Instagram } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-      {/* محتوای فوتر */}
-      <div className="container mx-auto px-4 py-8 text-center text-sm text-muted-foreground">
-        <p>
-          © {new Date().getFullYear()} Silkroad. All rights
-          reserved.
-        </p>
+export default function Footer() {
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
+  return (
+    <footer className="w-full bg-gradient-to-r from-indigo-800/80 via-purple-700/80 to-pink-600/80 text-white">
+      <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
+        {/* حالت موبایل: آکاردئون */}
+        <div className="md:hidden">
+          <Accordion type="multiple">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-white">
+                Quick Links
+              </AccordionTrigger>
+              <AccordionContent>
+                <ul className="space-y-1 pl-2">
+                  <li>
+                    <a href="/" className="hover:underline">
+                      Home
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/about" className="hover:underline">
+                      About Us
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/contact" className="hover:underline">
+                      Contact
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/faq" className="hover:underline">
+                      FAQ
+                    </a>
+                  </li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-2">
+              <AccordionTrigger className="text-white">About</AccordionTrigger>
+              <AccordionContent>
+                <p className="pl-2 text-white/90 leading-5">
+                  We simplify travel for Chinese tourists in Iran. Enjoy easy
+                  booking and local services all in one place.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-3">
+              <AccordionTrigger className="text-white">
+                Follow Us
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="flex gap-3 pl-2 mt-2">
+                  <a href="#">
+                    <Facebook size={18} />
+                  </a>
+                  <a href="#">
+                    <Twitter size={18} />
+                  </a>
+                  <a href="#">
+                    <Instagram size={18} />
+                  </a>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+
+        {/* حالت دسکتاپ: ۳ ستونه */}
+        <div className="hidden md:grid grid-cols-3 gap-6 text-sm">
+          <div>
+            <h4 className="font-semibold mb-2">Quick Links</h4>
+            <ul className="space-y-1">
+              <li>
+                <a href="/" className="hover:underline">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="/about" className="hover:underline">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="/contact" className="hover:underline">
+                  Contact
+                </a>
+              </li>
+              <li>
+                <a href="/faq" className="hover:underline">
+                  FAQ
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-2">About</h4>
+            <p className="leading-5 text-white/90">
+              We simplify travel for Chinese tourists in Iran. Enjoy easy
+              booking and local services all in one place.
+            </p>
+          </div>
+
+          <div className="flex flex-col justify-between">
+            <div className="flex gap-3 mb-4 md:mb-0">
+              <a href="#">
+                <Facebook size={18} />
+              </a>
+              <a href="#">
+                <Twitter size={18} />
+              </a>
+              <a href="#">
+                <Instagram size={18} />
+              </a>
+            </div>
+            <p className="text-xs text-white/60 mt-auto">
+              &copy; {new Date().getFullYear()} SilkRoad. All rights reserved.
+            </p>
+          </div>
+        </div>
+
+        {/* کپی‌رایت در حالت موبایل */}
+        <div className="md:hidden mt-6 text-center text-xs text-white/60">
+          &copy; {new Date().getFullYear()} SilkRoad. All rights reserved.
+        </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

@@ -38,22 +38,19 @@ export function TermsCheckbox({
             <DialogTrigger asChild>
               <Button
                 variant="link"
-                className="p-0 h-auto text-blue-600 underline"
+                className="p-0 h-auto text-blue-600 underline cursor-pointer"
               >
                 Terms and Conditions
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle>
-                  Terms and Conditions
-                </DialogTitle>
+                <DialogTitle>Terms and Conditions</DialogTitle>
               </DialogHeader>
               <div className="text-sm leading-6 space-y-2">
                 <p>
-                  This is where your terms and conditions
-                  go. You can include any legal or usage
-                  information that users must accept before
+                  This is where your terms and conditions go. You can include
+                  any legal or usage information that users must accept before
                   registering.
                 </p>
               </div>

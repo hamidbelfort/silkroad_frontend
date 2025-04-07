@@ -55,16 +55,13 @@ export default function RegisterForm() {
         Create your account
       </h2>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-5"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Name */}
-        <div>
+        <div className="space-y-2">
           <label className="block mb-1">Full Name</label>
           <div className="relative">
             <User
-              className="absolute left-3 top-3.5 text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
               size={18}
             />
             <Input
@@ -77,18 +74,16 @@ export default function RegisterForm() {
             />
           </div>
           {errors.name && (
-            <p className="text-sm text-red-500 mt-1">
-              {errors.name.message}
-            </p>
+            <p className="text-sm text-red-500 mt-1">{errors.name.message}</p>
           )}
         </div>
 
         {/* Email */}
-        <div>
+        <div className="space-y-2">
           <label className="block mb-1">Email</label>
           <div className="relative">
             <Mail
-              className="absolute left-3 top-3.5 text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
               size={18}
             />
             <Input
@@ -101,18 +96,16 @@ export default function RegisterForm() {
             />
           </div>
           {errors.email && (
-            <p className="text-sm text-red-500 mt-1">
-              {errors.email.message}
-            </p>
+            <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>
           )}
         </div>
 
         {/* Password */}
-        <div>
+        <div className="space-y-2">
           <label className="block mb-1">Password</label>
           <div className="relative flex justify-baseline">
             <Lock
-              className="absolute left-3 top-3.5 text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
               size={18}
             />
             <Input
@@ -132,14 +125,8 @@ export default function RegisterForm() {
         </div>
 
         {/* Error */}
-        {error && (
-          <p className="text-sm text-red-500 text-center">
-            {error}
-          </p>
-        )}
-        <TermsCheckbox
-          onChange={(checked) => setIsAgreed(checked)}
-        />
+        {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+        <TermsCheckbox onChange={(checked) => setIsAgreed(checked)} />
         {/* Submit */}
         <Button
           type="submit"

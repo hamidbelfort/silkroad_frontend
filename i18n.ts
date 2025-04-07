@@ -12,11 +12,13 @@ i18n
     lng: "en", // یا "zh"
     supportedLngs: ["en", "zh"],
     debug: false,
+    ns: ["common"],
+    defaultNS: "common",
     interpolation: {
       escapeValue: false,
     },
     backend: {
-      loadPath: "/locales/{{lng}}/common.json",
+      loadPath: "/locales/{{lng}}/{{ns}}.json",
     },
   });
 

@@ -13,5 +13,11 @@
   "whatsapp": "WhatsApp Number",
   "weChat": "WeChat",
   "address": "Address",
-  "welcomeText": "Welcome to Silk Road"
+  "welcomeText": "Welcome to Silk Road",
+  "menu": "Menu",
+  "navbar": {
+    "home": "Home",
+    "about": "About Us",
+    "contact": "Contact"
+  }
 }
