@@ -4,6 +4,7 @@ import { Navbar } from "../components/layout/navbar";
 import Footer from "../components/layout/footer";
 import { ThemeProvider } from "../components/providers/themeProvider";
 import TranslationProvider from "../components/providers/TranslationProvider";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import "../globals.css";
 
@@ -21,6 +22,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
             <main className="flex-1 container mx-auto px-4 py-6">
               <TranslationProvider>{children}</TranslationProvider>
             </main>
+            <Toaster richColors position="bottom-center" />
             <Footer />
           </div>
         </ThemeProvider>

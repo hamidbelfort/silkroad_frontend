@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getToken } from "@/lib/cookies/authCookies";
+import { toast } from "sonner";
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
@@ -39,15 +40,20 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response) {
       // ارورهایی که از سمت سرور میان
-      console.error(
+      toast.error(
+        "Server Error:" + error.response.data.message || "Something went wrong"
+      );
+      /*console.error(
         "Server Error:",
         error.response.data.message || error.message
-      );
+      );*/
     } else if (error.request) {
       // ارورهایی که از سمت کلاینت میان (مثلاً اینترنت قطع باشه)
-      console.error("Network Error:", error.message);
+      toast.error("Network Error:" + error.message);
+      //console.error("Network Error:", error.message);
     } else {
-      console.error("Unknown Error:", error.message);
+      //console.error("Unknown Error:", error.message);
+      toast.error("Unknown Error:" + error.message);
     }
 
     return Promise.reject(error);

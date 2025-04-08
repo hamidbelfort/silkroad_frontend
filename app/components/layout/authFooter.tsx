@@ -1,16 +1,33 @@
 "use client";
 
-import { FC } from "react";
-import Image from "next/image";
-const AuthFooter: FC = () => {
+import React from "react";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+const AuthFooter = () => {
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
   return (
-    <footer className="relative mt-10">
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] rotate-180">
-        <Image src={"/wave.svg"} alt="footer waves" width={100} height={20} />
-      </div>
-      <div className="relative bg-gray-100 text-center py-4 text-sm text-gray-500">
-        © {new Date().getFullYear()} Silkroad. All rights reserved.
-      </div>
+    <footer className="w-full bg-gradient-to-t from-background to-muted/50 text-center py-4 text-sm text-muted-foreground mt-auto">
+      <p>
+        &copy; {new Date().getFullYear()}{" "}
+        <HoverCard>
+          <HoverCardTrigger>
+            &copy; {year} SilkRoad. All rights reserved.
+          </HoverCardTrigger>
+          <HoverCardContent>
+            Made with ❤️ by{" "}
+            <Link href="https://github.com/hamidbelfort">Hamid</Link>
+          </HoverCardContent>
+        </HoverCard>
+      </p>
     </footer>
   );
 };

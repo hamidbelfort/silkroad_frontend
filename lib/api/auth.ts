@@ -14,10 +14,7 @@ interface RegisterPayload {
 }
 
 export const loginUser = async (payload: LoginPayload) => {
-  const res = await axiosInstance.post(
-    "/auth/login",
-    payload
-  );
+  const res = await axiosInstance.post("/auth/login", payload);
   const token = res.data?.token;
   if (token) {
     Cookies.set("token", token);
@@ -25,16 +22,12 @@ export const loginUser = async (payload: LoginPayload) => {
   return res.data;
 };
 
-export const registerUser = async (
-  payload: RegisterPayload
-) => {
-  const res = await axiosInstance.post(
-    "/auth/register",
-    payload
-  );
+export const registerUser = async (payload: RegisterPayload) => {
+  const res = await axiosInstance.post("/auth/register", payload);
   const token = res.data?.token;
   if (token) {
     Cookies.set("token", token);
   }
+  console.log(res.data);
   return res.data;
 };
