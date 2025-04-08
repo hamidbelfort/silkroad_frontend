@@ -1,5 +1,5 @@
 import AuthFooter from "../components/layout/authFooter";
-
+import "../globals.css";
 export default function AuthLayout({
   children,
 }: {
@@ -8,7 +8,7 @@ export default function AuthLayout({
   return (
     <html>
       <body>
-        <div className="min-h-screen flex flex-col justify-between">
+        <div className="min-h-screen flex flex-col">
           <main className="flex-1 flex items-center justify-center">
             {children}
           </main>

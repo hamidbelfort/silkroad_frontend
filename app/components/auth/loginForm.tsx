@@ -71,7 +71,7 @@ export function LoginForm() {
           )}
         </Button>
 
-        <div className="flex justify-between w-full text-sm">
+        <div className="flex justify-between gap-4 w-full text-sm">
           <Link
             href="/forgot-password"
             className="text-blue-600 hover:underline"

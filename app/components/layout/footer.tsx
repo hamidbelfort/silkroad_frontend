@@ -1,15 +1,22 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Facebook, Twitter, Instagram } from "lucide-react";
+import Link from "next/link";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 export default function Footer() {
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [year, setYear] = useState(
+    new Date().getFullYear()
+  );
 
   useEffect(() => {
     setYear(new Date().getFullYear());
@@ -22,47 +29,62 @@ export default function Footer() {
         <div className="md:hidden">
           <Accordion type="multiple">
             <AccordionItem value="item-1">
-              <AccordionTrigger className="text-white">
+              <AccordionTrigger className="text-white cursor-pointer">
                 Quick Links
               </AccordionTrigger>
               <AccordionContent>
                 <ul className="space-y-1 pl-2">
                   <li>
-                    <a href="/" className="hover:underline">
+                    <Link
+                      href="/"
+                      className="hover:underline"
+                    >
                       Home
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/about" className="hover:underline">
+                    <Link
+                      href="/about"
+                      className="hover:underline"
+                    >
                       About Us
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/contact" className="hover:underline">
+                    <Link
+                      href="/contact"
+                      className="hover:underline"
+                    >
                       Contact
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/faq" className="hover:underline">
+                    <Link
+                      href="/faq"
+                      className="hover:underline"
+                    >
                       FAQ
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-2">
-              <AccordionTrigger className="text-white">About</AccordionTrigger>
+              <AccordionTrigger className="text-white cursor-pointer">
+                About
+              </AccordionTrigger>
               <AccordionContent>
                 <p className="pl-2 text-white/90 leading-5">
-                  We simplify travel for Chinese tourists in Iran. Enjoy easy
-                  booking and local services all in one place.
+                  We simplify travel for Chinese tourists in
+                  Iran. Enjoy easy booking and local
+                  services all in one place.
                 </p>
               </AccordionContent>
             </AccordionItem>
 
             <AccordionItem value="item-3">
-              <AccordionTrigger className="text-white">
+              <AccordionTrigger className="text-white cursor-pointer">
                 Follow Us
               </AccordionTrigger>
               <AccordionContent>
@@ -85,27 +107,38 @@ export default function Footer() {
         {/* حالت دسکتاپ: ۳ ستونه */}
         <div className="hidden md:grid grid-cols-3 gap-6 text-sm">
           <div>
-            <h4 className="font-semibold mb-2">Quick Links</h4>
+            <h4 className="font-semibold mb-2">
+              Quick Links
+            </h4>
             <ul className="space-y-1">
               <li>
-                <a href="/" className="hover:underline">
+                <Link href="/" className="hover:underline">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/about" className="hover:underline">
+                <Link
+                  href="/about"
+                  className="hover:underline"
+                >
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="hover:underline">
+                <Link
+                  href="/contact"
+                  className="hover:underline"
+                >
                   Contact
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/faq" className="hover:underline">
+                <Link
+                  href="/faq"
+                  className="hover:underline"
+                >
                   FAQ
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -113,32 +146,44 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-2">About</h4>
             <p className="leading-5 text-white/90">
-              We simplify travel for Chinese tourists in Iran. Enjoy easy
-              booking and local services all in one place.
+              We simplify travel for Chinese tourists in
+              Iran. Enjoy easy booking and local services
+              all in one place.
             </p>
           </div>
 
           <div className="flex flex-col justify-between">
             <div className="flex gap-3 mb-4 md:mb-0">
-              <a href="#">
+              <Link href="#">
                 <Facebook size={18} />
-              </a>
-              <a href="#">
+              </Link>
+              <Link href="#">
                 <Twitter size={18} />
-              </a>
-              <a href="#">
+              </Link>
+              <Link href="#">
                 <Instagram size={18} />
-              </a>
+              </Link>
             </div>
             <p className="text-xs text-white/60 mt-auto">
-              &copy; {new Date().getFullYear()} SilkRoad. All rights reserved.
+              <HoverCard>
+                <HoverCardTrigger>
+                  &copy; {year} SilkRoad. All rights
+                  reserved.
+                </HoverCardTrigger>
+                <HoverCardContent>
+                  Made with ❤️ by{" "}
+                  <Link href="https://github.com/hamidbelfort">
+                    Hamid
+                  </Link>
+                </HoverCardContent>
+              </HoverCard>
             </p>
           </div>
         </div>
 
         {/* کپی‌رایت در حالت موبایل */}
         <div className="md:hidden mt-6 text-center text-xs text-white/60">
-          &copy; {new Date().getFullYear()} SilkRoad. All rights reserved.
+          &copy; {year} SilkRoad. All rights reserved.
         </div>
       </div>
     </footer>
