@@ -18,5 +18,9 @@
     "home": "首页",
     "about": "关于我们",
     "contact": "联系我们"
+  },
+  "validation": {
+    "password": "密码必须至少包含 6 个字符",
+    "email": "电子邮件无效"
   }
 }

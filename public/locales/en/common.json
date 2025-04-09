@@ -19,5 +19,9 @@
     "home": "Home",
     "about": "About Us",
     "contact": "Contact"
+  },
+  "validation": {
+    "password": "Password must be at least 6 characters",
+    "email": "Invalid email"
   }
 }

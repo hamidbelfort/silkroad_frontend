@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { useTranslation } from "react-i18next";
+import i18n from "@/lib/i18n";
 import {
   Languages,
   Menu,
@@ -22,7 +23,7 @@ import {
 import Link from "next/link";
 
 export function Navbar() {
-  const { t, i18n } = useTranslation("common");
+  const { t } = useTranslation("common");
   const [isOpen, setIsOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
@@ -58,7 +59,11 @@ export function Navbar() {
       icon: <LogIn size={18} />,
     },
   ];
-
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem("lang", lang);
+  };
+  const getLanguage = () => localStorage.getItem("lang");
   return (
     <header className="w-full shadow-sm border-b">
       {" "}
@@ -82,12 +87,14 @@ export function Navbar() {
           <div className="relative">
             <select
               className="text-sm bg-transparent border-none focus:outline-none"
-              onChange={(e) =>
-                i18n.changeLanguage(e.target.value)
-              }
+              onChange={(e) => changeLanguage(e.target.value)}
             >
-              <option value="en">EN</option>
-              <option value="zh">中文</option>
+              <option value="en" defaultChecked={getLanguage() === "en"}>
+                EN
+              </option>
+              <option value="zh" defaultChecked={getLanguage() === "zh"}>
+                中文
+              </option>
             </select>
           </div>
         </nav>
@@ -100,9 +107,7 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <SheetTitle className="text-center p-2">
-                {t("menu")}
-              </SheetTitle>
+              <SheetTitle className="text-center p-2">{t("menu")}</SheetTitle>
               <div className="flex flex-col gap-4 mt-4 pl-4">
                 {navLinks.map((link) => (
                   <Link
@@ -119,9 +124,7 @@ export function Navbar() {
                   <Languages size={18} />
                   <select
                     className="text-sm bg-transparent border-none focus:outline-none"
-                    onChange={(e) =>
-                      i18n.changeLanguage(e.target.value)
-                    }
+                    onChange={(e) => changeLanguage(e.target.value)}
                   >
                     <option value="en">EN</option>
                     <option value="zh">中文</option>

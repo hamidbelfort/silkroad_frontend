@@ -31,3 +31,16 @@ export const registerUser = async (payload: RegisterPayload) => {
   console.log(res.data);
   return res.data;
 };
+export function getUserRole(): "admin" | "operator" | "customer" | null {
+  if (typeof window === "undefined") return null;
+
+  const userData = localStorage.getItem("user");
+  if (!userData) return null;
+
+  try {
+    const parsed = JSON.parse(userData);
+    return parsed?.role || null;
+  } catch {
+    return null;
+  }
+}

@@ -9,7 +9,6 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
-    lng: "en", // یا "zh"
     supportedLngs: ["en", "zh"],
     debug: false,
     ns: ["common"],
@@ -19,6 +18,10 @@ i18n
     },
     backend: {
       loadPath: "/locales/{{lng}}/{{ns}}.json",
+    },
+    detection: {
+      order: ["localStorage", "navigator"],
+      caches: ["localStorage"],
     },
   });
 

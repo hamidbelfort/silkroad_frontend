@@ -8,18 +8,19 @@ import { useEffect, useState } from "react";
 
 export function ModeToggle() {
   const { setTheme, theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  // const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
-  if (!mounted) return null;
+  // if (!mounted) return null;
 
   return (
     <Button
       variant="ghost"
       size="icon"
+      className="cursur-pointer"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
       {theme === "light" ? (
