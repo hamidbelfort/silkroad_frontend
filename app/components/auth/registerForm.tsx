@@ -11,7 +11,12 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface RegisterFormInputs {
   name: string;
@@ -21,13 +26,15 @@ interface RegisterFormInputs {
 
 export default function RegisterForm() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isAgreed, setIsAgreed] = useState(false);
   const formSchema = z.object({
     name: z.string().min(2, "Name is required"),
     email: z.string().email("Invalid email"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: z
+      .string()
+      .min(6, "Password must be at least 6 characters"),
   });
   const {
     register,
@@ -39,14 +46,14 @@ export default function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormInputs) => {
     try {
-      setLoading(true);
       await registerUser(data);
-      setLoading(false);
       toast.success("Registration successful!");
       router.push("/login");
-    } catch (err: any) {
-      setLoading(false);
-      //toast.error(err?.response?.data?.message || "Registration failed");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "Registration failed");
+      }
+      toast.error(error || "Registration failed");
     }
   };
 
@@ -54,10 +61,15 @@ export default function RegisterForm() {
     <main>
       <Card className="w-full max-w-md mx-auto my-auto">
         <CardHeader>
-          <CardTitle className="text-center">Register to Silkroad</CardTitle>
+          <CardTitle className="text-center">
+            Register to Silkroad
+          </CardTitle>
         </CardHeader>
         <CardContent className="my-4">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                 <User className="w-4 h-4" />
@@ -68,7 +80,9 @@ export default function RegisterForm() {
                 className="pl-9"
               />
               {errors.name && (
-                <p className="text-sm text-red-500">{errors.name.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.name.message}
+                </p>
               )}
             </div>
 
@@ -83,7 +97,9 @@ export default function RegisterForm() {
                 className="pl-9"
               />
               {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -103,13 +119,22 @@ export default function RegisterForm() {
                 </p>
               )}
             </div>
-            <TermsCheckbox onChange={(checked) => setIsAgreed(checked)} />
+            <TermsCheckbox
+              onChange={(checked) => setIsAgreed(checked)}
+            />
             <Button
               type="submit"
               disabled={!isAgreed || isSubmitting}
               className="w-full"
             >
-              {isSubmitting ? "Registering..." : "Register"}
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Registering...
+                </>
+              ) : (
+                "Register"
+              )}
             </Button>
           </form>
         </CardContent>

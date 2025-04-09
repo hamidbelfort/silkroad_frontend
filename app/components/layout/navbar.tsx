@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Sheet,
   SheetContent,
@@ -24,13 +24,39 @@ import Link from "next/link";
 export function Navbar() {
   const { t, i18n } = useTranslation("common");
   const [isOpen, setIsOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
   const navLinks = [
-    { href: "/", label: t("navbar.home"), icon: <Home size={18} /> },
-    { href: "/faq", label: t("FAQ"), icon: <HelpCircle size={18} /> },
-    { href: "/about", label: t("navbar.about"), icon: <Info size={18} /> },
-    { href: "/contact", label: t("navbar.contact"), icon: <Phone size={18} /> },
-    { href: "/login", label: t("login"), icon: <LogIn size={18} /> },
+    {
+      href: "/",
+      label: t("navbar.home"),
+      icon: <Home size={18} />,
+    },
+    {
+      href: "/faq",
+      label: t("FAQ"),
+      icon: <HelpCircle size={18} />,
+    },
+    {
+      href: "/about",
+      label: t("navbar.about"),
+      icon: <Info size={18} />,
+    },
+    {
+      href: "/contact",
+      label: t("navbar.contact"),
+      icon: <Phone size={18} />,
+    },
+    {
+      href: "/login",
+      label: t("login"),
+      icon: <LogIn size={18} />,
+    },
   ];
 
   return (
@@ -56,7 +82,9 @@ export function Navbar() {
           <div className="relative">
             <select
               className="text-sm bg-transparent border-none focus:outline-none"
-              onChange={(e) => i18n.changeLanguage(e.target.value)}
+              onChange={(e) =>
+                i18n.changeLanguage(e.target.value)
+              }
             >
               <option value="en">EN</option>
               <option value="zh">中文</option>
@@ -72,7 +100,9 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <SheetTitle className="text-center p-2">{t("menu")}</SheetTitle>
+              <SheetTitle className="text-center p-2">
+                {t("menu")}
+              </SheetTitle>
               <div className="flex flex-col gap-4 mt-4 pl-4">
                 {navLinks.map((link) => (
                   <Link
@@ -89,7 +119,9 @@ export function Navbar() {
                   <Languages size={18} />
                   <select
                     className="text-sm bg-transparent border-none focus:outline-none"
-                    onChange={(e) => i18n.changeLanguage(e.target.value)}
+                    onChange={(e) =>
+                      i18n.changeLanguage(e.target.value)
+                    }
                   >
                     <option value="en">EN</option>
                     <option value="zh">中文</option>

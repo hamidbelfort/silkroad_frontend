@@ -107,7 +107,7 @@ export default function Footer() {
         {/* حالت دسکتاپ: ۳ ستونه */}
         <div className="hidden md:grid grid-cols-3 gap-6 text-sm">
           <div>
-            <h4 className="font-semibold mb-2">
+            <h4 className="font-semibold text-xl mb-2">
               Quick Links
             </h4>
             <ul className="space-y-1">
@@ -144,7 +144,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-2">About</h4>
+            <h4 className="font-semibold text-xl mb-2">
+              About
+            </h4>
             <p className="leading-5 text-white/90">
               We simplify travel for Chinese tourists in
               Iran. Enjoy easy booking and local services
@@ -155,13 +157,22 @@ export default function Footer() {
           <div className="flex flex-col justify-between">
             <div className="flex gap-3 mb-4 md:mb-0">
               <Link href="#">
-                <Facebook size={18} />
+                <Facebook
+                  size={20}
+                  className="transition-all duration-200 hover:size-7"
+                />
               </Link>
               <Link href="#">
-                <Twitter size={18} />
+                <Twitter
+                  size={20}
+                  className="transition-all duration-200 hover:size-7"
+                />
               </Link>
               <Link href="#">
-                <Instagram size={18} />
+                <Instagram
+                  size={20}
+                  className="transition-all duration-200 hover:size-7"
+                />
               </Link>
             </div>
             <p className="text-xs text-white/60 mt-auto">

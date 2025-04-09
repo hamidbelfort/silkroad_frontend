@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import {
   Card,
@@ -13,13 +12,52 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Loader2, Mail, Lock } from "lucide-react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+interface LoginFormInputs {
+  email: string;
+  password: string;
+}
 export function LoginForm() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const formSchema = z.object({
+    email: z.string().email("Invalid email"),
+    password: z
+      .string()
+      .min(6, "Password must be at least 6 characters"),
+  });
+  const {
+    login,
+    handleLogin,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormInputs>({
+    resolver: zodResolver(formSchema),
+  });
+  const onSubmit = async (data: LoginFormInputs) => {
+    try {
+      setLoading(true);
+      await loginUser(data);
+      toast.success("Login successful!");
+      router.push("/");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message || "Login failed");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <form onSubmit={() => setLoading(true)}>
+    <form onSubmit={handleLogin(onsubmit)}>
       <Card className="w-full max-w-sm mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Login</CardTitle>
+          <CardTitle className="text-2xl text-center">
+            Welcome Back Dear User!
+          </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-4">
@@ -33,6 +71,7 @@ export function LoginForm() {
                 type="email"
                 placeholder="you@example.com"
                 className="pl-9"
+                {...login("email")}
                 required
               />
             </div>
@@ -48,6 +87,7 @@ export function LoginForm() {
                 type="password"
                 placeholder="••••••••"
                 className="pl-9"
+                {...login("password")}
                 required
               />
             </div>
@@ -55,9 +95,16 @@ export function LoginForm() {
         </CardContent>
 
         <CardFooter className="flex flex-col gap-3">
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? (
-              <Loader2 className="animate-spin h-4 w-4 mr-2" />
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                Submiting...
+              </>
             ) : (
               "Login"
             )}
@@ -70,7 +117,10 @@ export function LoginForm() {
             >
               Forgot Password?
             </Link>
-            <Link href="/register" className="text-blue-600 hover:underline">
+            <Link
+              href="/register"
+              className="text-blue-600 hover:underline"
+            >
               Don&lsquo;t have an account?
             </Link>
           </div>
