@@ -1,10 +1,20 @@
 // lib/authService.ts
+"use client";
 import axiosInstance from "../axios/axiosInstance";
 import Cookies from "js-cookie";
-
+import { useAuthStore } from "@/store/authStore";
 interface LoginPayload {
   email: string;
   password: string;
+}
+interface LoginResponse {
+  token: string;
+  role: "ADMIN" | "OPERATOR" | "CUSTOMER";
+  user: {
+    id: string;
+    name: string;
+    email: string;
+  };
 }
 
 interface RegisterPayload {
@@ -13,34 +23,52 @@ interface RegisterPayload {
   password: string;
 }
 
-export const loginUser = async (payload: LoginPayload) => {
-  const res = await axiosInstance.post("/auth/login", payload);
-  const token = res.data?.token;
-  if (token) {
-    Cookies.set("token", token);
+export const loginUser = async (
+  payload: LoginPayload
+): Promise<LoginResponse> => {
+  try {
+    const { setUser, setToken } = useAuthStore();
+    const response = await axiosInstance.post<LoginResponse>(
+      "/auth/login",
+      payload
+    );
+
+    const { token, role } = response.data;
+    const { id, name, email } = response.data.user;
+
+    // ذخیره توکن در کوکی
+    Cookies.set("token", token, {
+      expires: 7,
+      secure: true,
+      sameSite: "strict",
+    });
+    // همچنین می‌تونیم نقش کاربر رو هم در کوکی یا localStorage ذخیره کنیم
+    localStorage.setItem("userRole", role);
+    //مشخصات کاربر رو در استور ذخیره کنیم
+    setUser({
+      id,
+      name,
+      email,
+      role: role as "admin" | "operator" | "customer",
+    });
+    setToken(token);
+
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || "Login failed");
   }
-  return res.data;
 };
 
 export const registerUser = async (payload: RegisterPayload) => {
   const res = await axiosInstance.post("/auth/register", payload);
-  const token = res.data?.token;
-  if (token) {
-    Cookies.set("token", token);
-  }
+  // const token = res.data?.token;
+  // if (token) {
+  //   Cookies.set("token", token);
+  // }
   console.log(res.data);
   return res.data;
 };
-export function getUserRole(): "admin" | "operator" | "customer" | null {
-  if (typeof window === "undefined") return null;
-
-  const userData = localStorage.getItem("user");
-  if (!userData) return null;
-
-  try {
-    const parsed = JSON.parse(userData);
-    return parsed?.role || null;
-  } catch {
-    return null;
-  }
+export function getUserRole(): "admin" | "operator" | "customer" {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  return user?.role || "customer"; // پیش‌فرض مشتری
 }

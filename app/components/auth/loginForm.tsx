@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { loginUser } from "@/lib/api/auth";
+
 interface LoginFormInputs {
   email: string;
   password: string;
@@ -27,6 +28,7 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const { t, i18n } = useTranslation("common");
   const router = useRouter();
+
   const formSchema = z.object({
     email: z.string().email(t("validation.email")),
     password: z.string().min(6, t("validation.password")),
@@ -41,8 +43,16 @@ export function LoginForm() {
   const onSubmit = async (data: LoginFormInputs) => {
     try {
       setLoading(true);
-      await loginUser(data);
+      const res = await loginUser(data);
       toast.success("Login successful!");
+      // انتقال به داشبورد نقش مربوطه
+      if (res.role === "ADMIN") {
+        router.push("/dashboard/admin");
+      } else if (res.role === "OPERATOR") {
+        router.push("/dashboard/operator");
+      } else {
+        router.push("/dashboard/customer");
+      }
       router.push("/");
     } catch (error: unknown) {
       if (error instanceof Error) {
