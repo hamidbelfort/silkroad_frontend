@@ -4,6 +4,7 @@ export interface SidebarItemType {
   title: string;
   href: string;
   icon: LucideIcon;
+  children?: SidebarItemType[];
 }
 
 export interface SidebarItemProps extends SidebarItemType {

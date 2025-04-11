@@ -1,14 +1,18 @@
-import { Sidebar } from "./components/Sidebar";
+"use client";
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import SidebarWrapper from "./components/dashboard/sideBarWrapper";
+import { ReactNode } from "react";
+
+const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
-      <main className="flex-1 p-4 bg-background overflow-auto">{children}</main>
+    <div className="flex min-h-screen w-full bg-muted text-foreground">
+      {/* Sidebar */}
+      <SidebarWrapper />
+
+      {/* Main content */}
+      <main className="flex-1 p-4 md:p-6 lg:p-8">{children}</main>
     </div>
   );
-}
+};
+
+export default DashboardLayout;

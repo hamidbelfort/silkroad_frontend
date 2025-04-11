@@ -45,7 +45,7 @@ export const loginUser = async (
     // همچنین می‌تونیم نقش کاربر رو هم در کوکی یا localStorage ذخیره کنیم
     localStorage.setItem("userRole", role);
     //مشخصات کاربر رو در استور ذخیره کنیم
-    setUser({
+    useAuthStore.getState().setUser({
       id,
       name,
       email,
