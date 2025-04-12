@@ -1,61 +1,54 @@
 import axios from "axios";
-import { getToken } from "@/lib/cookies/authCookies";
+//import { getToken } from "@/lib/cookies/authCookies";
 import { toast } from "sonner";
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
-
+// interceptor برای اضافه کردن توکن فقط در درخواست‌هایی که نیاز دارن
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = getToken();
-    if (token) {
+    const token = localStorage.getItem("token");
+
+    // لیستی از مسیرهایی که نیاز به احراز هویت ندارن
+    const publicRoutes = [
+      "/auth/login",
+      "/auth/register",
+      "/auth/forgot-password",
+    ];
+
+    // فقط زمانی توکن اضافه کن که مسیر از مسیرهای عمومی نباشه
+    if (
+      token &&
+      !publicRoutes.some((route) =>
+        config.url?.includes(route)
+      )
+    ) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => Promise.reject(error)
 );
-// اضافه کردن توکن به هر درخواست
-axiosInstance.interceptors.request.use(
-  (config) => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
 
-// هندل ارورها
+// error handler
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
-      // ارورهایی که از سمت سرور میان
       toast.error(
-        "Server Error:" + error.response.data.message || "Something went wrong"
+        "Server Error: " + error.response.data?.message ||
+          error.message
       );
-      /*console.error(
-        "Server Error:",
-        error.response.data.message || error.message
-      );*/
     } else if (error.request) {
-      // ارورهایی که از سمت کلاینت میان (مثلاً اینترنت قطع باشه)
-      toast.error("Network Error:" + error.message);
-      //console.error("Network Error:", error.message);
+      toast.error("Network Error: " + error.message);
     } else {
-      //console.error("Unknown Error:", error.message);
-      toast.error("Unknown Error:" + error.message);
+      toast.error("Error: " + error.message);
     }
-
     return Promise.reject(error);
   }
 );

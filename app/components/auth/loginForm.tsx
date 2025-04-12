@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Card,
@@ -19,16 +18,17 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { loginUser } from "@/lib/api/auth";
+import { useAuthStore } from "@/store/authStore";
 
 interface LoginFormInputs {
   email: string;
   password: string;
 }
 export function LoginForm() {
-  const [loading, setLoading] = useState(false);
-  const { t, i18n } = useTranslation("common");
+  //const [loading, setLoading] = useState(false);
+  const { t } = useTranslation("common");
   const router = useRouter();
-
+  const { setToken } = useAuthStore();
   const formSchema = z.object({
     email: z.string().email(t("validation.email")),
     password: z.string().min(6, t("validation.password")),
@@ -42,13 +42,22 @@ export function LoginForm() {
   });
   const onSubmit = async (data: LoginFormInputs) => {
     try {
-      setLoading(true);
+      //setLoading(true);
       const res = await loginUser(data);
+      const { id, name, email, role } = res.user;
+      //مشخصات کاربر رو در استور ذخیره کنیم
+      useAuthStore.getState().setUser({
+        id,
+        name,
+        email,
+        role: role as "admin" | "operator" | "customer",
+      });
+      setToken(res.token);
       toast.success("Login successful!");
       // انتقال به داشبورد نقش مربوطه
-      if (res.role === "ADMIN") {
+      if (role === "ADMIN") {
         router.push("/dashboard/admin");
-      } else if (res.role === "OPERATOR") {
+      } else if (role === "OPERATOR") {
         router.push("/dashboard/operator");
       } else {
         router.push("/dashboard/customer");
@@ -56,17 +65,28 @@ export function LoginForm() {
       router.push("/");
     } catch (error: unknown) {
       if (error instanceof Error) {
-        toast.error(error.message || "Login failed");
+        toast.error("Login failed", {
+          duration: 3000,
+          description: error.cause as string,
+          action: {
+            label: "x",
+            onClick: () => {
+              toast.dismiss();
+            },
+          },
+        });
       }
     } finally {
-      setLoading(false);
+      //setLoading(false);
     }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card className="w-full max-w-sm mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Welcome Back</CardTitle>
+          <CardTitle className="text-2xl text-center">
+            Welcome Back
+          </CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-4">
@@ -85,10 +105,16 @@ export function LoginForm() {
               />
             </div>
           </div>
-
+          {errors.email && (
+            <p className="text-sm text-red-500">
+              {errors.email.message}
+            </p>
+          )}
           {/* Password */}
           <div className="space-y-2">
-            <Label htmlFor="password">{t("password")}</Label>
+            <Label htmlFor="password">
+              {t("password")}
+            </Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -100,11 +126,20 @@ export function LoginForm() {
                 required
               />
             </div>
+            {errors.password && (
+              <p className="text-sm text-red-500">
+                {errors.password.message}
+              </p>
+            )}
           </div>
         </CardContent>
 
         <CardFooter className="flex flex-col gap-3">
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? (
               <>
                 <Loader2 className="animate-spin h-4 w-4 mr-2" />
@@ -115,14 +150,17 @@ export function LoginForm() {
             )}
           </Button>
 
-          <div className="flex justify-between gap-4 w-full text-sm">
+          <div className="flex justify-between gap-8 w-full text-sm mt-4">
             <Link
               href="/forgot-password"
-              className="text-blue-600 hover:underline"
+              className="text-gray-300 hover:underline"
             >
               {t("forgotPassword")}
             </Link>
-            <Link href="/register" className="text-blue-600 hover:underline">
+            <Link
+              href="/register"
+              className="text-gray-300 hover:underline"
+            >
               Don&lsquo;t have an account?
             </Link>
           </div>
