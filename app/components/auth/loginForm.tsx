@@ -153,13 +153,13 @@ export function LoginForm() {
           <div className="flex justify-between gap-8 w-full text-sm mt-4">
             <Link
               href="/forgot-password"
-              className="text-gray-300 hover:underline"
+              className="text-foreground hover:underline"
             >
               {t("forgotPassword")}
             </Link>
             <Link
               href="/register"
-              className="text-gray-300 hover:underline"
+              className="text-foreground hover:underline"
             >
               Don&lsquo;t have an account?
             </Link>

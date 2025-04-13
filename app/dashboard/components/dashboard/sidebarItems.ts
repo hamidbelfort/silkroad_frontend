@@ -2,7 +2,6 @@ import { SidebarItemType } from "@/lib/types/sidebar";
 import {
   LayoutDashboard,
   Settings,
-  Users,
   Hotel,
   History,
   HelpCircle,
@@ -30,7 +29,11 @@ export const adminSidebarItems: SidebarItemType[] = [
     icon: Settings,
     href: "#",
     children: [
-      { title: "FAQ", href: "/dashboard/admin/faq", icon: MailQuestionIcon },
+      {
+        title: "FAQ",
+        href: "/dashboard/admin/faq",
+        icon: MailQuestionIcon,
+      },
       {
         title: "Company Info",
         href: "/dashboard/admin/company-info",
