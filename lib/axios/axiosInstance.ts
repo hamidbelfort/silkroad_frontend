@@ -21,12 +21,7 @@ axiosInstance.interceptors.request.use(
     ];
 
     // فقط زمانی توکن اضافه کن که مسیر از مسیرهای عمومی نباشه
-    if (
-      token &&
-      !publicRoutes.some((route) =>
-        config.url?.includes(route)
-      )
-    ) {
+    if (token && !publicRoutes.some((route) => config.url?.includes(route))) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
@@ -40,15 +35,33 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
-      toast.error(
-        "Server Error: " + error.response.data?.message ||
-          error.message
-      );
+      toast.error("Request Error: ", {
+        duration: 3000,
+        description: error.response.data?.message || error.message,
+        action: {
+          label: "x",
+          onClick: () => toast.dismiss(),
+        },
+      });
     } else if (error.request) {
-      toast.error("Network Error: " + error.message);
-    } else {
-      toast.error("Error: " + error.message);
-    }
+      toast.error("Network Error: ", {
+        duration: 3000,
+        description: error.message,
+        action: {
+          label: "x",
+          onClick: () => toast.dismiss(),
+        },
+      });
+    } /*else {
+      toast.error("Error: ", {
+        duration: 3000,
+        description: error.message,
+        action: {
+          label: "x",
+          onClick: () => toast.dismiss(),
+        },
+      });
+    }*/
     return Promise.reject(error);
   }
 );
