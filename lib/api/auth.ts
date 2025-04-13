@@ -27,11 +27,10 @@ export const loginUser = async (
   payload: LoginPayload
 ): Promise<LoginResponse> => {
   try {
-    const response =
-      await axiosInstance.post<LoginResponse>(
-        "/api/auth/login",
-        payload
-      );
+    const response = await axiosInstance.post<LoginResponse>(
+      "/api/auth/login",
+      payload
+    );
 
     const { token } = response.data;
     const { role } = response.data.user;
@@ -60,13 +59,8 @@ export const loginUser = async (
   }
 };
 
-export const registerUser = async (
-  payload: RegisterPayload
-) => {
-  const res = await axiosInstance.post(
-    "/auth/register",
-    payload
-  );
+export const registerUser = async (payload: RegisterPayload) => {
+  const res = await axiosInstance.post("/api/auth/register", payload);
   // const token = res.data?.token;
   // if (token) {
   //   Cookies.set("token", token);
@@ -74,12 +68,7 @@ export const registerUser = async (
   console.log(res.data);
   return res.data;
 };
-export function getUserRole():
-  | "admin"
-  | "operator"
-  | "customer" {
-  const user = JSON.parse(
-    localStorage.getItem("user") || "{}"
-  );
+export function getUserRole(): "admin" | "operator" | "customer" {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   return user?.role || "customer"; // پیش‌فرض مشتری
 }
