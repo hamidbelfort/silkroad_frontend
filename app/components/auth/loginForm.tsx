@@ -45,6 +45,9 @@ export function LoginForm() {
       //setLoading(true);
       const res = await loginUser(data);
       const { userId, role } = res;
+      console.log(
+        role as "admin" | "operator" | "customer"
+      );
       //مشخصات کاربر رو در استور ذخیره کنیم
       useAuthStore.getState().setUser({
         userId,
@@ -53,14 +56,7 @@ export function LoginForm() {
       setToken(res.token);
       toast.success("Login successful!");
       // انتقال به داشبورد نقش مربوطه
-      if (role === "ADMIN") {
-        router.push("/dashboard/admin");
-      } else if (role === "OPERATOR") {
-        router.push("/dashboard/operator");
-      } else {
-        router.push("/dashboard/customer");
-      }
-      router.push("/");
+      router.push("/dashboard");
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error("Login failed", {

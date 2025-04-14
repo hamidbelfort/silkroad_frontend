@@ -29,7 +29,7 @@ export const loginUser = async (
         payload
       );
 
-    const { token, userId, role } = response.data;
+    const { token, userId } = response.data;
 
     // ذخیره توکن در کوکی
     Cookies.set("token", token, {
@@ -38,7 +38,7 @@ export const loginUser = async (
       sameSite: "strict",
     });
     // همچنین می‌تونیم نقش کاربر رو هم در کوکی یا localStorage ذخیره کنیم
-    localStorage.setItem("userRole", role);
+    //localStorage.setItem("userRole", role);
     localStorage.setItem("userId", userId);
     return response.data;
   } catch (error: unknown) {
