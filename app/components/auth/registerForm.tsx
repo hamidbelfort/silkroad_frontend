@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import Link from "next/link";
 import {
   Mail,
   Lock,
   User,
   Loader2,
   Activity,
+  LogIn,
 } from "lucide-react";
 import { TermsCheckbox } from "./termsCheckbox";
 import { registerUser } from "@/lib/api/auth";
@@ -67,7 +69,7 @@ export default function RegisterForm() {
     <main>
       <Card className="w-full max-w-md mx-auto my-auto">
         <CardHeader>
-          <CardTitle className="text-center">
+          <CardTitle className="flex flex-row justify-center">
             Register to SilkRoad <Activity />
           </CardTitle>
         </CardHeader>
@@ -143,6 +145,15 @@ export default function RegisterForm() {
               )}
             </Button>
           </form>
+          <div className="flex justify-center">
+            <Link
+              href="/login"
+              className="flex flex-row text-sm cursor-pointer mt-6 hover:underline"
+            >
+              <LogIn className="w-4 h-4 mr-2" />
+              {t("alreadyHaveAccount")}
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </main>

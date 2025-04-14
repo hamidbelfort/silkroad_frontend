@@ -7,6 +7,7 @@
   "register": "登记",
   "forgotPassword": "忘记密码了吗?",
   "dontHaveAccount": "没有帐户?",
+  "alreadyHaveAccount": "已有帐户?请登录",
   "firstName": "名",
   "lastName": "姓",
   "email": "电子邮件",
