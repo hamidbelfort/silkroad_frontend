@@ -6,6 +6,7 @@
   "login": "登录",
   "register": "登记",
   "forgotPassword": "忘记密码了吗?",
+  "dontHaveAccount": "没有帐户?",
   "firstName": "名",
   "lastName": "姓",
   "email": "电子邮件",

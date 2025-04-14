@@ -9,12 +9,8 @@ interface LoginPayload {
 }
 interface LoginResponse {
   token: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    role: "ADMIN" | "OPERATOR" | "CUSTOMER";
-  };
+  userId: string;
+  role: "ADMIN" | "OPERATOR" | "CUSTOMER";
 }
 
 interface RegisterPayload {
@@ -33,8 +29,7 @@ export const loginUser = async (
         payload
       );
 
-    const { token } = response.data;
-    const { role } = response.data.user;
+    const { token, userId, role } = response.data;
 
     // ذخیره توکن در کوکی
     Cookies.set("token", token, {
@@ -44,6 +39,7 @@ export const loginUser = async (
     });
     // همچنین می‌تونیم نقش کاربر رو هم در کوکی یا localStorage ذخیره کنیم
     localStorage.setItem("userRole", role);
+    localStorage.setItem("userId", userId);
     return response.data;
   } catch (error: unknown) {
     let errorMessage = "";

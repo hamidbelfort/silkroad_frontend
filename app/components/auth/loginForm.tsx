@@ -44,12 +44,10 @@ export function LoginForm() {
     try {
       //setLoading(true);
       const res = await loginUser(data);
-      const { id, name, email, role } = res.user;
+      const { userId, role } = res;
       //مشخصات کاربر رو در استور ذخیره کنیم
       useAuthStore.getState().setUser({
-        id,
-        name,
-        email,
+        userId,
         role: role as "admin" | "operator" | "customer",
       });
       setToken(res.token);
@@ -161,7 +159,7 @@ export function LoginForm() {
               href="/register"
               className="text-foreground hover:underline"
             >
-              Don&lsquo;t have an account?
+              {t("dontHaveAccount")}
             </Link>
           </div>
         </CardFooter>

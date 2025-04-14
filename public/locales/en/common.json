@@ -6,6 +6,7 @@
   "login": "Login",
   "register": "Register",
   "forgotPassword": "Forgot Your Password?",
+  "dontHaveAccount": "Don't have an account?",
   "firstName": "First Name",
   "lastName": "Last Name",
   "email": "Email",

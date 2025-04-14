@@ -4,7 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { Mail, Lock, User, Loader2 } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  User,
+  Loader2,
+  Activity,
+} from "lucide-react";
 import { TermsCheckbox } from "./termsCheckbox";
 import { registerUser } from "@/lib/api/auth";
 import { useRouter } from "next/navigation";
@@ -62,7 +68,7 @@ export default function RegisterForm() {
       <Card className="w-full max-w-md mx-auto my-auto">
         <CardHeader>
           <CardTitle className="text-center">
-            Register to Silkroad
+            Register to SilkRoad <Activity />
           </CardTitle>
         </CardHeader>
         <CardContent className="my-4">
