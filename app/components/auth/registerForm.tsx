@@ -9,6 +9,7 @@ import { TermsCheckbox } from "./termsCheckbox";
 import { registerUser } from "@/lib/api/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
@@ -19,22 +20,21 @@ import {
 } from "@/components/ui/card";
 
 interface RegisterFormInputs {
-  name: string;
+  fullname: string;
   email: string;
   password: string;
 }
 
 export default function RegisterForm() {
   const router = useRouter();
+  const { t } = useTranslation("common");
   //const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isAgreed, setIsAgreed] = useState(false);
   const formSchema = z.object({
-    name: z.string().min(2, "Name is required"),
-    email: z.string().email("Invalid email"),
-    password: z
-      .string()
-      .min(6, "Password must be at least 6 characters"),
+    fullname: z.string().min(2, t("validation.required")),
+    email: z.string().email(t("validation.email")),
+    password: z.string().min(6, t("validation.password")),
   });
   const {
     register,
@@ -75,13 +75,13 @@ export default function RegisterForm() {
                 <User className="w-4 h-4" />
               </span>
               <Input
-                placeholder="Name"
-                {...register("name")}
+                placeholder="eg : Mike Smith"
+                {...register("fullname")}
                 className="pl-9"
               />
-              {errors.name && (
+              {errors.fullname && (
                 <p className="text-sm text-red-500">
-                  {errors.name.message}
+                  {errors.fullname.message}
                 </p>
               )}
             </div>

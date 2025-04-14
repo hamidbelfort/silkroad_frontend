@@ -24,6 +24,7 @@
   },
   "validation": {
     "password": "密码必须至少包含 6 个字符",
-    "email": "电子邮件无效"
+    "email": "电子邮件无效",
+    "required": "这个字段是必填的"
   }
 }
