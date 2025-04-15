@@ -26,7 +26,8 @@
     "contact": "Contact",
     "faq": "FAQ",
     "dashboard": "Dashboard",
-    "login": "Login"
+    "login": "Login",
+    "signout": "Sign Out"
   },
   "validation": {
     "password": "Password must be at least 6 characters",

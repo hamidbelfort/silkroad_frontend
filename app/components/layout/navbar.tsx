@@ -26,17 +26,19 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LinkItemType } from "@/lib/types/linkItemType";
+import { Skeleton } from "@/components/ui/skeleton";
 export function Navbar() {
   const { t } = useTranslation("common");
   const [isOpen, setIsOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-  const { isLoggedIn } = useAuthStore();
+  const [hydrated, setHydrated] = useState(false);
+  const { token, role } = useAuthStore();
   const router = useRouter();
   useEffect(() => {
-    setIsClient(true);
+    setHydrated(true);
   }, []);
 
-  if (!isClient) return null;
+  if (!setHydrated) return <Skeleton className="h-16 w-full" />;
+  const isLoggedIn = !!token;
   const publicLinks: LinkItemType[] = [
     {
       href: "/",
@@ -84,9 +86,8 @@ export function Navbar() {
   ];
   const navLinks = [
     ...publicLinks,
-    ...(isLoggedIn ? userLinks : guestLinks),
+    ...(hydrated && isLoggedIn ? userLinks : guestLinks),
   ];
-  console.log("isAuthenticated" + isLoggedIn);
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
     localStorage.setItem("lang", lang);
@@ -121,20 +122,12 @@ export function Navbar() {
           <div className="relative">
             <select
               className="text-sm bg-transparent text-foreground border-none focus:outline-none"
-              onChange={(e) =>
-                changeLanguage(e.target.value)
-              }
+              onChange={(e) => changeLanguage(e.target.value)}
             >
-              <option
-                value="en"
-                defaultChecked={getLanguage() === "en"}
-              >
+              <option value="en" defaultChecked={getLanguage() === "en"}>
                 EN
               </option>
-              <option
-                value="zh"
-                defaultChecked={getLanguage() === "zh"}
-              >
+              <option value="zh" defaultChecked={getLanguage() === "zh"}>
                 中文
               </option>
             </select>
@@ -149,9 +142,7 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <SheetTitle className="text-center p-2">
-                {t("menu")}
-              </SheetTitle>
+              <SheetTitle className="text-center p-2">{t("menu")}</SheetTitle>
               <div className="flex flex-col gap-4 mt-4 pl-4">
                 {navLinks.map((link) => (
                   <Link
@@ -168,9 +159,7 @@ export function Navbar() {
                   <Languages size={18} />
                   <select
                     className="text-sm bg-transparent border-none focus:outline-none"
-                    onChange={(e) =>
-                      changeLanguage(e.target.value)
-                    }
+                    onChange={(e) => changeLanguage(e.target.value)}
                   >
                     <option value="en">EN</option>
                     <option value="zh">中文</option>

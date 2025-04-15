@@ -16,7 +16,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       token: "",
       userId: "",
       role: "",
@@ -29,9 +29,6 @@ export const useAuthStore = create<AuthState>()(
           isLoggedIn: true,
         });
       },
-      get isIn() {
-        return get().token;
-      },
       logout: () => {
         set({
           token: "",
@@ -42,7 +39,7 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: "token", // key ذخیره در localStorage
+      name: "auth-token", // key ذخیره در localStorage
     }
   )
 );

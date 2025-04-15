@@ -23,11 +23,10 @@ export const loginUser = async (
   payload: LoginPayload
 ): Promise<LoginResponse> => {
   try {
-    const response =
-      await axiosInstance.post<LoginResponse>(
-        "/api/auth/login",
-        payload
-      );
+    const response = await axiosInstance.post<LoginResponse>(
+      "/api/auth/login",
+      payload
+    );
 
     const { token, userId } = response.data;
 
@@ -48,34 +47,21 @@ export const loginUser = async (
     } else {
       errorMessage = error as string;
     }
-    toast.error("Login failed", {
+    console.log("Auth--Error logging in:", errorMessage);
+    /*toast.error("Login failed", {
       duration: 3000,
       description: errorMessage,
-    });
+    });*/
     throw error;
   }
 };
 
-export const registerUser = async (
-  payload: RegisterPayload
-) => {
-  const res = await axiosInstance.post(
-    "/api/auth/register",
-    payload
-  );
-  // const token = res.data?.token;
-  // if (token) {
-  //   Cookies.set("token", token);
-  // }
+export const registerUser = async (payload: RegisterPayload) => {
+  const res = await axiosInstance.post("/api/auth/register", payload);
   console.log(res.data);
   return res.data;
 };
-export function getUserRole():
-  | "admin"
-  | "operator"
-  | "customer" {
-  const user = JSON.parse(
-    localStorage.getItem("user") || "{}"
-  );
+export function getUserRole(): "admin" | "operator" | "customer" {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   return user?.role || "customer"; // پیش‌فرض مشتری
 }

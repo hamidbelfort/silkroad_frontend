@@ -39,3 +39,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 make a .env file in project root and add these lines below:
 NEXT_PUBLIC_API_URL=https://your-api-url.com/api
+APP_TITLE="Silk Road"

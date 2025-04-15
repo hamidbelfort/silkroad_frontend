@@ -28,6 +28,7 @@ export function LoginForm() {
   //const [loading, setLoading] = useState(false);
   const { t } = useTranslation("common");
   const router = useRouter();
+
   const formSchema = z.object({
     email: z.string().email(t("validation.email")),
     password: z.string().min(6, t("validation.password")),
@@ -44,9 +45,7 @@ export function LoginForm() {
       //setLoading(true);
       const res = await loginUser(data);
       const { userId, role, token } = res;
-      console.log(
-        role as "admin" | "operator" | "customer"
-      );
+      console.log(role as "admin" | "operator" | "customer");
       //مشخصات کاربر رو در استور ذخیره کنیم
       useAuthStore.getState().setAuth(
         {
@@ -61,7 +60,7 @@ export function LoginForm() {
       router.push("/dashboard");
     } catch (error: unknown) {
       if (error instanceof Error) {
-        toast.error("Login failed", {
+        /*toast.error("Login failed", {
           duration: 3000,
           description: error.cause as string,
           action: {
@@ -70,7 +69,8 @@ export function LoginForm() {
               toast.dismiss();
             },
           },
-        });
+        });*/
+        console.log(error.message);
       }
     } finally {
       //setLoading(false);
@@ -80,9 +80,7 @@ export function LoginForm() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card className="w-full max-w-sm mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">
-            Welcome Back
-          </CardTitle>
+          <CardTitle className="text-2xl text-center">Welcome Back</CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-4">
@@ -102,15 +100,11 @@ export function LoginForm() {
             </div>
           </div>
           {errors.email && (
-            <p className="text-sm text-red-500">
-              {errors.email.message}
-            </p>
+            <p className="text-sm text-red-500">{errors.email.message}</p>
           )}
           {/* Password */}
           <div className="space-y-2">
-            <Label htmlFor="password">
-              {t("password")}
-            </Label>
+            <Label htmlFor="password">{t("password")}</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -123,19 +117,13 @@ export function LoginForm() {
               />
             </div>
             {errors.password && (
-              <p className="text-sm text-red-500">
-                {errors.password.message}
-              </p>
+              <p className="text-sm text-red-500">{errors.password.message}</p>
             )}
           </div>
         </CardContent>
 
         <CardFooter className="flex flex-col gap-3">
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isSubmitting}
-          >
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? (
               <>
                 <Loader2 className="animate-spin h-4 w-4 mr-2" />
@@ -153,10 +141,7 @@ export function LoginForm() {
             >
               {t("forgotPassword")}
             </Link>
-            <Link
-              href="/register"
-              className="text-foreground hover:underline"
-            >
+            <Link href="/register" className="text-foreground hover:underline">
               {t("dontHaveAccount")}
             </Link>
           </div>
