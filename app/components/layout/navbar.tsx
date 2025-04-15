@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAuthStore } from "@/store/authStore";
 import {
   Sheet,
   SheetContent,
@@ -19,20 +20,24 @@ import {
   Phone,
   HelpCircle,
   LogIn,
+  LayoutDashboard,
+  LogOut,
 } from "lucide-react";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
+import { LinkItemType } from "@/lib/types/linkItemType";
 export function Navbar() {
   const { t } = useTranslation("common");
   const [isOpen, setIsOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
-
+  const { isLoggedIn } = useAuthStore();
+  const router = useRouter();
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   if (!isClient) return null;
-  const navLinks = [
+  const publicLinks: LinkItemType[] = [
     {
       href: "/",
       label: t("navbar.home"),
@@ -53,12 +58,35 @@ export function Navbar() {
       label: t("navbar.contact"),
       icon: <Phone size={18} />,
     },
+  ];
+  const userLinks: LinkItemType[] = [
+    {
+      href: "/dashboard",
+      label: t("navbar.dashboard"),
+      icon: <LayoutDashboard size={18} />,
+    },
+    {
+      href: "/signout",
+      label: t("navbar.signout"),
+      icon: <LogOut size={18} />,
+      onClick: () => {
+        useAuthStore.getState().logout();
+        router.push("/login");
+      },
+    },
+  ];
+  const guestLinks: LinkItemType[] = [
     {
       href: "/login",
-      label: t("login"),
+      label: t("navbar.login"),
       icon: <LogIn size={18} />,
     },
   ];
+  const navLinks = [
+    ...publicLinks,
+    ...(isLoggedIn ? userLinks : guestLinks),
+  ];
+  console.log("isAuthenticated" + isLoggedIn);
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
     localStorage.setItem("lang", lang);
@@ -74,11 +102,17 @@ export function Navbar() {
           Silkroad{" "}
         </Link>
         <nav className="hidden md:flex gap-6 items-center">
-          {navLinks.map((link) => (
+          {navLinks.map((link, idx) => (
             <Link
-              key={link.href}
+              key={idx}
               href={link.href}
               className="text-sm font-medium hover:underline"
+              onClick={(e) => {
+                if (link.onClick) {
+                  e.preventDefault();
+                  link.onClick(router);
+                }
+              }}
             >
               {link.label}
             </Link>
@@ -86,13 +120,21 @@ export function Navbar() {
           <ModeToggle />
           <div className="relative">
             <select
-              className="text-sm bg-transparent border-none focus:outline-none"
-              onChange={(e) => changeLanguage(e.target.value)}
+              className="text-sm bg-transparent text-foreground border-none focus:outline-none"
+              onChange={(e) =>
+                changeLanguage(e.target.value)
+              }
             >
-              <option value="en" defaultChecked={getLanguage() === "en"}>
+              <option
+                value="en"
+                defaultChecked={getLanguage() === "en"}
+              >
                 EN
               </option>
-              <option value="zh" defaultChecked={getLanguage() === "zh"}>
+              <option
+                value="zh"
+                defaultChecked={getLanguage() === "zh"}
+              >
                 中文
               </option>
             </select>
@@ -107,7 +149,9 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <SheetTitle className="text-center p-2">{t("menu")}</SheetTitle>
+              <SheetTitle className="text-center p-2">
+                {t("menu")}
+              </SheetTitle>
               <div className="flex flex-col gap-4 mt-4 pl-4">
                 {navLinks.map((link) => (
                   <Link
@@ -124,7 +168,9 @@ export function Navbar() {
                   <Languages size={18} />
                   <select
                     className="text-sm bg-transparent border-none focus:outline-none"
-                    onChange={(e) => changeLanguage(e.target.value)}
+                    onChange={(e) =>
+                      changeLanguage(e.target.value)
+                    }
                   >
                     <option value="en">EN</option>
                     <option value="zh">中文</option>

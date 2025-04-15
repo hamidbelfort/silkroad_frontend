@@ -23,7 +23,10 @@
   "navbar": {
     "home": "Home",
     "about": "About Us",
-    "contact": "Contact"
+    "contact": "Contact",
+    "faq": "FAQ",
+    "dashboard": "Dashboard",
+    "login": "Login"
   },
   "validation": {
     "password": "Password must be at least 6 characters",

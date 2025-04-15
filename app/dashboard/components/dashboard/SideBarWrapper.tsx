@@ -12,8 +12,8 @@ const SidebarWrapper = () => {
   return (
     <div
       className={clsx(
-        "relative h-full bg-background border-r border-border transition-all duration-300 ease-in-out",
-        isCollapsed ? "w-[60px]" : "w-[260px]"
+        "relative min-h-screen bg-background text-foreground border-r border-border transition-all duration-300 ease-in-out",
+        isCollapsed ? "w-[60px]" : "w-[220px]"
       )}
     >
       {/* Collapse/Expand Button */}
@@ -24,7 +24,11 @@ const SidebarWrapper = () => {
           className="h-6 w-6 rounded-full"
           onClick={() => setIsCollapsed(!isCollapsed)}
         >
-          {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+          {isCollapsed ? (
+            <ChevronRight size={16} />
+          ) : (
+            <ChevronLeft size={16} />
+          )}
         </Button>
       </div>
 

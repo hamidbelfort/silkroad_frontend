@@ -28,7 +28,6 @@ export function LoginForm() {
   //const [loading, setLoading] = useState(false);
   const { t } = useTranslation("common");
   const router = useRouter();
-  const { setToken } = useAuthStore();
   const formSchema = z.object({
     email: z.string().email(t("validation.email")),
     password: z.string().min(6, t("validation.password")),
@@ -44,16 +43,19 @@ export function LoginForm() {
     try {
       //setLoading(true);
       const res = await loginUser(data);
-      const { userId, role } = res;
+      const { userId, role, token } = res;
       console.log(
         role as "admin" | "operator" | "customer"
       );
       //مشخصات کاربر رو در استور ذخیره کنیم
-      useAuthStore.getState().setUser({
-        userId,
-        role: role as "admin" | "operator" | "customer",
-      });
-      setToken(res.token);
+      useAuthStore.getState().setAuth(
+        {
+          userId,
+          role: role as "admin" | "operator" | "customer",
+        },
+        token
+      );
+      localStorage.setItem("token", token);
       toast.success("Login successful!");
       // انتقال به داشبورد نقش مربوطه
       router.push("/dashboard");

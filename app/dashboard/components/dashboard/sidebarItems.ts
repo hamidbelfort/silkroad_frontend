@@ -17,7 +17,7 @@ import {
   Info,
   User2,
 } from "lucide-react";
-
+import { useAuthStore } from "@/store/authStore";
 export const adminSidebarItems: SidebarItemType[] = [
   {
     title: "Dashboard",
@@ -65,6 +65,10 @@ export const adminSidebarItems: SidebarItemType[] = [
     title: "Sign out",
     icon: LogOut,
     href: "/signout",
+    hrefRouter: "/login",
+    onClick: () => {
+      useAuthStore.getState().logout();
+    },
   },
 ];
 
@@ -162,5 +166,9 @@ export const customerSidebarItems: SidebarItemType[] = [
     title: "Sign out",
     icon: LogOut,
     href: "/signout",
+    hrefRouter: "/login",
+    onClick: () => {
+      useAuthStore.getState().logout();
+    },
   },
 ];

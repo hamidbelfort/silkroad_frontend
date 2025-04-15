@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
-import { useRouter } from "next/navigation";
+//import { useRouter } from "next/navigation";
 import { SidebarItem } from "./SidebarItem";
 import {
   adminSidebarItems,
@@ -9,31 +9,42 @@ import {
   customerSidebarItems,
 } from "./sidebarItems";
 import { SidebarItemType } from "@/lib/types/sidebar";
-
+import { Skeleton } from "@/components/ui/skeleton";
 interface SidebarProps {
   isCollapsed: boolean;
 }
 const Sidebar = ({ isCollapsed }: SidebarProps) => {
-  const role = useAuthStore((state) => state.user?.role);
-  const router = useRouter();
+  const role = useAuthStore((state) => state.role);
+  // const isLoggedIn = useAuthStore(
+  //   (state) => state.isAuthenticated
+  // );
+  // console.log("isLoggedIn : " + isLoggedIn);
+  const normalizedRole = role?.toLowerCase();
+  //const router = useRouter();
   let items: SidebarItemType[] = [];
-  if (role === "admin") items = adminSidebarItems;
-  else if (role === "operator")
+  if (normalizedRole === "admin") items = adminSidebarItems;
+  else if (normalizedRole === "operator")
     items = operatorSidebarItems;
-  else if (role === "customer")
+  else if (normalizedRole === "customer")
     items = customerSidebarItems;
-  else {
-    router.push("/");
+  if (!normalizedRole) {
+    return (
+      <div className="p-4 text-sm text-gray-500">
+        <Skeleton className="h-6" />
+      </div>
+    );
   }
   return (
     <div className="flex flex-col gap-2 py-4">
-      {items.map((item: SidebarItemType, idx: number) => (
-        <SidebarItem
-          key={idx}
-          {...item}
-          isCollapsed={isCollapsed}
-        />
-      ))}
+      {items.map((item: SidebarItemType, idx: number) => {
+        return (
+          <SidebarItem
+            key={idx}
+            {...item}
+            isCollapsed={isCollapsed}
+          />
+        );
+      })}
     </div>
   );
 };

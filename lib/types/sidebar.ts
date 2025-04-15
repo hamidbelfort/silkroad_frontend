@@ -4,6 +4,8 @@ export interface SidebarItemType {
   title: string;
   href: string;
   icon: LucideIcon;
+  onClick?: (router: unknown) => void;
+  hrefRouter?: string;
   children?: SidebarItemType[];
 }
 
