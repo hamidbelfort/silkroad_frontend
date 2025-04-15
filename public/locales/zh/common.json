@@ -26,7 +26,10 @@
     "faq": "常见问题",
     "dashboard": "仪表板",
     "login": "登录",
-    "signout": "登出"
+    "signout": "登出",
+    "customer": "客户",
+    "admin": "管理",
+    "operator": "运营商"
   },
   "validation": {
     "password": "密码必须至少包含 6 个字符",

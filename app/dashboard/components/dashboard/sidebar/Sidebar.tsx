@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
-//import { useRouter } from "next/navigation";
+import { SidebarHeader } from "./sidebarHeader";
 import { SidebarItem } from "./SidebarItem";
 import {
   adminSidebarItems,
@@ -23,10 +23,8 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
   //const router = useRouter();
   let items: SidebarItemType[] = [];
   if (normalizedRole === "admin") items = adminSidebarItems;
-  else if (normalizedRole === "operator")
-    items = operatorSidebarItems;
-  else if (normalizedRole === "customer")
-    items = customerSidebarItems;
+  else if (normalizedRole === "operator") items = operatorSidebarItems;
+  else if (normalizedRole === "customer") items = customerSidebarItems;
   if (!normalizedRole) {
     return (
       <div className="p-4 text-sm text-gray-500">
@@ -36,14 +34,9 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
   }
   return (
     <div className="flex flex-col gap-2 py-4">
+      <SidebarHeader isCollapsed={isCollapsed} />
       {items.map((item: SidebarItemType, idx: number) => {
-        return (
-          <SidebarItem
-            key={idx}
-            {...item}
-            isCollapsed={isCollapsed}
-          />
-        );
+        return <SidebarItem key={idx} {...item} isCollapsed={isCollapsed} />;
       })}
     </div>
   );
