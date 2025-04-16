@@ -31,13 +31,14 @@ export function Navbar() {
   const { t } = useTranslation("common");
   const [isOpen, setIsOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
-  const { token, role } = useAuthStore();
+  const { token } = useAuthStore();
   const router = useRouter();
   useEffect(() => {
     setHydrated(true);
   }, []);
 
-  if (!setHydrated) return <Skeleton className="h-16 w-full" />;
+  if (!setHydrated)
+    return <Skeleton className="h-16 w-full" />;
   const isLoggedIn = !!token;
   const publicLinks: LinkItemType[] = [
     {
@@ -122,12 +123,20 @@ export function Navbar() {
           <div className="relative">
             <select
               className="text-sm bg-transparent text-foreground border-none focus:outline-none"
-              onChange={(e) => changeLanguage(e.target.value)}
+              onChange={(e) =>
+                changeLanguage(e.target.value)
+              }
             >
-              <option value="en" defaultChecked={getLanguage() === "en"}>
+              <option
+                value="en"
+                defaultChecked={getLanguage() === "en"}
+              >
                 EN
               </option>
-              <option value="zh" defaultChecked={getLanguage() === "zh"}>
+              <option
+                value="zh"
+                defaultChecked={getLanguage() === "zh"}
+              >
                 中文
               </option>
             </select>
@@ -142,7 +151,9 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <SheetTitle className="text-center p-2">{t("menu")}</SheetTitle>
+              <SheetTitle className="text-center p-2">
+                {t("menu")}
+              </SheetTitle>
               <div className="flex flex-col gap-4 mt-4 pl-4">
                 {navLinks.map((link) => (
                   <Link
@@ -159,7 +170,9 @@ export function Navbar() {
                   <Languages size={18} />
                   <select
                     className="text-sm bg-transparent border-none focus:outline-none"
-                    onChange={(e) => changeLanguage(e.target.value)}
+                    onChange={(e) =>
+                      changeLanguage(e.target.value)
+                    }
                   >
                     <option value="en">EN</option>
                     <option value="zh">中文</option>

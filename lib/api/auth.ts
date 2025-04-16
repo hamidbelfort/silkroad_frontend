@@ -1,6 +1,5 @@
 // lib/authService.ts
 "use client";
-import { toast } from "sonner";
 import axiosInstance from "../axios/axiosInstance";
 import Cookies from "js-cookie";
 interface LoginPayload {
@@ -18,15 +17,18 @@ interface RegisterPayload {
   email: string;
   password: string;
 }
-
+interface GetUSerPayload {
+  userId: string;
+}
 export const loginUser = async (
   payload: LoginPayload
 ): Promise<LoginResponse> => {
   try {
-    const response = await axiosInstance.post<LoginResponse>(
-      "/api/auth/login",
-      payload
-    );
+    const response =
+      await axiosInstance.post<LoginResponse>(
+        "/api/auth/login",
+        payload
+      );
 
     const { token, userId } = response.data;
 
@@ -56,12 +58,28 @@ export const loginUser = async (
   }
 };
 
-export const registerUser = async (payload: RegisterPayload) => {
-  const res = await axiosInstance.post("/api/auth/register", payload);
+export const registerUser = async (
+  payload: RegisterPayload
+) => {
+  const res = await axiosInstance.post(
+    "/api/auth/register",
+    payload
+  );
   console.log(res.data);
   return res.data;
 };
-export function getUserRole(): "admin" | "operator" | "customer" {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+export const getUser = async (payload: GetUSerPayload) => {
+  const res = await axiosInstance.get("/api/auth/getUser", {
+    params: payload,
+  });
+  return res.data;
+};
+export function getUserRole():
+  | "admin"
+  | "operator"
+  | "customer" {
+  const user = JSON.parse(
+    localStorage.getItem("user") || "{}"
+  );
   return user?.role || "customer"; // پیش‌فرض مشتری
 }
