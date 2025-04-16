@@ -21,8 +21,13 @@ axiosInstance.interceptors.request.use(
     ];
 
     // فقط زمانی توکن اضافه کن که مسیر از مسیرهای عمومی نباشه
-    if (token && !publicRoutes.some((route) => config.url?.includes(route))) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (
+      token &&
+      !publicRoutes.some((route) =>
+        config.url?.includes(route)
+      )
+    ) {
+      config.headers.set("x-auth-token", token);
     }
 
     return config;
@@ -37,7 +42,8 @@ axiosInstance.interceptors.response.use(
     if (error.response) {
       toast.error("Request Error: ", {
         duration: 3000,
-        description: error.response.data?.message || error.message,
+        description:
+          error.response.data?.message || error.message,
         action: {
           label: "x",
           onClick: () => toast.dismiss(),

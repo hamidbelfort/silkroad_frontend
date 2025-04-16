@@ -17,9 +17,6 @@ interface RegisterPayload {
   email: string;
   password: string;
 }
-interface GetUSerPayload {
-  userId: string;
-}
 export const loginUser = async (
   payload: LoginPayload
 ): Promise<LoginResponse> => {
@@ -68,10 +65,10 @@ export const registerUser = async (
   console.log(res.data);
   return res.data;
 };
-export const getUser = async (payload: GetUSerPayload) => {
-  const res = await axiosInstance.get("/api/auth/getUser", {
-    params: payload,
-  });
+export const getUserInfo = async (userId: string) => {
+  const res = await axiosInstance.get(
+    `/api/auth/${userId}`
+  );
   return res.data;
 };
 export function getUserRole():

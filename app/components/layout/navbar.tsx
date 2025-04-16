@@ -101,7 +101,7 @@ export function Navbar() {
         {" "}
         <Link href="/" className="text-xl font-bold">
           {" "}
-          Silkroad{" "}
+          SilkRoad{" "}
         </Link>
         <nav className="hidden md:flex gap-6 items-center">
           {navLinks.map((link, idx) => (
