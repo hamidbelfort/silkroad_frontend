@@ -32,6 +32,11 @@
     "admin": "Admin",
     "operator": "Operator"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "ordersHistory": "Orders History",
+    "lastLogin": "Last Login"
+  },
   "validation": {
     "password": "Password must be at least 6 characters",
     "email": "Invalid email",

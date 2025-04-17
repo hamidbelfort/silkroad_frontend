@@ -18,6 +18,7 @@ axiosInstance.interceptors.request.use(
       "/auth/login",
       "/auth/register",
       "/auth/forgot-password",
+      "/exchange/history",
     ];
 
     // فقط زمانی توکن اضافه کن که مسیر از مسیرهای عمومی نباشه

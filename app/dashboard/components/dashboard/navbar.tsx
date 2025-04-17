@@ -11,7 +11,9 @@ const Navbar = () => {
   const roleText = t(`navbar.${normalizedRole}`);
   return (
     <nav className="w-full h-14 px-6 flex items-center justify-between border-b">
-      <h1 className="text-lg font-semibold">Dashboard</h1>
+      <h1 className="text-lg font-semibold text-shadow-md">
+        Main Dashboard
+      </h1>
       <div className="flex items-center gap-4">
         <ModeToggle />
         <span className="text-sm text-muted-foreground capitalize">

@@ -8,10 +8,10 @@ const Dashboard = () => {
       <h1 className="text-2xl font-bold">
         Welcome to Your Dashboard 🎉
       </h1>
-      <p className="mt-2 text-muted-foreground">
+      <div className="mt-2 text-muted-foreground">
         This is your dashboard overview.
         <CustomerDashboardCards />
-      </p>
+      </div>
     </div>
   );
 };

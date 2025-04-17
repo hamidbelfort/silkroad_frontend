@@ -7,52 +7,48 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useAuthStore } from "@/store/authStore";
-import { useState } from "react";
-//import {useEffect}from 'react';
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 export function CustomerDashboardCards() {
   const { role, userId } = useAuthStore();
-  const [lastLogin, setLastLogin] = useState<string>(
-    "2025-04-10 22:45"
-  );
-  const [orders, setOrders] = useState<string[]>([]); // فرضی
+  const [isReady, setIsReady] = useState(false);
+  const { t } = useTranslation();
+  useEffect(() => {
+    if (role) {
+      setIsReady(true);
+    }
+  }, [role]);
+
+  if (!isReady) return null;
   const normalizedRole = role?.toLowerCase();
+  //console.log(normalizedRole);
   if (normalizedRole !== "customer") return null;
-  setOrders(["order 1", "order 2", "order 3"]);
-  setLastLogin(Date.now().toString());
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-      {/* کارت آخرین ورود */}
       <Card>
         <CardHeader>
-          <CardTitle>آخرین ورود</CardTitle>
+          <CardTitle>{t("dashboard.lastLogin")}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
-            User: {userId}
-          </p>
-          <p className="text-sm mt-2">
-            Last Login : {lastLogin}
-          </p>
+          <h3 className="text-sm text-muted-foreground">
+            User ID: {userId}
+          </h3>
+          <div className="text-sm mt-2">
+            Login Time: 2025-04-10 22:45
+          </div>
         </CardContent>
       </Card>
 
-      {/* کارت سفارشات اخیر */}
       <Card>
         <CardHeader>
-          <CardTitle>Orders History</CardTitle>
+          <CardTitle>
+            {t("dashboard.ordersHistory")}
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          {orders.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              You have not placed any orders yet.
-            </p>
-          ) : (
-            <ul className="text-sm list-disc ps-4 space-y-1">
-              {orders.map((order, idx) => (
-                <li key={idx}>{order}</li>
-              ))}
-            </ul>
-          )}
+          <div className="text-sm text-muted-foreground">
+            No Orders has been placed yet
+          </div>
         </CardContent>
       </Card>
     </div>

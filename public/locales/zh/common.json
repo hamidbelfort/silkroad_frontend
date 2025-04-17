@@ -31,6 +31,11 @@
     "admin": "管理",
     "operator": "运营商"
   },
+  "dashboard": {
+    "title": "挡泥板",
+    "ordersHistory": "订单历史",
+    "lastLogin": "上次登录"
+  },
   "validation": {
     "password": "密码必须至少包含 6 个字符",
     "email": "电子邮件无效",

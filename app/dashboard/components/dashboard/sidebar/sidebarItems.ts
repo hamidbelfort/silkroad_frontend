@@ -22,7 +22,7 @@ export const adminSidebarItems: SidebarItemType[] = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
-    href: "/dashboard/admin",
+    href: "/dashboard",
   },
   {
     title: "App Settings",
@@ -76,7 +76,7 @@ export const operatorSidebarItems: SidebarItemType[] = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
-    href: "/dashboard/operator",
+    href: "/dashboard",
   },
   {
     title: "Profile",
@@ -106,12 +106,12 @@ export const customerSidebarItems: SidebarItemType[] = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
-    href: "/dashboard/customer",
+    href: "/dashboard",
   },
   {
     title: "Exchange",
     icon: Banknote,
-    href: "/dashboard/customer/exchange",
+    href: "/dashboard/exchange",
   },
   {
     title: "Reserve Hotel",
