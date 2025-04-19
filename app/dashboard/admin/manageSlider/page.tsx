@@ -1,48 +1,45 @@
 import React, { useState, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import Image from "next/image";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { getSliders } from "@/lib/api/slider";
+import { createSlider, deleteSlider, getSliders } from "@/lib/api/slider";
+import { format } from "date-fns";
 
-interface Slider {
+const sliderSchema = z.object({
+  title: z.string().min(2),
+  imageUrl: z.string().url(),
+  description: z.string().optional(),
+  link: z.string().url().optional(),
+  isActive: z.boolean(),
+});
+
+type SliderFormValues = z.infer<typeof sliderSchema>;
+
+interface SliderItem extends SliderFormValues {
   id: string;
-  title: string;
-  imageUrl: string;
-  description?: string;
-  link?: string;
-  isActive: boolean;
   createdAt: string;
 }
 
 export default function SliderManagementPage() {
-  const [sliders, setSliders] = useState<SliderInputs[]>(
-    []
-  );
-  const [isEditing, setIsEditing] = useState(false);
-  const sliderSchema = z.object({
-    title: z.string().min(3, "Title is too short"),
-    description: z.string().optional(),
-    link: z.string().url("Invalid URL").optional(),
-    imageUrl: z.string().url("Image URL is required"),
-    isActive: z.boolean(),
-  });
-  type SliderInputs = z.infer<typeof sliderSchema>;
+  const [sliders, setSliders] = useState<SliderItem[]>([]);
+  const [editId, setEditId] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
+    setValue,
+    reset,
+    watch,
     formState: { errors },
-  } = useForm<SliderInputs>({
+  } = useForm<SliderFormValues>({
     resolver: zodResolver(sliderSchema),
     defaultValues: {
       title: "",
@@ -66,182 +63,134 @@ export default function SliderManagementPage() {
       toast.error("Failed to load sliders.");
     }
   };
-
-  const handleSave = async () => {
-    const fileSize = await getImageSize(form.imageUrl);
-    if (fileSize > 2 * 1024 * 1024) {
-      return toast.error("Image must be less than 2MB.");
-    }
+  const onSubmit = async (data: SliderFormValues) => {
     try {
-      const method = isEditing ? "PUT" : "POST";
-      const url = isEditing
-        ? `/api/sliders/${form.id}`
-        : "/api/sliders";
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (res.ok) {
-        toast.success(
-          `Slider ${
-            isEditing ? "updated" : "created"
-          } successfully.`
-        );
-        fetchSliders();
-        setForm({
-          title: "",
-          imageUrl: "",
-          description: "",
-          link: "",
-          isActive: true,
-        });
-        setIsEditing(false);
+      if (editId) {
+        const res = await deleteSlider(editId);
+        toast.success("Slider updated!");
+        setEditId(null);
       } else {
-        toast.error("Something went wrong.");
+        const res = await createSlider(data);
+        toast.success("Slider created!");
       }
+      fetchSliders();
     } catch {
-      toast.error("Error while saving slider.");
+      toast.error("Something went wrong.");
     }
   };
 
-  const handleEdit = (slider: Slider) => {
-    setForm({ ...slider });
-    setIsEditing(true);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (
-      !confirm(
-        "Are you sure you want to delete this slider?"
-      )
-    )
-      return;
+  const onDelete = async (id: string) => {
     try {
-      const res = await fetch(`/api/sliders/${id}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        toast.success("Slider deleted.");
-        fetchSliders();
-      } else {
-        toast.error("Failed to delete.");
-      }
+      const res = await deleteSlider(id);
+      toast.success("Slider deleted!");
+      fetchSliders();
     } catch {
-      toast.error("Error deleting slider.");
+      toast.error("Delete failed.");
     }
   };
 
-  const getImageSize = async (
-    url: string
-  ): Promise<number> => {
+  const onEdit = (slider: SliderItem) => {
+    setEditId(slider.id);
+    setValue("title", slider.title);
+    setValue("imageUrl", slider.imageUrl);
+    setValue("description", slider.description || "");
+    setValue("link", slider.link || "");
+    setValue("isActive", slider.isActive);
+  };
+
+  const getImageSize = async (url: string): Promise<number> => {
     const response = await fetch(url);
     const blob = await response.blob();
     return blob.size;
   };
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 py-8">
       <Card>
-        <CardHeader className="text-xl font-bold">
-          {isEditing ? "Edit Slider" : "Add New Slider"}
+        <CardHeader>
+          <CardTitle>{editId ? "Edit Slider" : "Add New Slider"}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <Input
-            name="title"
-            value={form.title}
-            onChange={handleInput}
-            placeholder="Title"
-          />
-          <Input
-            name="imageUrl"
-            value={form.imageUrl}
-            onChange={handleInput}
-            placeholder="Image URL (max 2MB)"
-          />
-          <Textarea
-            name="description"
-            value={form.description}
-            onChange={handleInput}
-            placeholder="Description (optional)"
-          />
-          <Input
-            name="link"
-            value={form.link}
-            onChange={handleInput}
-            placeholder="Link (optional)"
-          />
-          <div className="flex items-center gap-2">
-            <Switch
-              checked={form.isActive}
-              onCheckedChange={(val) =>
-                setForm({ ...form, isActive: val })
-              }
-            />
-            <span>Is Active?</span>
-          </div>
-          <Button onClick={handleSave}>
-            {isEditing ? "Update" : "Create"}
-          </Button>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div>
+              <Label>Title</Label>
+              <Input {...register("title")} />
+              {errors.title && (
+                <p className="text-sm text-red-500">{errors.title.message}</p>
+              )}
+            </div>
+            <div>
+              <Label>Image URL</Label>
+              <Input {...register("imageUrl")} />
+              {errors.imageUrl && (
+                <p className="text-sm text-red-500">
+                  {errors.imageUrl.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <Label>Description</Label>
+              <Textarea {...register("description")} />
+            </div>
+            <div>
+              <Label>Link</Label>
+              <Input {...register("link")} />
+              {errors.link && (
+                <p className="text-sm text-red-500">{errors.link.message}</p>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <Switch
+                checked={!!watch("isActive")}
+                onCheckedChange={(val) => setValue("isActive", val)}
+              />
+              <Label>Active</Label>
+            </div>
+            <Button type="submit">{editId ? "Update" : "Create"}</Button>
+          </form>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader className="text-xl font-bold">
-          Slider List
+        <CardHeader>
+          <CardTitle>Slider List</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead>
-                <tr>
-                  <th>Image</th>
-                  <th>Title</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sliders.map((s) => (
-                  <tr key={s.id} className="border-b">
-                    <td>
-                      <Image
-                        src={s.imageUrl}
-                        alt={s.title}
-                        width={80}
-                        height={40}
-                        className="object-cover"
-                      />
-                    </td>
-                    <td>{s.title}</td>
-                    <td>
-                      {s.isActive ? "Active" : "Inactive"}
-                    </td>
-                    <td>
-                      {new Date(
-                        s.createdAt
-                      ).toLocaleDateString()}
-                    </td>
-                    <td className="flex gap-2">
-                      <Button
-                        size="sm"
-                        onClick={() => handleEdit(s)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => handleDelete(s.id)}
-                      >
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="space-y-4">
+            {sliders.map((slider) => (
+              <div
+                key={slider.id}
+                className="flex items-center justify-between border p-4 rounded-lg"
+              >
+                <div className="flex items-center gap-4">
+                  <img
+                    src={slider.imageUrl}
+                    alt={slider.title}
+                    className="w-16 h-16 object-cover rounded"
+                  />
+                  <div>
+                    <p className="font-semibold">{slider.title}</p>
+                    <p className="text-xs text-gray-500">
+                      {format(new Date(slider.createdAt), "yyyy-MM-dd")}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" onClick={() => onEdit(slider)}>
+                    Edit
+                  </Button>
+                  <ConfirmDialog
+                    trigger={<Button variant="destructive">Delete</Button>}
+                    title="Delete slider?"
+                    description="Are you sure you want to delete this slider? This action is irreversible."
+                    confirmText="Yes, Delete"
+                    cancelText="Cancel"
+                    variant="destructive"
+                    onConfirm={() => onDelete(slider.id)}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
