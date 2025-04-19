@@ -58,12 +58,16 @@ export const loginUser = async (
 export const registerUser = async (
   payload: RegisterPayload
 ) => {
-  const res = await axiosInstance.post(
-    "/api/auth/register",
-    payload
-  );
-  console.log(res.data);
-  return res.data;
+  try {
+    const res = await axiosInstance.post(
+      "/api/auth/register",
+      payload
+    );
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log("Failed to get user info :" + err);
+  }
 };
 export const getUserInfo = async (userId: string) => {
   const res = await axiosInstance.get(

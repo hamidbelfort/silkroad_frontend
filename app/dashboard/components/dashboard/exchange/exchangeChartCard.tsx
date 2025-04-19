@@ -54,8 +54,9 @@ export default function ExchangeChart() {
   }, []);
 
   const chartData = {
-    labels: history.map((h) =>
-      new Date(h.createdAt).toLocaleDateString("fa-IR")
+    labels: history.map(
+      (h) =>
+        new Date(h.createdAt).toLocaleDateString("en-US") //تاریخ میلادی
     ),
     datasets: [
       {
