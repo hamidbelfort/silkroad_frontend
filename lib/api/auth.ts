@@ -63,7 +63,7 @@ export const registerUser = async (
       "/api/auth/register",
       payload
     );
-    console.log(res.data);
+    //console.log(res.data);
     return res.data;
   } catch (err) {
     console.log("Failed to get user info :" + err);

@@ -1,10 +1,24 @@
 "use client";
 
 import SidebarWrapper from "./components/dashboard/sidebar/SideBarWrapper";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
+import { useRouter } from "next/router";
 import Navbar from "./components/dashboard/navbar";
 import Footer from "./components/dashboard/footer";
-const DashboardLayout = ({ children }: { children: ReactNode }) => {
+import { useAuthStore } from "@/store/authStore";
+
+const DashboardLayout = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  const { isLoggedIn } = useAuthStore();
+  const router = useRouter();
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push("/login");
+    }
+  }, [isLoggedIn, router]);
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       {/* Sidebar */}

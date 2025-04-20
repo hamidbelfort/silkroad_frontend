@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,7 +16,12 @@ import Image from "next/image";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { createSlider, deleteSlider, getSliders } from "@/lib/api/slider";
+import {
+  createSlider,
+  deleteSlider,
+  getSliders,
+  updateSlider,
+} from "@/lib/api/slider";
 import { format } from "date-fns";
 
 const sliderSchema = z.object({
@@ -36,6 +46,7 @@ export default function SliderManagementPage() {
     register,
     handleSubmit,
     setValue,
+    setError,
     reset,
     watch,
     formState: { errors },
@@ -66,13 +77,16 @@ export default function SliderManagementPage() {
   const onSubmit = async (data: SliderFormValues) => {
     try {
       if (editId) {
-        const res = await deleteSlider(editId);
-        toast.success("Slider updated!");
+        const res = await updateSlider(editId, data);
+        if (res.success) {
+          toast.success("Slider updated!");
+        }
         setEditId(null);
       } else {
         const res = await createSlider(data);
-        toast.success("Slider created!");
+        if (res.success) toast.success("Slider created!");
       }
+      reset();
       fetchSliders();
     } catch {
       toast.error("Something went wrong.");
@@ -81,7 +95,7 @@ export default function SliderManagementPage() {
 
   const onDelete = async (id: string) => {
     try {
-      const res = await deleteSlider(id);
+      await deleteSlider(id);
       toast.success("Slider deleted!");
       fetchSliders();
     } catch {
@@ -97,31 +111,55 @@ export default function SliderManagementPage() {
     setValue("link", slider.link || "");
     setValue("isActive", slider.isActive);
   };
-
-  const getImageSize = async (url: string): Promise<number> => {
+  const handleImageSize = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    if (file && file?.size > 2 * 1024 * 1024) {
+      //toast.error("Image size should be less than 2MB");
+      setError("imageUrl", {
+        message: "Image size should be less than 2MB",
+      });
+    }
+  };
+  /*const getImageSize = async (
+    url: string
+  ): Promise<number> => {
     const response = await fetch(url);
     const blob = await response.blob();
     return blob.size;
-  };
+  };*/
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 py-8">
       <Card>
         <CardHeader>
-          <CardTitle>{editId ? "Edit Slider" : "Add New Slider"}</CardTitle>
+          <CardTitle>
+            {editId ? "Edit Slider" : "Add New Slider"}
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
             <div>
               <Label>Title</Label>
               <Input {...register("title")} />
               {errors.title && (
-                <p className="text-sm text-red-500">{errors.title.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.title.message}
+                </p>
               )}
             </div>
             <div>
               <Label>Image URL</Label>
-              <Input {...register("imageUrl")} />
+              <Input
+                {...register("imageUrl")}
+                type="image"
+                accept="image/*"
+                onChange={(e) => handleImageSize(e)}
+              />
               {errors.imageUrl && (
                 <p className="text-sm text-red-500">
                   {errors.imageUrl.message}
@@ -136,17 +174,23 @@ export default function SliderManagementPage() {
               <Label>Link</Label>
               <Input {...register("link")} />
               {errors.link && (
-                <p className="text-sm text-red-500">{errors.link.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.link.message}
+                </p>
               )}
             </div>
             <div className="flex items-center gap-2">
               <Switch
                 checked={!!watch("isActive")}
-                onCheckedChange={(val) => setValue("isActive", val)}
+                onCheckedChange={(val) =>
+                  setValue("isActive", val)
+                }
               />
               <Label>Active</Label>
             </div>
-            <Button type="submit">{editId ? "Update" : "Create"}</Button>
+            <Button type="submit">
+              {editId ? "Update" : "Create"}
+            </Button>
           </form>
         </CardContent>
       </Card>
@@ -163,24 +207,36 @@ export default function SliderManagementPage() {
                 className="flex items-center justify-between border p-4 rounded-lg"
               >
                 <div className="flex items-center gap-4">
-                  <img
+                  <Image
                     src={slider.imageUrl}
                     alt={slider.title}
                     className="w-16 h-16 object-cover rounded"
                   />
                   <div>
-                    <p className="font-semibold">{slider.title}</p>
+                    <p className="font-semibold">
+                      {slider.title}
+                    </p>
                     <p className="text-xs text-gray-500">
-                      {format(new Date(slider.createdAt), "yyyy-MM-dd")}
+                      {format(
+                        new Date(slider.createdAt),
+                        "yyyy-MM-dd"
+                      )}
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="outline" onClick={() => onEdit(slider)}>
+                  <Button
+                    variant="outline"
+                    onClick={() => onEdit(slider)}
+                  >
                     Edit
                   </Button>
                   <ConfirmDialog
-                    trigger={<Button variant="destructive">Delete</Button>}
+                    trigger={
+                      <Button variant="destructive">
+                        Delete
+                      </Button>
+                    }
                     title="Delete slider?"
                     description="Are you sure you want to delete this slider? This action is irreversible."
                     confirmText="Yes, Delete"
