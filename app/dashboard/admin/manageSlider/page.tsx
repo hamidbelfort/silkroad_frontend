@@ -23,6 +23,7 @@ import {
   updateSlider,
 } from "@/lib/api/slider";
 import { format } from "date-fns";
+import { ImageUploader } from "@/components/ui/imageUploader";
 
 const sliderSchema = z.object({
   title: z.string().min(2),
@@ -46,7 +47,6 @@ export default function SliderManagementPage() {
     register,
     handleSubmit,
     setValue,
-    setError,
     reset,
     watch,
     formState: { errors },
@@ -111,17 +111,7 @@ export default function SliderManagementPage() {
     setValue("link", slider.link || "");
     setValue("isActive", slider.isActive);
   };
-  const handleImageSize = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = e.target.files?.[0];
-    if (file && file?.size > 2 * 1024 * 1024) {
-      //toast.error("Image size should be less than 2MB");
-      setError("imageUrl", {
-        message: "Image size should be less than 2MB",
-      });
-    }
-  };
+
   /*const getImageSize = async (
     url: string
   ): Promise<number> => {
@@ -153,12 +143,11 @@ export default function SliderManagementPage() {
               )}
             </div>
             <div>
-              <Label>Image URL</Label>
-              <Input
-                {...register("imageUrl")}
-                type="image"
-                accept="image/*"
-                onChange={(e) => handleImageSize(e)}
+              <ImageUploader
+                folder={"slider"}
+                onUploadComplete={(url) =>
+                  setValue("imageUrl", url)
+                }
               />
               {errors.imageUrl && (
                 <p className="text-sm text-red-500">

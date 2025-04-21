@@ -40,5 +40,12 @@
     "password": "密码必须至少包含 6 个字符",
     "email": "电子邮件无效",
     "required": "这个字段是必填的"
+  },
+  "upload": {
+    "success": "上传成功",
+    "fail": "上传失败",
+    "preview": "预览",
+    "uploading": "上传中...",
+    "choose": "选择文件"
   }
 }

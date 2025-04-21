@@ -41,5 +41,12 @@
     "password": "Password must be at least 6 characters",
     "email": "Invalid email",
     "required": "This field is required"
+  },
+  "upload": {
+    "success": "Image uploaded successfully",
+    "fail": "Image upload failed",
+    "preview": "Preview",
+    "uploading": "Uploading...",
+    "choose": "Choose Image"
   }
 }
