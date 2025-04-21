@@ -1,11 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -112,43 +107,25 @@ export default function SliderManagementPage() {
     setValue("link", slider.link || "");
     setValue("isActive", slider.isActive);
   };
-
-  /*const getImageSize = async (
-    url: string
-  ): Promise<number> => {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    return blob.size;
-  };*/
-
   return (
     <div className="max-w-4xl mx-auto space-y-6 py-8">
       <Card>
         <CardHeader>
-          <CardTitle>
-            {editId ? "Edit Slider" : "Add New Slider"}
-          </CardTitle>
+          <CardTitle>{editId ? "Edit Slider" : "Add New Slider"}</CardTitle>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <Label>Title</Label>
               <Input {...register("title")} />
               {errors.title && (
-                <p className="text-sm text-red-500">
-                  {errors.title.message}
-                </p>
+                <p className="text-sm text-red-500">{errors.title.message}</p>
               )}
             </div>
             <div>
               <ImageUploader
                 folder={"slider"}
-                onUploadComplete={(url) =>
-                  setValue("imageUrl", url)
-                }
+                onUploadComplete={(url) => setValue("imageUrl", url)}
               />
               {errors.imageUrl && (
                 <p className="text-sm text-red-500">
@@ -164,23 +141,17 @@ export default function SliderManagementPage() {
               <Label>Link</Label>
               <Input {...register("link")} />
               {errors.link && (
-                <p className="text-sm text-red-500">
-                  {errors.link.message}
-                </p>
+                <p className="text-sm text-red-500">{errors.link.message}</p>
               )}
             </div>
             <div className="flex items-center gap-2">
               <Switch
                 checked={!!watch("isActive")}
-                onCheckedChange={(val) =>
-                  setValue("isActive", val)
-                }
+                onCheckedChange={(val) => setValue("isActive", val)}
               />
               <Label>Active</Label>
             </div>
-            <Button type="submit">
-              {editId ? "Update" : "Create"}
-            </Button>
+            <Button type="submit">{editId ? "Update" : "Create"}</Button>
           </form>
         </CardContent>
       </Card>
@@ -203,30 +174,18 @@ export default function SliderManagementPage() {
                     className="w-16 h-16 object-cover rounded"
                   />
                   <div>
-                    <p className="font-semibold">
-                      {slider.title}
-                    </p>
+                    <p className="font-semibold">{slider.title}</p>
                     <p className="text-xs text-gray-500">
-                      {format(
-                        new Date(slider.createdAt),
-                        "yyyy-MM-dd"
-                      )}
+                      {format(new Date(slider.createdAt), "yyyy-MM-dd")}
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    onClick={() => onEdit(slider)}
-                  >
+                  <Button variant="outline" onClick={() => onEdit(slider)}>
                     Edit
                   </Button>
                   <ConfirmDialog
-                    trigger={
-                      <Button variant="destructive">
-                        Delete
-                      </Button>
-                    }
+                    trigger={<Button variant="destructive">Delete</Button>}
                     title="Delete slider?"
                     description="Are you sure you want to delete this slider? This action is irreversible."
                     confirmText="Yes, Delete"

@@ -1,10 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  getUserProfile,
-  updateUserProfile,
-} from "@/lib/api/profile";
+import { getProfile, postProfile } from "@/lib/api/profile";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
@@ -13,61 +10,50 @@ import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "@/components/ui/label";
 import { z } from "zod";
-
-export const userProfileSchema = z.object({
-  avatar: z.string().optional(),
-  address: z
-    .string()
-    .min(5, "آدرس خیلی کوتاه است")
-    .optional(),
-  bio: z
-    .string()
-    .max(300, "بیوگرافی نباید بیشتر از ۳۰۰ کاراکتر باشد")
-    .optional(),
-  whatsapp: z
-    .string()
-    .min(8, "شماره واتساپ نامعتبر است")
-    .optional(),
-  wechat: z
-    .string()
-    .min(3, "آیدی وی‌چت خیلی کوتاه است")
-    .optional(),
-});
-
-export type UserProfileFormValues = z.infer<
-  typeof userProfileSchema
->;
-
+import { useTranslation } from "react-i18next";
+import { useAuthStore } from "@/store/authStore";
 export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation("common");
+  const { userId } = useAuthStore();
+  const userProfileSchema = z.object({
+    avatar: z.string().optional(),
+    address: z.string().min(5, t("validation.address")).optional(),
+    bio: z.string().max(300, t("validation.bio300")).optional(),
+    whatsapp: z.string().min(8, t("validation.whatsapp")).optional(),
+    wechat: z.string().min(3, t("validation.weChat")).optional(),
+  });
+
+  type UserProfileFormValues = z.infer<typeof userProfileSchema>;
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<UserProfileFormValues>({
     resolver: zodResolver(userProfileSchema),
   });
 
   useEffect(() => {
-    getUserProfile()
+    getProfile(userId)
       .then((data) => {
-        reset(data); // مقادیر اولیه رو ست کن
+        //reset(data!); // مقادیر اولیه رو ست کن
+        setValue("address", data?.address || "");
+        setValue("bio", data?.bio || "");
+        setValue("whatsapp", data?.whatsapp || "");
+        setValue("wechat", data?.wechat || "");
       })
-      .catch(() =>
-        toast.error("خطا در دریافت اطلاعات کاربر")
-      )
+      .catch(() => toast.error(t("validation.profileGetError")))
       .finally(() => setLoading(false));
   }, [reset]);
 
-  const onSubmit = async (
-    values: UserProfileFormValues
-  ) => {
+  const onSubmit = async (values: UserProfileFormValues) => {
     try {
-      await updateUserProfile(values);
-      toast.success("اطلاعات با موفقیت ذخیره شد");
+      await postProfile(values);
+      toast.success(t("validation.profileUpdateSuccess"));
     } catch {
-      toast.error("خطا در ذخیره اطلاعات");
+      toast.error(t("valiation.profileSubmitError"));
     }
   };
 
@@ -76,64 +62,47 @@ export default function ProfilePage() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 max-w-2xl"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
       <div>
-        <Label>آدرس</Label>
+        <Label>{t("profile.address")}</Label>
         <Input
           {...register("address")}
-          placeholder="مثلاً تهران، خیابان ولیعصر"
+          placeholder="Example:No 123, Street name, City, Country"
         />
         {errors.address && (
-          <p className="text-sm text-red-500">
-            {errors.address.message}
-          </p>
+          <p className="text-sm text-red-500">{errors.address.message}</p>
         )}
       </div>
 
       <div>
-        <Label>بیوگرافی</Label>
+        <Label>{t("profile.bio")}</Label>
         <Textarea
           {...register("bio")}
-          placeholder="چند خط درباره خودتان بنویسید..."
+          placeholder="write something about yourself"
         />
         {errors.bio && (
-          <p className="text-sm text-red-500">
-            {errors.bio.message}
-          </p>
+          <p className="text-sm text-red-500">{errors.bio.message}</p>
         )}
       </div>
 
       <div>
-        <Label>شماره واتساپ</Label>
-        <Input
-          {...register("whatsapp")}
-          placeholder="مثلاً 09123456789"
-        />
+        <Label>{t("profile.whatsapp")}</Label>
+        <Input {...register("whatsapp")} placeholder="مثلاً 09123456789" />
         {errors.whatsapp && (
-          <p className="text-sm text-red-500">
-            {errors.whatsapp.message}
-          </p>
+          <p className="text-sm text-red-500">{errors.whatsapp.message}</p>
         )}
       </div>
 
       <div>
-        <Label>آیدی وی‌چت</Label>
-        <Input
-          {...register("wechat")}
-          placeholder="آیدی وی‌چت"
-        />
+        <Label>{t("profile.wechat")}</Label>
+        <Input {...register("wechat")} placeholder="آیدی وی‌چت" />
         {errors.wechat && (
-          <p className="text-sm text-red-500">
-            {errors.wechat.message}
-          </p>
+          <p className="text-sm text-red-500">{errors.wechat.message}</p>
         )}
       </div>
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "در حال ذخیره..." : "ذخیره تغییرات"}
+        {isSubmitting ? t("message.submitting") : t("message.saveChanges")}
       </Button>
     </form>
   );

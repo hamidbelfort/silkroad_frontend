@@ -25,7 +25,7 @@ const services = [
     id: "support",
     title: "Local Support",
     desc: "Get 24/7 assistance and travel support in Iran.",
-    img: "/images/support.png",
+    img: "/images/support.jpeg",
   },
 ];
 
@@ -52,12 +52,8 @@ export const ServiceSections = () => {
               </AspectRatio>
             </div>
             <div className="md:w-1/2 space-y-3 text-center md:text-left">
-              <h3 className="text-2xl font-semibold">
-                {s.title}
-              </h3>
-              <p className="text-muted-foreground">
-                {s.desc}
-              </p>
+              <h3 className="text-2xl font-semibold">{s.title}</h3>
+              <p className="text-muted-foreground">{s.desc}</p>
             </div>
           </div>
         </AnimatedSection>

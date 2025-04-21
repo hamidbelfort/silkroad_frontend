@@ -59,6 +59,20 @@
     "fullname": "Full Name",
     "email": "Email",
     "phone": "Phone",
-    "weChat": "WeChat"
+    "weChat": "WeChat",
+    "whatsapp": "WhatsApp",
+    "address": "Address",
+    "bio": "Bio"
+  },
+  "message": {
+    "profileGetError": "Error getting profile data",
+    "profileUpdateError": "Error updating profile",
+    "profileDeleteError": "Error deleting profile",
+    "profileUpdateSuccess": "Profile updated successfully",
+    "profileSubmitError": "Error submitting profile",
+    "submitting": "Submitting...",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes"
   }
 }

@@ -53,5 +53,25 @@
     "preview": "预览",
     "uploading": "上传中...",
     "choose": "选择文件"
+  },
+  "profile": {
+    "fullname": "全名",
+    "email": "电子邮件",
+    "phone": "电话",
+    "weChat": "微信",
+    "whatsapp": "WhatsApp",
+    "address": "地址",
+    "bio": "简介"
+  },
+  "message": {
+    "profileGetError": "获取个人资料失败",
+    "profileUpdateError": "更新个人资料失败",
+    "profileDeleteError": "删除个人资料失败",
+    "profileUpdateSuccess": "个人资料更新成功",
+    "profileSubmitError": "提交个人资料失败",
+    "submitting": "提交中...",
+    "submit": "提交",
+    "cancel": "取消",
+    "saveChanges": "保存更改"
   }
 }
