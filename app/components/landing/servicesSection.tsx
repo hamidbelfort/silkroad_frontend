@@ -7,7 +7,7 @@ const services = [
     id: "hotel",
     title: "Hotel Booking",
     desc: "Find and book top-rated hotels across Iran.",
-    img: "/images/hotel.jpg",
+    img: "/images/hotel.png",
   },
   {
     id: "exchange",
@@ -25,7 +25,7 @@ const services = [
     id: "support",
     title: "Local Support",
     desc: "Get 24/7 assistance and travel support in Iran.",
-    img: "/images/support.jpg",
+    img: "/images/support.png",
   },
 ];
 

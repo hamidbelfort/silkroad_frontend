@@ -39,7 +39,13 @@
   "validation": {
     "password": "密码必须至少包含 6 个字符",
     "email": "电子邮件无效",
-    "required": "这个字段是必填的"
+    "required": "这个字段是必填的",
+    "nametooShort": "名字太短",
+    "bio10": "简介长度至少应该是 10 个字符",
+    "bio300": "简介长度至多应该是 300 个字符",
+    "whatsapp": "WhatsApp 号码无效",
+    "weChat": "微信号无效",
+    "address": "地址无效"
   },
   "upload": {
     "success": "上传成功",

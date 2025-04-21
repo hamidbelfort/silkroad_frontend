@@ -40,7 +40,13 @@
   "validation": {
     "password": "Password must be at least 6 characters",
     "email": "Invalid email",
-    "required": "This field is required"
+    "required": "This field is required",
+    "nametooShort": "Name must be at least 3 characters",
+    "bio10": "Bio must be at 10 characters",
+    "bio300": "Bio must be at 300 characters",
+    "whatsapp": "Invalid Whatsapp Number",
+    "weChat": "invalid WeChat Number",
+    "address": "Addree is too short"
   },
   "upload": {
     "success": "Image uploaded successfully",
@@ -48,5 +54,11 @@
     "preview": "Preview",
     "uploading": "Uploading...",
     "choose": "Choose Image"
+  },
+  "profile": {
+    "fullname": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "weChat": "WeChat"
   }
 }
