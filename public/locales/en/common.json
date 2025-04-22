@@ -46,7 +46,14 @@
     "bio300": "Bio must be at 300 characters",
     "whatsapp": "Invalid Whatsapp Number",
     "weChat": "invalid WeChat Number",
-    "address": "Addree is too short"
+    "address": "Addree is too short",
+    "bankName": "Bank Name is required",
+    "bankAccountInvalid": "The bank account is invalid",
+    "bankAccountOwnerRequired": "The bank account owner is required",
+    "ibanInvalid": "IBAN is invalid",
+    "cardNumberInvalid": "Card Number must be 16 digits",
+    "expiryDateInvalid": "Expiry Date is invalid",
+    "cvv2Invalid": "CVV2 is invalid"
   },
   "upload": {
     "success": "Image uploaded successfully",
@@ -64,12 +71,30 @@
     "address": "Address",
     "bio": "Bio"
   },
+  "bankAccount": {
+    "bankName": "Bank Name",
+    "accountName": "Account Name",
+    "accountNumber": "Account Number",
+    "cardNumber": "Card Number",
+    "iban": "IBAN",
+    "expiryDate": "Expiry Date",
+    "cvv2": "CVV2",
+    "cardImageUrl": "Card Image URL"
+  },
   "message": {
     "profileGetError": "Error getting profile data",
     "profileUpdateError": "Error updating profile",
     "profileDeleteError": "Error deleting profile",
     "profileUpdateSuccess": "Profile updated successfully",
     "profileSubmitError": "Error submitting profile",
+    "bankAccountCreateError": "Error creating bank account",
+    "bankAccountDeleteError": "Error deleting bank account",
+    "bankAccountUpdateError": "Error updating bank account",
+    "bankAccountSubmitError": "Error submitting bank account",
+    "bankAccountUpdateSuccess": "Bank account updated successfully",
+    "bankAccountCreateSuccess": "Bank account created successfully",
+    "bankAccountDeleteSuccess": "Bank account deleted successfully",
+    "bankAccountFetchError": "Error fetching bank account",
     "submitting": "Submitting...",
     "submit": "Submit",
     "cancel": "Cancel",

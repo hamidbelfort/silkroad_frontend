@@ -45,7 +45,14 @@
     "bio300": "简介长度至多应该是 300 个字符",
     "whatsapp": "WhatsApp 号码无效",
     "weChat": "微信号无效",
-    "address": "地址无效"
+    "address": "地址无效",
+    "bankNameRequired": "银行名称为必填项",
+    "bankAccountInvalid": "银行账户无效",
+    "bankAccountOwnerRequired": "银行账户持有人为必填项",
+    "ibanInvalid": "IBAN 无效",
+    "expiryDateInvalid": "过期日期无效",
+    "cardNumberInvalid": "卡号无效",
+    "cvv2Invalid": "CVV2 无效"
   },
   "upload": {
     "success": "上传成功",
@@ -63,12 +70,30 @@
     "address": "地址",
     "bio": "简介"
   },
+  "bankAccount": {
+    "bankName": "银行名称",
+    "accountName": "账户名称",
+    "accountNumber": "账户号码",
+    "cardNumber": "卡号",
+    "iban": "IBAN",
+    "expiryDate": "过期日期",
+    "cvv2": "CVV2",
+    "cardImageUrl": "卡片图像 URL"
+  },
   "message": {
     "profileGetError": "获取个人资料失败",
     "profileUpdateError": "更新个人资料失败",
     "profileDeleteError": "删除个人资料失败",
     "profileUpdateSuccess": "个人资料更新成功",
     "profileSubmitError": "提交个人资料失败",
+    "bankAccountCreateError": "创建银行账户失败",
+    "bankAccountDeleteError": "删除银行账户失败",
+    "bankAccountUpdateError": "更新银行账户失败",
+    "bankAccountSubmitError": "提交银行账户失败",
+    "bankAccountCreateSuccess": "银行账户创建成功",
+    "bankAccountDeleteSuccess": "银行账户删除成功",
+    "bankAccountUpdateSuccess": "银行账户更新成功",
+    "bankAccountFetchError": "获取银行账户失败",
     "submitting": "提交中...",
     "submit": "提交",
     "cancel": "取消",

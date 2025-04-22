@@ -54,7 +54,7 @@ export const adminSidebarItems: SidebarItemType[] = [
   {
     title: "Slider",
     icon: Image,
-    href: "/dashboard/admin/slider",
+    href: "/dashboard/admin/manageSlider",
   },
   {
     title: "Change Password",
