@@ -74,11 +74,15 @@
     "bankName": "银行名称",
     "accountName": "账户名称",
     "accountNumber": "账户号码",
+    "accountOwner": "账户持有人",
     "cardNumber": "卡号",
     "iban": "IBAN",
     "expiryDate": "过期日期",
+    "expiryMonth": "过期月份",
+    "expiryYear": "过期年份",
     "cvv2": "CVV2",
-    "cardImageUrl": "卡片图像 URL"
+    "cardImageUrl": "卡片图像 URL",
+    "viewCard": "查看卡片"
   },
   "message": {
     "profileGetError": "获取个人资料失败",
@@ -94,9 +98,16 @@
     "bankAccountDeleteSuccess": "银行账户删除成功",
     "bankAccountUpdateSuccess": "银行账户更新成功",
     "bankAccountFetchError": "获取银行账户失败",
+    "BankAccountNoAccounts": "您还没有添加任何银行账户",
     "submitting": "提交中...",
     "submit": "提交",
     "cancel": "取消",
+    "create": "创造",
     "saveChanges": "保存更改"
+  },
+  "title": {
+    "bankAccount": "管理银行账户",
+    "profile": "管理档案",
+    "slider": "管理滑块"
   }
 }

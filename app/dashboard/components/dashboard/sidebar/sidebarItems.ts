@@ -152,7 +152,7 @@ export const customerSidebarItems: SidebarItemType[] = [
       },
       {
         title: "Bank Accounts",
-        href: "/dashboard/customer/banks",
+        href: "/dashboard/banks",
         icon: Banknote,
       },
       {

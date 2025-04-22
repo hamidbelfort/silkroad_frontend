@@ -25,7 +25,7 @@ import {
 } from "@/lib/api/slider";
 import { format } from "date-fns";
 import { ImageUploader } from "@/components/ui/imageUploader";
-
+import { useTranslation } from "react-i18next";
 const sliderSchema = z.object({
   title: z.string().min(2),
   imageUrl: z.string().url(),
@@ -42,6 +42,7 @@ interface SliderItem extends SliderFormValues {
 }
 
 export default function SliderManagementPage() {
+  const { t } = useTranslation("common");
   const [sliders, setSliders] = useState<SliderItem[]>([]);
   const [editId, setEditId] = useState<string | null>(null);
   const {
@@ -170,7 +171,9 @@ export default function SliderManagementPage() {
               <Label>Active</Label>
             </div>
             <Button type="submit">
-              {editId ? "Update" : "Create"}
+              {editId
+                ? t("common.update")
+                : t("common.create")}
             </Button>
           </form>
         </CardContent>
@@ -214,9 +217,7 @@ export default function SliderManagementPage() {
                   </Button>
                   <ConfirmDialog
                     trigger={
-                      <Button variant="destructive">
-                        Delete
-                      </Button>
+                      <Button variant="destructive"></Button>
                     }
                     title="Delete slider?"
                     description="Are you sure you want to delete this slider? This action is irreversible."

@@ -46,11 +46,11 @@ export const updateBankAccount = async (
   }
 };
 export const deleteBankAccount = async (
-  payload: BankAccount
+  id: string
 ): Promise<BankAccountResponse> => {
   try {
     const res = await axiosInstance.delete(
-      `/api/bankAccount/${payload.id}`
+      `/api/bankAccount/${id}`
     );
     return res.data;
   } catch (err) {

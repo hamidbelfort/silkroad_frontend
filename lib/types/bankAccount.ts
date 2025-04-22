@@ -1,11 +1,12 @@
 export interface BankAccount {
   id: string;
   userId: string;
-  bankName?: string;
-  accountName?: string;
-  accountNumber?: string;
-  iban: string;
-  expiryDate: string;
+  bankName: string;
+  accountOwner: string;
+  accountNumber: string;
+  iban?: string;
+  expiryMonth?: string;
+  expiryYear?: string;
   cvv2?: string;
   cardImageUrl?: string;
 }

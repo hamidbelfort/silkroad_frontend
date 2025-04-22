@@ -8,16 +8,9 @@
   "forgotPassword": "Forgot Your Password?",
   "dontHaveAccount": "Don't have an account?",
   "alreadyHaveAccount": "Already have an account? Login here",
-  "firstName": "First Name",
-  "lastName": "Last Name",
   "email": "Email",
   "password": "Password",
   "loading": "Loading...",
-  "mobile": "Mobile Number",
-  "bio": "Bio",
-  "whatsapp": "WhatsApp Number",
-  "weChat": "WeChat",
-  "address": "Address",
   "welcomeText": "Welcome to Silk Road",
   "menu": "Menu",
   "navbar": {
@@ -75,11 +68,15 @@
     "bankName": "Bank Name",
     "accountName": "Account Name",
     "accountNumber": "Account Number",
+    "accountOwner": "Account Owner",
     "cardNumber": "Card Number",
     "iban": "IBAN",
     "expiryDate": "Expiry Date",
+    "expiryMonth": "Expiry Month",
+    "expiryYear": "Expiry Year",
     "cvv2": "CVV2",
-    "cardImageUrl": "Card Image URL"
+    "cardImageUrl": "Card Image URL",
+    "viewCard": "View Card"
   },
   "message": {
     "profileGetError": "Error getting profile data",
@@ -95,9 +92,24 @@
     "bankAccountCreateSuccess": "Bank account created successfully",
     "bankAccountDeleteSuccess": "Bank account deleted successfully",
     "bankAccountFetchError": "Error fetching bank account",
+    "BankAccountNoAccounts": "You have not added any bank accounts yet",
     "submitting": "Submitting...",
     "submit": "Submit",
     "cancel": "Cancel",
     "saveChanges": "Save Changes"
+  },
+  "common": {
+    "submitting": "Submitting...",
+    "submit": "Submit",
+    "delete": "Delete",
+    "update": "Update",
+    "cancel": "Cancel",
+    "create": "Create",
+    "saveChanges": "Save Changes"
+  },
+  "title": {
+    "bankAccount": "Manage Bank Accounts",
+    "profile": "Manage Profile",
+    "slider": "Manage Sliders"
   }
 }

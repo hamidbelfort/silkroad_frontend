@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 const AuthFooter = () => {
+  const app_title =
+    process.env.APP_TITLE || "Silk Road Services";
   const { t, i18n } = useTranslation();
   const [year, setYear] = useState(
     new Date().getFullYear()
@@ -67,7 +69,7 @@ const AuthFooter = () => {
                 variant="link"
                 className="hover:no-underline cursor-pointer text-muted-foreground text-sm"
               >
-                &copy; {year} Silkroad
+                &copy; {year} {app_title}
               </Button>
               All rights reserved.
             </HoverCardTrigger>

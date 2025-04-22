@@ -15,16 +15,13 @@ interface SidebarProps {
 }
 const Sidebar = ({ isCollapsed }: SidebarProps) => {
   const role = useAuthStore((state) => state.role);
-  // const isLoggedIn = useAuthStore(
-  //   (state) => state.isAuthenticated
-  // );
-  // console.log("isLoggedIn : " + isLoggedIn);
   const normalizedRole = role?.toLowerCase();
-  //const router = useRouter();
   let items: SidebarItemType[] = [];
   if (normalizedRole === "admin") items = adminSidebarItems;
-  else if (normalizedRole === "operator") items = operatorSidebarItems;
-  else if (normalizedRole === "customer") items = customerSidebarItems;
+  else if (normalizedRole === "operator")
+    items = operatorSidebarItems;
+  else if (normalizedRole === "customer")
+    items = customerSidebarItems;
   if (!normalizedRole) {
     return (
       <div className="p-4 text-sm text-gray-500">
@@ -36,7 +33,13 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
     <div className="flex flex-col gap-2 py-4">
       <SidebarHeader isCollapsed={isCollapsed} />
       {items.map((item: SidebarItemType, idx: number) => {
-        return <SidebarItem key={idx} {...item} isCollapsed={isCollapsed} />;
+        return (
+          <SidebarItem
+            key={idx}
+            {...item}
+            isCollapsed={isCollapsed}
+          />
+        );
       })}
     </div>
   );

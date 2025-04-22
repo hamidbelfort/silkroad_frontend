@@ -14,6 +14,8 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 export default function Footer() {
+  const app_title =
+    process.env.APP_TITLE || "Silk Road Services";
   const [year, setYear] = useState(
     new Date().getFullYear()
   );
@@ -178,7 +180,7 @@ export default function Footer() {
             <p className="text-xs text-white/60 mt-auto">
               <HoverCard>
                 <HoverCardTrigger>
-                  &copy; {year} SilkRoad. All rights
+                  &copy; {year} {app_title}. All rights
                   reserved.
                 </HoverCardTrigger>
                 <HoverCardContent>
