@@ -107,7 +107,9 @@
   },
   "title": {
     "login": "登录",
+    "login_sub": "我们很高兴再次见到您",
     "register": "登记",
+    "register_sub": "探索不同的旅行体验",
     "bankAccount": "管理银行账户",
     "profile": "管理档案",
     "slider": "管理滑块"

@@ -5,7 +5,7 @@ export const defaultNS = "common";
 
 export function getOptions(
   lng = fallbackLng,
-  ns = defaultNS
+  ns = ["common"]
 ) {
   return {
     supportedLngs: languages,
@@ -13,6 +13,10 @@ export function getOptions(
     lng,
     ns,
     defaultNS,
+    detection: {
+      order: ["localStorage", "cookie", "navigator"],
+      caches: ["localStorage", "cookie"],
+    },
     backend: {
       loadPath: `/locales/${lng}/${ns}.json`,
     },

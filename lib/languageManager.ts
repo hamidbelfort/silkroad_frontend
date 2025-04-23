@@ -12,7 +12,10 @@ export class LanguageManager {
     if (typeof window !== "undefined") {
       localStorage.setItem(this.cookieKey, lang);
     }
-    Cookies.set(this.cookieKey, lang, { path: "/" });
+    Cookies.set(this.cookieKey, lang, {
+      path: "/",
+      expires: 7,
+    });
   }
 
   /**

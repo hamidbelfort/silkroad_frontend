@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { LanguageSwitcher } from "@/components/ui/language-switcher.tsx";
+import { Languages } from "lucide-react";
 const AuthFooter = () => {
   const app_title =
     process.env.APP_TITLE || "Silk Road Services";
@@ -34,7 +35,8 @@ const AuthFooter = () => {
           </div>
           <div className="flex items-center gap-4">
             <ModeToggle />
-            <div className="relative">
+            <div className="flex items-center gap-2">
+              <Languages size={18} />
               <LanguageSwitcher />
             </div>
           </div>

@@ -90,7 +90,7 @@ export function LoginForm() {
             <div className="text-2xl text-center">
               {t("title.login")}
             </div>
-            <h3 className="text-center text-sm underline text-muted-foreground">
+            <h3 className="text-center text-sm underline text-muted-foreground mt-2">
               {t("title.login_sub")}
             </h3>
           </CardTitle>

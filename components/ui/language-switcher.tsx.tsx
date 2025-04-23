@@ -13,22 +13,26 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { updateLanguage } from "@/lib/api/auth";
 import { LanguageManager } from "@/lib/languageManager";
+import { useAuthStore } from "@/store/authStore";
 const languages = [
   { code: "en", label: "English", country: "us" },
   { code: "zh", label: "中文", country: "cn" },
 ];
 
 export const LanguageSwitcher = () => {
+  const { isLoggedIn } = useAuthStore();
   const { i18n } = useTranslation();
   const [lang, setLang] = useState(i18n.language);
 
   const changeLang = async (lng: "en" | "zh") => {
-    await updateLanguage(lng);
+    if (isLoggedIn) {
+      await updateLanguage(lng);
+    }
     localStorage.setItem("language", lng);
     LanguageManager.set(lng);
     setLang(lng);
     i18n.changeLanguage(lng);
-    window.location.reload();
+    //window.location.reload();
   };
 
   const current = languages.find((l) => l.code === lang);

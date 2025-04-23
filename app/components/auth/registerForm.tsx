@@ -70,10 +70,10 @@ export default function RegisterForm() {
       <Card className="w-full max-w-md mx-auto my-auto">
         <CardHeader>
           <CardTitle>
-            <div className="flex flex-row text-2xl justify-center">
+            <div className="flex justify-center items-center text-2xl text-center">
               {t("title.register")} <Activity />
             </div>
-            <h3 className="text-center text-sm underline text-muted-foreground">
+            <h3 className="text-center text-sm underline text-muted-foreground mt-2">
               {t("title.register_sub")}
             </h3>
           </CardTitle>

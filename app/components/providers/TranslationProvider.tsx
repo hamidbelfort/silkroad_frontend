@@ -15,7 +15,10 @@ export const TranslationProvider = ({
 
   useEffect(() => {
     const lang = getClientLanguage();
-    i18n.changeLanguage(lang);
+    if (i18n.language !== lang) {
+      i18n.changeLanguage(lang);
+    }
+
     setReady(true);
   }, []);
 
