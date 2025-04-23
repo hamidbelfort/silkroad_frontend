@@ -10,6 +10,7 @@ interface LoginResponse {
   token: string;
   userId: string;
   role: "ADMIN" | "OPERATOR" | "CUSTOMER";
+  preferredLanguage: string;
 }
 
 interface RegisterPayload {
@@ -75,6 +76,14 @@ export const getUserInfo = async (userId: string) => {
   );
   return res.data;
 };
+export const updateLanguage = async (lang: "en" | "zh") => {
+  const res = await axiosInstance.post(
+    "/api/auth/language",
+    { language: lang }
+  );
+  return res.data;
+};
+
 export function getUserRole():
   | "admin"
   | "operator"

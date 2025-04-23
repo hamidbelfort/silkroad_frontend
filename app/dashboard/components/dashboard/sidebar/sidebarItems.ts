@@ -59,7 +59,7 @@ export const adminSidebarItems: SidebarItemType[] = [
   {
     title: "Change Password",
     icon: Lock,
-    href: "/dashboard/admin/change-password",
+    href: "/dashboard/change-password",
   },
   {
     title: "Sign out",
@@ -90,7 +90,7 @@ export const operatorSidebarItems: SidebarItemType[] = [
       },
       {
         title: "Change Password",
-        href: "/dashboard/operator/change-password",
+        href: "/dashboard/change-password",
         icon: Lock,
       },
     ],
@@ -157,7 +157,7 @@ export const customerSidebarItems: SidebarItemType[] = [
       },
       {
         title: "Change Password",
-        href: "/dashboard/customer/change-password",
+        href: "/dashboard/change-password",
         icon: Lock,
       },
     ],

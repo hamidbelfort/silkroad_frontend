@@ -11,18 +11,15 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { LanguageSwitcher } from "@/components/ui/language-switcher.tsx";
 const AuthFooter = () => {
   const app_title =
     process.env.APP_TITLE || "Silk Road Services";
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [year, setYear] = useState(
     new Date().getFullYear()
   );
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-    localStorage.setItem("lang", lang);
-  };
-  const getLanguage = () => localStorage.getItem("lang");
+
   useEffect(() => {
     setYear(new Date().getFullYear());
   }, []);
@@ -38,25 +35,7 @@ const AuthFooter = () => {
           <div className="flex items-center gap-4">
             <ModeToggle />
             <div className="relative">
-              <select
-                className="text-sm bg-transparent border-none focus:outline-none"
-                onChange={(e) =>
-                  changeLanguage(e.target.value)
-                }
-              >
-                <option
-                  value="en"
-                  defaultChecked={getLanguage() === "en"}
-                >
-                  EN
-                </option>
-                <option
-                  value="zh"
-                  defaultChecked={getLanguage() === "zh"}
-                >
-                  中文
-                </option>
-              </select>
+              <LanguageSwitcher />
             </div>
           </div>
         </div>

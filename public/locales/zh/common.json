@@ -106,6 +106,8 @@
     "saveChanges": "保存更改"
   },
   "title": {
+    "login": "登录",
+    "register": "登记",
     "bankAccount": "管理银行账户",
     "profile": "管理档案",
     "slider": "管理滑块"

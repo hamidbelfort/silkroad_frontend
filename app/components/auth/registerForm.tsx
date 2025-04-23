@@ -69,8 +69,13 @@ export default function RegisterForm() {
     <main>
       <Card className="w-full max-w-md mx-auto my-auto">
         <CardHeader>
-          <CardTitle className="flex flex-row justify-center">
-            Register to SilkRoad <Activity />
+          <CardTitle>
+            <div className="flex flex-row text-2xl justify-center">
+              {t("title.register")} <Activity />
+            </div>
+            <h3 className="text-center text-sm underline text-muted-foreground">
+              {t("title.register_sub")}
+            </h3>
           </CardTitle>
         </CardHeader>
         <CardContent className="my-4">

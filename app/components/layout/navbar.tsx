@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { LanguageSwitcher } from "@/components/ui/language-switcher.tsx";
 import { useTranslation } from "react-i18next";
-import i18n from "@/lib/i18n";
 import {
   Languages,
   Menu,
@@ -89,11 +89,7 @@ export function Navbar() {
     ...publicLinks,
     ...(hydrated && isLoggedIn ? userLinks : guestLinks),
   ];
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-    localStorage.setItem("lang", lang);
-  };
-  const getLanguage = () => localStorage.getItem("lang");
+
   return (
     <header className="w-full shadow-sm border-b">
       {" "}
@@ -121,25 +117,7 @@ export function Navbar() {
           ))}
           <ModeToggle />
           <div className="relative">
-            <select
-              className="text-sm bg-transparent text-foreground border-none focus:outline-none"
-              onChange={(e) =>
-                changeLanguage(e.target.value)
-              }
-            >
-              <option
-                value="en"
-                defaultChecked={getLanguage() === "en"}
-              >
-                EN
-              </option>
-              <option
-                value="zh"
-                defaultChecked={getLanguage() === "zh"}
-              >
-                中文
-              </option>
-            </select>
+            <LanguageSwitcher />
           </div>
         </nav>
         <div className="md:hidden flex items-center gap-2">
@@ -168,15 +146,7 @@ export function Navbar() {
                 ))}
                 <div className="flex items-center gap-2">
                   <Languages size={18} />
-                  <select
-                    className="text-sm bg-transparent border-none focus:outline-none"
-                    onChange={(e) =>
-                      changeLanguage(e.target.value)
-                    }
-                  >
-                    <option value="en">EN</option>
-                    <option value="zh">中文</option>
-                  </select>
+                  <LanguageSwitcher />
                 </div>
               </div>
             </SheetContent>

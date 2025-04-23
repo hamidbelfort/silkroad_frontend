@@ -4,16 +4,14 @@ import React from "react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { useAuthStore } from "@/store/authStore";
 import { useTranslation } from "react-i18next";
+import { Languages } from "lucide-react";
+import { LanguageSwitcher } from "@/components/ui/language-switcher.tsx";
 const Navbar = () => {
   const { role } = useAuthStore();
-  const { t, i18n } = useTranslation("common");
+  const { t } = useTranslation("common");
   const normalizedRole = role?.toLowerCase();
   const roleText = t(`navbar.${normalizedRole}`);
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-    localStorage.setItem("lang", lang);
-  };
-  const getLanguage = () => localStorage.getItem("lang");
+
   return (
     <nav className="w-full h-14 px-6 flex items-center justify-between border-b">
       <h1 className="text-lg font-semibold text-shadow-md">
@@ -21,24 +19,9 @@ const Navbar = () => {
       </h1>
       <div className="flex items-center gap-4">
         <ModeToggle />
-        <div className="relative">
-          <select
-            className="text-sm bg-transparent text-foreground border-none focus:outline-none"
-            onChange={(e) => changeLanguage(e.target.value)}
-          >
-            <option
-              value="en"
-              defaultChecked={getLanguage() === "en"}
-            >
-              EN
-            </option>
-            <option
-              value="zh"
-              defaultChecked={getLanguage() === "zh"}
-            >
-              中文
-            </option>
-          </select>
+        <div className="flex items-center gap-2">
+          <Languages size={18} />
+          <LanguageSwitcher />
         </div>
         <span className="text-sm text-muted-foreground capitalize">
           {roleText}

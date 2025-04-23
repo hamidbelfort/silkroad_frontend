@@ -12,9 +12,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <TranslationProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+          >
             {children}
-            <Toaster />
+            <Toaster position="bottom-center" />
           </ThemeProvider>
         </TranslationProvider>
       </body>
