@@ -25,13 +25,13 @@ export const LanguageSwitcher = () => {
   const [lang, setLang] = useState(i18n.language);
 
   const changeLang = async (lng: "en" | "zh") => {
+    setLang(lng);
+    localStorage.setItem("language", lng);
+    LanguageManager.set(lng);
+    i18n.changeLanguage(lng);
     if (isLoggedIn) {
       await updateLanguage(lng);
     }
-    localStorage.setItem("language", lng);
-    LanguageManager.set(lng);
-    setLang(lng);
-    i18n.changeLanguage(lng);
     //window.location.reload();
   };
 
@@ -44,10 +44,7 @@ export const LanguageSwitcher = () => {
           variant="outline"
           className="text-sm capitalize flex items-center gap-2"
         >
-          <Flag
-            code={current?.country || "us"}
-            style={{ width: 20 }}
-          />
+          <Flag code={current?.country || "us"} style={{ width: 20 }} />
           {current?.label}
         </Button>
       </DropdownMenuTrigger>
@@ -55,15 +52,10 @@ export const LanguageSwitcher = () => {
         {languages.map((l) => (
           <DropdownMenuItem
             key={l.code}
-            onClick={() =>
-              changeLang(l.code as "en" | "zh")
-            }
+            onClick={() => changeLang(l.code as "en" | "zh")}
           >
             <div className="flex items-center gap-2">
-              <Flag
-                code={l.country}
-                style={{ width: 20 }}
-              />
+              <Flag code={l.country} style={{ width: 20 }} />
               {l.label}
             </div>
           </DropdownMenuItem>
