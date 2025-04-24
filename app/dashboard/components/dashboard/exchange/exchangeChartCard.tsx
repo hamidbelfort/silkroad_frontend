@@ -14,12 +14,8 @@ import {
 } from "chart.js";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ExchangeRateHistory } from "@/lib/types/exchange";
-import {
-  Card,
-  CardContent,
-  CardTitle,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 
 ChartJS.register(
   LineElement,
@@ -31,10 +27,9 @@ ChartJS.register(
 );
 
 export default function ExchangeChart() {
+  const { t } = useTranslation("common");
   const [loading, setLoading] = useState(true);
-  const [history, setHistory] = useState<
-    ExchangeRateHistory[]
-  >([]);
+  const [history, setHistory] = useState<ExchangeRateHistory[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,25 +37,21 @@ export default function ExchangeChart() {
         const data = await getExchangeHistory();
         setHistory(data);
       } catch (err) {
-        console.error(
-          "Error fetching exchange history",
-          err
-        );
+        console.error("Error fetching exchange history", err);
       } finally {
         setLoading(false);
       }
     };
     fetchData();
   }, []);
-
+  const chartLabel = t("title.yuanRate");
   const chartData = {
     labels: history.map(
-      (h) =>
-        new Date(h.createdAt).toLocaleDateString("en-US") //تاریخ میلادی
+      (h) => new Date(h.createdAt).toLocaleDateString("en-US") //تاریخ میلادی
     ),
     datasets: [
       {
-        label: "نرخ یوان",
+        label: "Yuan Rate (元汇率)",
         data: history.map((h) => h.basePrice),
         borderColor: "#3b82f6",
         backgroundColor: "rgba(59, 130, 246, 0.3)",
@@ -72,7 +63,7 @@ export default function ExchangeChart() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>RMB Price History</CardTitle>
+        <CardTitle>{t("title.rmbPriceHistory")}</CardTitle>
       </CardHeader>
       <CardContent>
         {/* <div className="h-[400px]">
@@ -83,7 +74,7 @@ export default function ExchangeChart() {
             <Skeleton className="h-full w-full" />
           ) : (
             <div className="h-[400px]">
-              <Line data={chartData} />
+              <Line data={chartData} options={{ responsive: true }} />
             </div>
           )}
         </div>

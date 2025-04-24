@@ -34,13 +34,9 @@ export const getSliders = async () => {
     throw err;
   }
 };
-export const deleteSlider = async (
-  id: string
-): Promise<SliderResponse> => {
+export const deleteSlider = async (id: string): Promise<SliderResponse> => {
   try {
-    const res = await axiosInstance.delete<SliderResponse>(
-      `/api/slider/${id}`
-    );
+    const res = await axiosInstance.delete<SliderResponse>(`/api/slider/${id}`);
     return res.data;
   } catch (err) {
     console.log("Failed to delete slider : " + err);
@@ -52,10 +48,7 @@ export const updateSlider = async (
   payload: Slider
 ): Promise<SliderResponse> => {
   try {
-    const res = await axiosInstance.put(
-      `/api/slider/${id}`,
-      payload
-    );
+    const res = await axiosInstance.put(`/api/slider/${id}`, payload);
     return res.data;
   } catch (err) {
     console.log("Failed to update slider : " + err);

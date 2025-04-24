@@ -112,6 +112,13 @@
     "register_sub": "探索不同的旅行体验",
     "bankAccount": "管理银行账户",
     "profile": "管理档案",
-    "slider": "管理滑块"
+    "slider": "管理滑块",
+    "order": "管理订单",
+    "orderHistory": "订单历史",
+    "rmbPrice": "人民币价格",
+    "rmbPriceHistory": "人民币价格历史",
+    "yuanRate": "元汇率",
+    "exchange": "交换",
+    "exchangeHistory": "交换历史"
   }
 }

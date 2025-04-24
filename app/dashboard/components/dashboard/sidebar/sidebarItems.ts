@@ -20,49 +20,49 @@ import {
 import { useAuthStore } from "@/store/authStore";
 export const adminSidebarItems: SidebarItemType[] = [
   {
-    title: "Dashboard",
+    label: "Dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
   },
   {
-    title: "App Settings",
+    label: "App Settings",
     icon: Settings,
     href: "#",
     children: [
       {
-        title: "FAQ",
+        label: "FAQ",
         href: "/dashboard/admin/faq",
         icon: MailQuestionIcon,
       },
       {
-        title: "Company Info",
+        label: "Company Info",
         href: "/dashboard/admin/company-info",
         icon: Factory,
       },
       {
-        title: "Company Address",
+        label: "Company Address",
         href: "/dashboard/admin/company-address",
         icon: MapPin,
       },
       {
-        title: "Company Details",
+        label: "Company Details",
         href: "/dashboard/admin/company-details",
         icon: Info,
       },
     ],
   },
   {
-    title: "Slider",
+    label: "Slider",
     icon: Image,
     href: "/dashboard/admin/manageSlider",
   },
   {
-    title: "Change Password",
+    label: "Change Password",
     icon: Lock,
     href: "/dashboard/change-password",
   },
   {
-    title: "Sign out",
+    label: "Sign out",
     icon: LogOut,
     href: "/signout",
     hrefRouter: "/login",
@@ -74,29 +74,29 @@ export const adminSidebarItems: SidebarItemType[] = [
 
 export const operatorSidebarItems: SidebarItemType[] = [
   {
-    title: "Dashboard",
+    label: "Dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
   },
   {
-    title: "Profile",
+    label: "Profile",
     icon: UserCircle,
     href: "#",
     children: [
       {
-        title: "Edit Profile",
-        href: "/dashboard/operator/profile",
+        label: "Edit Profile",
+        href: "/dashboard/profile",
         icon: UserCircle,
       },
       {
-        title: "Change Password",
+        label: "Change Password",
         href: "/dashboard/change-password",
         icon: Lock,
       },
     ],
   },
   {
-    title: "Sign out",
+    label: "Sign out",
     icon: LogOut,
     href: "/signout",
   },
@@ -104,66 +104,66 @@ export const operatorSidebarItems: SidebarItemType[] = [
 
 export const customerSidebarItems: SidebarItemType[] = [
   {
-    title: "Dashboard",
+    label: "Dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
   },
   {
-    title: "Exchange",
+    label: "Exchange",
     icon: Banknote,
     href: "/dashboard/exchange",
   },
   {
-    title: "Reserve Hotel",
+    label: "Reserve Hotel",
     icon: Hotel,
     href: "/dashboard/customer/reserve-hotel",
   },
   {
-    title: "History",
+    label: "History",
     icon: History,
     href: "#",
     children: [
       {
-        title: "Exchanges",
+        label: "Exchanges",
         href: "/dashboard/customer/history/exchanges",
         icon: Banknote,
       },
       {
-        title: "Reservations",
+        label: "Reservations",
         href: "/dashboard/customer/history/reservations",
         icon: Ticket,
       },
     ],
   },
   {
-    title: "Support Tickets",
+    label: "Support Tickets",
     icon: HelpCircle,
     href: "/dashboard/customer/support-tickets",
   },
   {
-    title: "Profile",
+    label: "Profile",
     icon: UserCircle,
     href: "#",
     children: [
       {
-        title: "Edit Profile",
-        href: "/dashboard/customer/profile",
+        label: "Edit Profile",
+        href: "/dashboard/profile",
         icon: User2,
       },
       {
-        title: "Bank Accounts",
+        label: "Bank Accounts",
         href: "/dashboard/banks",
         icon: Banknote,
       },
       {
-        title: "Change Password",
+        label: "Change Password",
         href: "/dashboard/change-password",
         icon: Lock,
       },
     ],
   },
   {
-    title: "Sign out",
+    label: "Sign out",
     icon: LogOut,
     href: "/signout",
     hrefRouter: "/login",

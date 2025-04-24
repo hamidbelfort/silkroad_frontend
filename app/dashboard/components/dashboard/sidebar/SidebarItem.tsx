@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 export const SidebarItem = ({
-  title,
+  label,
   href,
   icon: Icon,
   onClick,
@@ -30,7 +30,7 @@ export const SidebarItem = ({
       )}
     >
       <Icon className="h-5 w-5" />
-      {!isCollapsed && <span>{title}</span>}
+      {!isCollapsed && <span>{label}</span>}
     </Link>
   );
 };

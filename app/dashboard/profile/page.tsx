@@ -12,8 +12,10 @@ import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/store/authStore";
+import { ImageUploader } from "@/components/ui/imageUploader";
 export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const { t } = useTranslation("common");
   const { userId } = useAuthStore();
   const userProfileSchema = z.object({
@@ -62,7 +64,10 @@ export default function ProfilePage() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6 max-w-2xl md:min-w-sm lg:min-w-md"
+    >
       <div>
         <Label>{t("profile.address")}</Label>
         <Input
@@ -75,6 +80,10 @@ export default function ProfilePage() {
       </div>
 
       <div>
+        <div className="flex mx-auto">
+          <Label>{t("profile.avatar")}</Label>
+          <ImageUploader onFileSelect={(file) => setSelectedImage(file)} />
+        </div>
         <Label>{t("profile.bio")}</Label>
         <Textarea
           {...register("bio")}
@@ -87,7 +96,7 @@ export default function ProfilePage() {
 
       <div>
         <Label>{t("profile.whatsapp")}</Label>
-        <Input {...register("whatsapp")} placeholder="مثلاً 09123456789" />
+        <Input {...register("whatsapp")} placeholder="eg : +989123456789" />
         {errors.whatsapp && (
           <p className="text-sm text-red-500">{errors.whatsapp.message}</p>
         )}
@@ -95,7 +104,7 @@ export default function ProfilePage() {
 
       <div>
         <Label>{t("profile.wechat")}</Label>
-        <Input {...register("wechat")} placeholder="آیدی وی‌چت" />
+        <Input {...register("wechat")} placeholder="WeChat ID or Number" />
         {errors.wechat && (
           <p className="text-sm text-red-500">{errors.wechat.message}</p>
         )}

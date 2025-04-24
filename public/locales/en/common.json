@@ -114,6 +114,13 @@
     "register_sub": "Discover differenet experience of traveling to Iran",
     "bankAccount": "Manage Bank Accounts",
     "profile": "Manage Profile",
-    "slider": "Manage Sliders"
+    "slider": "Manage Sliders",
+    "order": "Manage Orders",
+    "orderHistory": "Order History",
+    "rmbPrice": "RMB Price",
+    "rmbPriceHistory": "RMB Price History",
+    "yuanRate": "Yuan Rate",
+    "exchange": "Exchange",
+    "exchangeHistory": "Exchange History"
   }
 }

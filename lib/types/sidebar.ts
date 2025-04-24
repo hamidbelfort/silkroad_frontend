@@ -1,9 +1,10 @@
 import { LucideIcon } from "lucide-react";
+import { JSX, ReactNode } from "react";
 
 export interface SidebarItemType {
-  title: string;
+  label: string;
   href: string;
-  icon: LucideIcon;
+  icon: React.ElementType;
   onClick?: (router: unknown) => void;
   hrefRouter?: string;
   children?: SidebarItemType[];
