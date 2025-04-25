@@ -14,18 +14,15 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 export default function Footer() {
-  const app_title =
-    process.env.APP_TITLE || "Silk Road Services";
-  const [year, setYear] = useState(
-    new Date().getFullYear()
-  );
+  const app_title = process.env.APP_TITLE || "Silk Road Services";
+  const [year, setYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     setYear(new Date().getFullYear());
   }, []);
-
+  //from-indigo-800/80 via-purple-700/80 to-pink-600/80
   return (
-    <footer className="w-full bg-gradient-to-r from-indigo-800/80 via-purple-700/80 to-pink-600/80 text-white">
+    <footer className="w-full bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-400 text-white">
       <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
         {/* حالت موبایل: آکاردئون */}
         <div className="md:hidden">
@@ -37,34 +34,22 @@ export default function Footer() {
               <AccordionContent>
                 <ul className="space-y-1 pl-2">
                   <li>
-                    <Link
-                      href="/"
-                      className="hover:underline"
-                    >
+                    <Link href="/" className="hover:underline">
                       Home
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      href="/about"
-                      className="hover:underline"
-                    >
+                    <Link href="/about" className="hover:underline">
                       About Us
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      href="/contact"
-                      className="hover:underline"
-                    >
+                    <Link href="/contact" className="hover:underline">
                       Contact
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      href="/faq"
-                      className="hover:underline"
-                    >
+                    <Link href="/faq" className="hover:underline">
                       FAQ
                     </Link>
                   </li>
@@ -78,9 +63,8 @@ export default function Footer() {
               </AccordionTrigger>
               <AccordionContent>
                 <p className="pl-2 text-white/90 leading-5">
-                  We simplify travel for Chinese tourists in
-                  Iran. Enjoy easy booking and local
-                  services all in one place.
+                  We simplify travel for Chinese tourists in Iran. Enjoy easy
+                  booking and local services all in one place.
                 </p>
               </AccordionContent>
             </AccordionItem>
@@ -109,9 +93,7 @@ export default function Footer() {
         {/* حالت دسکتاپ: ۳ ستونه */}
         <div className="hidden md:grid grid-cols-3 gap-6 text-sm">
           <div>
-            <h4 className="font-semibold text-xl mb-2">
-              Quick Links
-            </h4>
+            <h4 className="font-semibold text-xl mb-2">Quick Links</h4>
             <ul className="space-y-1">
               <li>
                 <Link href="/" className="hover:underline">
@@ -119,26 +101,17 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/about"
-                  className="hover:underline"
-                >
+                <Link href="/about" className="hover:underline">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/contact"
-                  className="hover:underline"
-                >
+                <Link href="/contact" className="hover:underline">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/faq"
-                  className="hover:underline"
-                >
+                <Link href="/faq" className="hover:underline">
                   FAQ
                 </Link>
               </li>
@@ -146,13 +119,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-xl mb-2">
-              About
-            </h4>
+            <h4 className="font-semibold text-xl mb-2">About</h4>
             <p className="leading-5 text-white/90">
-              We simplify travel for Chinese tourists in
-              Iran. Enjoy easy booking and local services
-              all in one place.
+              We simplify travel for Chinese tourists in Iran. Enjoy easy
+              booking and local services all in one place.
             </p>
           </div>
 
@@ -180,14 +150,11 @@ export default function Footer() {
             <p className="text-xs text-white/60 mt-auto">
               <HoverCard>
                 <HoverCardTrigger>
-                  &copy; {year} {app_title}. All rights
-                  reserved.
+                  &copy; {year} {app_title}. All rights reserved.
                 </HoverCardTrigger>
                 <HoverCardContent>
                   Made with ❤️ by{" "}
-                  <Link href="https://github.com/hamidbelfort">
-                    Hamid
-                  </Link>
+                  <Link href="https://github.com/hamidbelfort">Hamid</Link>
                 </HoverCardContent>
               </HoverCard>
             </p>

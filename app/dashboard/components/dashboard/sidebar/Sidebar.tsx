@@ -14,12 +14,13 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 interface SidebarProps {
   isCollapsed: boolean;
 }
 
 const Sidebar = ({ isCollapsed }: SidebarProps) => {
+  const router = useRouter();
   const role = useAuthStore((state) => state.role);
   const pathname = usePathname();
   const [openMenus, setOpenMenus] = useState<string[]>([]);
@@ -53,6 +54,8 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
           const hasChildren = !!item.children;
           const isOpen = openMenus.includes(item.label);
           const Icon = item.icon;
+          const itemOnClick = item.onClick!;
+          const rhref = item.hrefRouter!;
           return (
             <li key={item.label}>
               <div className="flex justify-between items-center">
@@ -66,6 +69,9 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
                     if (hasChildren) {
                       e.preventDefault();
                       toggleMenu(item.label);
+                    }
+                    if (itemOnClick) {
+                      itemOnClick(router);
                     }
                   }}
                 >

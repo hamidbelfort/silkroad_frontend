@@ -2,21 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  getBankAccounts,
-  deleteBankAccount,
-} from "@/lib/api/bankAccount";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { getBankAccounts, deleteBankAccount } from "@/lib/api/bankAccount";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
@@ -41,9 +29,7 @@ export default function BankAccountList() {
   const role = useAuthStore((state) => state.role);
   const normalizedRole = role?.toLowerCase();
   const router = useRouter();
-  const [accounts, setAccounts] = useState<
-    BankAccount[] | null
-  >(null);
+  const [accounts, setAccounts] = useState<BankAccount[] | null>(null);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
   useEffect(() => {
@@ -66,12 +52,8 @@ export default function BankAccountList() {
     try {
       const res = await deleteBankAccount(id);
       if (res.success) {
-        setAccounts(
-          (prev) => prev?.filter((a) => a.id !== id) || []
-        );
-        toast.success(
-          t("message.bankAccountDeleteSuccess")
-        );
+        setAccounts((prev) => prev?.filter((a) => a.id !== id) || []);
+        toast.success(t("message.bankAccountDeleteSuccess"));
       } else {
         toast.error(res.message);
       }
@@ -91,7 +73,7 @@ export default function BankAccountList() {
   }
 
   if (!accounts || accounts.length === 0) {
-    return <p>{t("bankAccount.BankAccountNoAccounts")}</p>;
+    return <p>{t("message.BankAccountNoAccounts")}</p>;
   }
 
   return (
@@ -103,20 +85,16 @@ export default function BankAccountList() {
           </CardHeader>
           <CardContent className="space-y-2">
             <p>
-              {t("bankAccount.accountOwner")}:{" "}
-              {acc.accountOwner}
+              {t("bankAccount.accountOwner")}: {acc.accountOwner}
             </p>
             <p>
-              {t("bankAccount.accountNumber")}:{" "}
-              {acc.accountNumber}
+              {t("bankAccount.accountNumber")}: {acc.accountNumber}
             </p>
             <p>
-              {t("bankAccount.cardNumber")}:{" "}
-              {acc.cardNumber}
+              {t("bankAccount.cardNumber")}: {acc.cardNumber}
             </p>
             <p>
-              {t("bankAccount.expiryDate")}:{" "}
-              {acc.expiryMonth}/{acc.expiryYear}
+              {t("bankAccount.expiryDate")}: {acc.expiryMonth}/{acc.expiryYear}
             </p>
 
             <div className="flex gap-2 mt-4">

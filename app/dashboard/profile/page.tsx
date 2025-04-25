@@ -38,18 +38,22 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    getProfile(userId)
-      .then((data) => {
-        //reset(data!); // مقادیر اولیه رو ست کن
-        setValue("address", data?.address || "");
-        setValue("bio", data?.bio || "");
-        setValue("whatsapp", data?.whatsapp || "");
-        setValue("wechat", data?.wechat || "");
-      })
-      .catch(() => toast.error(t("validation.profileGetError")))
-      .finally(() => setLoading(false));
+    getProfileData();
   }, [reset]);
-
+  const getProfileData = async () => {
+    setLoading(true);
+    console.log(userId);
+    const data = await getProfile(userId);
+    console.log(data);
+    if (data) {
+      setValue("address", data?.address || "");
+      setValue("bio", data?.bio || "");
+      setValue("whatsapp", data?.whatsapp || "");
+      setValue("wechat", data?.wechat || "");
+      setLoading(false);
+    }
+    setLoading(false);
+  };
   const onSubmit = async (values: UserProfileFormValues) => {
     try {
       await postProfile(values);
@@ -59,11 +63,9 @@ export default function ProfilePage() {
     }
   };
 
-  if (loading) {
-    return <Skeleton className="h-[300px] w-full" />;
-  }
-
-  return (
+  return loading ? (
+    <Skeleton className="h-[300px] w-full" />
+  ) : (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-6 max-w-2xl md:min-w-sm lg:min-w-md"

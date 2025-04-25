@@ -44,7 +44,6 @@ export default function ExchangeChart() {
     };
     fetchData();
   }, []);
-  const chartLabel = t("title.yuanRate");
   const chartData = {
     labels: history.map(
       (h) => new Date(h.createdAt).toLocaleDateString("en-US") //تاریخ میلادی
@@ -54,6 +53,7 @@ export default function ExchangeChart() {
         label: "Yuan Rate (元汇率)",
         data: history.map((h) => h.basePrice),
         borderColor: "#3b82f6",
+
         backgroundColor: "rgba(59, 130, 246, 0.3)",
         tension: 0.3,
       },
@@ -69,7 +69,7 @@ export default function ExchangeChart() {
         {/* <div className="h-[400px]">
           <Line data={chartData} />
         </div> */}
-        <div className="h-[350px] md:h-[400px] w-full md:col-span-2 bg-white dark:bg-muted rounded-md p-4">
+        <div className="h-[200px] md:h-[200px] w-full md:col-span-2 bg-white dark:bg-muted rounded-md p-4">
           {loading || history.length === 0 ? (
             <Skeleton className="h-full w-full" />
           ) : (

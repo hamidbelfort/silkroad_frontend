@@ -1,5 +1,5 @@
 // components/landing/HeroSection.tsx
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { AnimatedSection } from "@/components/ui/animatedSection";
 import Image from "next/image";
 
@@ -7,29 +7,34 @@ export const HeroSection = () => {
   const appTitle = process.env.APP_TITLE || "Silk Road Services";
 
   return (
-    <section className="relative h-[75vh] flex items-center justify-center bg-black text-white overflow-hidden">
+    <section className="relative h-[75vh] flex items-center bg-black text-white overflow-hidden">
       <Image
-        //src="/images/plane-takeoff.png"
         src="/images/main-hero.jpg"
-        alt="Hero image"
+        alt="Hero Image"
         fill
-        className="object-cover brightness-[0.6]"
+        className="object-cover brightness-[0.9]"
         priority
       />
-      <AnimatedSection delay={0.1}>
-        <div className="relative z-10 flex flex-col text-center w-full px-4">
-          <h1 className="lg:text-6xl md:text-4xl sm:text-xl font-extrabold mb-4 bg-gradient-to-b from-white to-gray-200 text-transparent bg-clip-text drop-shadow-md">
+      <AnimatedSection>
+        <div className="relative z-10 text-left max-w-2xl px-6 md:px-16">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-br from-blue-600 via-teal-500 to-emerald-400 text-transparent bg-clip-text drop-shadow-md">
             Welcome to {appTitle}
           </h1>
-          <p className="text-4xl md:text-2xl sm:text-xl text-neutral-200 mb-6 text-shadow-2xs">
+          <p className="text-lg md:text-xl text-white mb-4">
             Your trusted gateway to Iran
           </p>
-          <p className="lg:text-4xl md:text-2xl sm:text-xl text-neutral-200 mt-2 text-shadow-2xs decoration-dashed">
+
+          {/* 👇 متن چینی با زیرخط نقطه‌ای */}
+          <p className="text-base md:text-lg text-white underline decoration-dotted underline-offset-4 mb-6">
             您通往伊朗的值得信赖的门户
           </p>
-        </div>
-        <div className="flex items-center justify-center mt-6 z-10">
-          <Button variant="secondary">Explore Our Services</Button>
+
+          <Link
+            href="/login"
+            className="bg-background text-gray-900 font-semibold rounded-lg px-4 py-2 no-underline hover:underline hover:bg-gray-800 hover:text-white transition-all duration-500 cursor-pointer "
+          >
+            Explore Our Services
+          </Link>
         </div>
       </AnimatedSection>
     </section>

@@ -64,7 +64,7 @@ export const adminSidebarItems: SidebarItemType[] = [
   {
     label: "Sign out",
     icon: LogOut,
-    href: "/signout",
+    href: "#",
     hrefRouter: "/login",
     onClick: () => {
       useAuthStore.getState().logout();
@@ -98,7 +98,11 @@ export const operatorSidebarItems: SidebarItemType[] = [
   {
     label: "Sign out",
     icon: LogOut,
-    href: "/signout",
+    href: "/#",
+    hrefRouter: "/login",
+    onClick: () => {
+      useAuthStore.getState().logout();
+    },
   },
 ];
 
@@ -165,7 +169,7 @@ export const customerSidebarItems: SidebarItemType[] = [
   {
     label: "Sign out",
     icon: LogOut,
-    href: "/signout",
+    href: "#",
     hrefRouter: "/login",
     onClick: () => {
       useAuthStore.getState().logout();

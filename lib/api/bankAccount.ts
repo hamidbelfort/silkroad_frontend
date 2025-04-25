@@ -1,17 +1,12 @@
 import axiosInstance from "../axios/axiosInstance";
-import {
-  BankAccount,
-  BankAccountResponse,
-} from "../types/bankAccount";
+import { BankAccount, BankAccountResponse } from "../types/bankAccount";
 
 export const getBankAccounts = async (
   userId: string
 ): Promise<BankAccount[]> => {
   try {
-    const res = await axiosInstance.get(
-      `/api/bankAccount/user/${userId}`
-    );
-    return res.data;
+    const res = await axiosInstance.get(`/api/bankaccount/user/${userId}`);
+    return res.status === 200 ? res.data : [];
   } catch (err) {
     console.log("Error getting bank accounts");
     throw err;
@@ -21,10 +16,7 @@ export const createBankAccount = async (
   payload: BankAccount
 ): Promise<BankAccountResponse> => {
   try {
-    const res = await axiosInstance.post(
-      "/api/bankAccount",
-      payload
-    );
+    const res = await axiosInstance.post("/api/bankaccount", payload);
     return res.data;
   } catch (err) {
     console.log("Error creating bank account");
@@ -36,7 +28,7 @@ export const updateBankAccount = async (
 ): Promise<BankAccountResponse> => {
   try {
     const res = await axiosInstance.put(
-      `/api/bankAccount/${payload.id}`,
+      `/api/bankaccount/${payload.id}`,
       payload
     );
     return res.data;
@@ -49,9 +41,7 @@ export const deleteBankAccount = async (
   id: string
 ): Promise<BankAccountResponse> => {
   try {
-    const res = await axiosInstance.delete(
-      `/api/bankAccount/${id}`
-    );
+    const res = await axiosInstance.delete(`/api/bankaccount/${id}`);
     return res.data;
   } catch (err) {
     console.log("Error creating bank account");

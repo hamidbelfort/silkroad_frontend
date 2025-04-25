@@ -24,13 +24,14 @@ import {
   getBankAccounts,
 } from "@/lib/api/bankAccount";
 import { ImageUploader } from "@/components/ui/imageUploader";
-
+import { useAuthStore } from "@/store/authStore";
 export default function BankAccountForm() {
   const [accounts, setAccounts] = useState<BankAccount[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<BankAccount | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const { t } = useTranslation("common");
+  const { userId } = useAuthStore();
   const bankAccountSchema = z.object({
     bankName: z.string().min(2, t("valiation.bankName")),
     accountOwner: z.string().min(2, t("validation.accountOwner")),
@@ -41,7 +42,7 @@ export default function BankAccountForm() {
       .string()
       .min(2, t("validation.expiryDateInvalid"))
       .optional(),
-    expiryYear: z.string().min(2, t("validation.expiryDateInvalid")),
+    expiryYear: z.string().min(2, t("validation.expiryDateInvalid")).optional(),
     cvv2: z.string().min(3, t("validation.cvv2Invalid")).optional(),
     cardImage: z.string().optional(),
   });
@@ -61,13 +62,20 @@ export default function BankAccountForm() {
   });
 
   useEffect(() => {
-    fetch("/api/bank-accounts")
-      .then((res) => res.json())
-      .then(setAccounts)
-      .catch(() => toast.error("خطا در دریافت داده‌ها"))
-      .finally(() => setLoading(false));
+    setLoading(true);
+    const res = fetchBankAccounts();
+    setLoading(false);
   }, []);
-
+  const fetchBankAccounts = async () => {
+    try {
+      const data = await getBankAccounts(userId);
+      if (data && data.length > 0) setAccounts(data);
+      console.log(data);
+      return data;
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+    }
+  };
   const openEdit = (data: BankAccount) => {
     setSelected(data);
     reset(data);
@@ -110,6 +118,11 @@ export default function BankAccountForm() {
         }}
       >
         <DialogContent>
+          <DialogTrigger asChild className="flex justify-end">
+            <Button onClick={() => setSelected({} as BankAccount)}>
+              Manage Bank Accounts
+            </Button>
+          </DialogTrigger>
           <DialogHeader>
             <h2 className="text-lg font-semibold">
               {selected ? "ویرایش حساب بانکی" : "افزودن حساب بانکی"}
@@ -118,7 +131,7 @@ export default function BankAccountForm() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <Label>نام بانک</Label>
+              <Label>Bank Name</Label>
               <Input {...register("bankName")} />
               {errors.bankName && (
                 <p className="text-sm text-red-500">
@@ -171,14 +184,6 @@ export default function BankAccountForm() {
           </form>
         </DialogContent>
       </Dialog>
-
-      <div className="flex justify-end">
-        <DialogTrigger asChild>
-          <Button onClick={() => setSelected({} as BankAccount)}>
-            افزودن حساب
-          </Button>
-        </DialogTrigger>
-      </div>
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -239,7 +244,7 @@ export default function BankAccountForm() {
           ))}
         </div>
       ) : (
-        <p>هیچ حسابی ثبت نشده</p>
+        <p>{t("message.BankAccountNoAccounts")}</p>
       )}
     </div>
   );
