@@ -119,6 +119,10 @@
     "rmbPriceHistory": "人民币价格历史",
     "yuanRate": "元汇率",
     "exchange": "交换",
+    "basePrice": "基本价格",
+    "buyPrice": "购买价格",
+    "sellPrice": "销售价格",
+    "lastUpdated": "最后更新",
     "exchangeHistory": "交换历史",
     "testimonials": "我们的客户怎么说"
   }

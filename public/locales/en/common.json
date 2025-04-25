@@ -121,6 +121,10 @@
     "rmbPriceHistory": "RMB Price History",
     "yuanRate": "Yuan Rate",
     "exchange": "Exchange",
+    "basePrice": "Base Price",
+    "buyPrice": "Buy Price",
+    "sellPrice": "Sell Price",
+    "lastUpdated": "Last Updated",
     "exchangeHistory": "Exchange History",
     "testimonials": "What our customers say"
   }

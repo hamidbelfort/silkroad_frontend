@@ -16,7 +16,7 @@ const exchangeSchema = z.object({
 
 type ExchangeFormValues = z.infer<typeof exchangeSchema>;
 
-export function ExchangeForm() {
+export function ExchangeForm({ exchangeRate }: { exchangeRate: number }) {
   const {
     register,
     handleSubmit,
@@ -27,17 +27,11 @@ export function ExchangeForm() {
   });
 
   const [finalAmount, setFinalAmount] = useState(0);
-  const [rate, setRate] = useState(0);
-
-  useEffect(() => {
-    // فرضا این مقدار از API گرفته شده
-    setRate(5900);
-  }, []);
 
   useEffect(() => {
     const amount = parseFloat(watch("amount")) || 0;
-    setFinalAmount(amount * rate);
-  }, [watch("amount"), rate]);
+    setFinalAmount(amount * exchangeRate);
+  }, [watch("amount"), exchangeRate]);
 
   const onSubmit = (data: ExchangeFormValues) => {
     console.log("Submitted:", {
