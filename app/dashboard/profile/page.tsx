@@ -84,7 +84,10 @@ export default function ProfilePage() {
       <div>
         <div className="flex mx-auto">
           <Label>{t("profile.avatar")}</Label>
-          <ImageUploader onFileSelect={(file) => setSelectedImage(file)} />
+          <ImageUploader
+            label={t("upload.profileImage")}
+            onFileSelect={(file) => setSelectedImage(file)}
+          />
         </div>
         <Label>{t("profile.bio")}</Label>
         <Textarea
