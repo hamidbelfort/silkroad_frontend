@@ -28,8 +28,10 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
   const normalizedRole = role?.toLowerCase();
   let items: SidebarItemType[] = [];
   if (normalizedRole === "admin") items = adminSidebarItems;
-  else if (normalizedRole === "operator") items = operatorSidebarItems;
-  else if (normalizedRole === "customer") items = customerSidebarItems;
+  else if (normalizedRole === "operator")
+    items = operatorSidebarItems;
+  else if (normalizedRole === "customer")
+    items = customerSidebarItems;
 
   if (!normalizedRole) {
     return (
@@ -41,7 +43,9 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
 
   const toggleMenu = (label: string) => {
     setOpenMenus((prev) =>
-      prev.includes(label) ? prev.filter((i) => i !== label) : [...prev, label]
+      prev.includes(label)
+        ? prev.filter((i) => i !== label)
+        : [...prev, label]
     );
   };
 
@@ -55,7 +59,6 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
           const isOpen = openMenus.includes(item.label);
           const Icon = item.icon;
           const itemOnClick = item.onClick!;
-          const rhref = item.hrefRouter!;
           return (
             <li key={item.label}>
               <div className="flex justify-between items-center">
@@ -76,7 +79,9 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
                   }}
                 >
                   <span>{Icon && <Icon size={18} />}</span>
-                  {!isCollapsed && <span>{item.label}</span>}
+                  {!isCollapsed && (
+                    <span>{item.label}</span>
+                  )}
                 </Link>
                 {hasChildren && !isCollapsed && (
                   <button
@@ -95,14 +100,16 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
               {hasChildren && isOpen && !isCollapsed && (
                 <ul className="ml-6 mt-1 space-y-1">
                   {item.children?.map((child) => {
-                    const childActive = pathname === child.href;
+                    const childActive =
+                      pathname === child.href;
                     return (
                       <li key={child.label}>
                         <Link
                           href={child.href}
                           className={cn(
                             "block px-3 py-1 text-sm rounded-md hover:bg-accent hover:text-primary transition",
-                            childActive && "bg-accent text-primary font-medium"
+                            childActive &&
+                              "bg-accent text-primary font-medium"
                           )}
                         >
                           {child.label}

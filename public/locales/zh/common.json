@@ -59,7 +59,11 @@
     "fail": "上传失败",
     "preview": "预览",
     "uploading": "上传中...",
-    "choose": "选择文件"
+    "choose": "选择文件",
+    "cardImage": "卡片图像",
+    "sliderImage": "滑块图像",
+    "profileImage": "个人图像",
+    "cardQuestion": "不知道卡片详情?上传照片"
   },
   "profile": {
     "fullname": "全名",

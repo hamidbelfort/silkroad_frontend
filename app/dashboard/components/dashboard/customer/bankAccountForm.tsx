@@ -4,9 +4,15 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,31 +29,50 @@ import {
   deleteBankAccount,
   getBankAccounts,
 } from "@/lib/api/bankAccount";
+import { uploadImage } from "@/lib/api/upload";
 import { ImageUploader } from "@/components/ui/imageUploader";
 import { useAuthStore } from "@/store/authStore";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { WalletCards } from "lucide-react";
 export default function BankAccountForm() {
-  const [accounts, setAccounts] = useState<BankAccount[] | null>(null);
+  const [accounts, setAccounts] = useState<
+    BankAccount[] | null
+  >(null);
   const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<BankAccount | null>(null);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [selected, setSelected] =
+    useState<BankAccount | null>(null);
+  const [selectedImage, setSelectedImage] =
+    useState<File | null>(null);
   const { t } = useTranslation("common");
   const { userId } = useAuthStore();
   const bankAccountSchema = z.object({
     bankName: z.string().min(2, t("valiation.bankName")),
-    accountOwner: z.string().min(2, t("validation.accountOwner")),
-    accountNumber: z.string().min(6, t("validation.accountNumber")),
-    iban: z.string().min(10, t("validation.ibanInvalid")).optional(),
-    cardNumber: z.string().min(16, t("validation.cardNumber")).optional(),
-    expiryMonth: z
+    accountOwner: z
       .string()
-      .min(2, t("validation.expiryDateInvalid"))
+      .min(6, t("validation.accountOwner")),
+    accountNumber: z
+      .string()
+      .min(6, t("validation.accountNumber"))
+      .max(15, t("validation.accountNumber")),
+    iban: z
+      .string()
+      .min(26, t("validation.ibanInvalid"))
       .optional(),
-    expiryYear: z.string().min(2, t("validation.expiryDateInvalid")).optional(),
-    cvv2: z.string().min(3, t("validation.cvv2Invalid")).optional(),
+    cardNumber: z
+      .string()
+      .min(16, t("validation.cardNumber"))
+      .optional(),
     cardImage: z.string().optional(),
   });
 
-  type BankAccountFormValues = z.infer<typeof bankAccountSchema>;
+  type BankAccountFormValues = z.infer<
+    typeof bankAccountSchema
+  >;
   interface BankAccount extends BankAccountFormValues {
     id: string;
   }
@@ -62,20 +87,19 @@ export default function BankAccountForm() {
   });
 
   useEffect(() => {
-    setLoading(true);
-    const res = fetchBankAccounts();
-    setLoading(false);
-  }, []);
-  const fetchBankAccounts = async () => {
-    try {
-      const data = await getBankAccounts(userId);
-      if (data && data.length > 0) setAccounts(data);
-      console.log(data);
-      return data;
-    } catch (err) {
-      console.error("Error fetching profile:", err);
-    }
-  };
+    const fetchData = async () => {
+      try {
+        const data = await getBankAccounts(userId);
+        if (data && data.length > 0) setAccounts(data);
+        console.log(data);
+      } catch (err) {
+        console.error("Error fetching profile:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [accounts, userId]);
   const openEdit = (data: BankAccount) => {
     setSelected(data);
     reset(data);
@@ -84,10 +108,18 @@ export default function BankAccountForm() {
   const onSubmit = async (data: BankAccountFormValues) => {
     try {
       // فراخوانی API برای ذخیره
+      if (selectedImage) {
+        data.cardImage = await uploadImage(
+          selectedImage,
+          "bankAccount"
+        );
+      }
       const accountData = { ...data, id: "", userId: "" };
       const res = await createBankAccount(accountData);
       if (res.success) {
-        toast.success(t("message.bankAccountCreateSuccess"));
+        toast.success(
+          t("message.bankAccountCreateSuccess")
+        );
         setSelected(null);
         reset();
         window.location.reload();
@@ -99,7 +131,9 @@ export default function BankAccountForm() {
   const handleDelete = async (id: string) => {
     try {
       await deleteBankAccount(id);
-      setAccounts((prev) => prev?.filter((a) => a.id !== id) || []);
+      setAccounts(
+        (prev) => prev?.filter((a) => a.id !== id) || []
+      );
       toast.success("Card Image deleted✅");
     } catch {
       toast.error(t("message.bankAccountDeleteError"));
@@ -117,22 +151,34 @@ export default function BankAccountForm() {
           }
         }}
       >
+        <DialogTrigger asChild className="flex justify-end">
+          <Button
+            onClick={() => setSelected({} as BankAccount)}
+          >
+            Add your bank account
+          </Button>
+        </DialogTrigger>
         <DialogContent>
-          <DialogTrigger asChild className="flex justify-end">
-            <Button onClick={() => setSelected({} as BankAccount)}>
-              Manage Bank Accounts
-            </Button>
-          </DialogTrigger>
           <DialogHeader>
-            <h2 className="text-lg font-semibold">
-              {selected ? "ویرایش حساب بانکی" : "افزودن حساب بانکی"}
-            </h2>
+            <DialogTitle className="text-lg font-semibold">
+              {selected != null
+                ? "Edit Bank Account"
+                : "Submit Bank Account"}
+            </DialogTitle>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
             <div>
-              <Label>Bank Name</Label>
-              <Input {...register("bankName")} />
+              <Label className="my-2">
+                {t("bankAccount.bankName")}
+              </Label>
+              <Input
+                {...register("bankName")}
+                placeholder="eg:Melli Bank"
+              />
               {errors.bankName && (
                 <p className="text-sm text-red-500">
                   {errors.bankName.message}
@@ -140,45 +186,65 @@ export default function BankAccountForm() {
               )}
             </div>
             <div>
-              <Label>نام صاحب حساب</Label>
-              <Input {...register("accountOwner")} />
-            </div>
-            <div>
-              <Label>شماره حساب</Label>
-              <Input {...register("accountNumber")} />
-            </div>
-            <div>
-              <Label>شبا</Label>
-              <Input {...register("iban")} />
-            </div>
-            <div>
-              <Label>شماره کارت</Label>
-              <Input {...register("cardNumber")} />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label>ماه انقضا</Label>
-                <Input {...register("expiryMonth")} />
-              </div>
-              <div>
-                <Label>سال انقضا</Label>
-                <Input {...register("expiryYear")} />
-              </div>
-            </div>
-            <div>
-              <Label>CVV2</Label>
-              <Input {...register("cvv2")} />
-            </div>
-            <div>
-              <Label>تصویر کارت</Label>
-              <ImageUploader
-                onFileSelect={(file) => {
-                  setSelectedImage(file);
-                }}
+              <Label className="my-2">
+                {t("bankAccount.accountOwner")}
+              </Label>
+              <Input
+                {...register("accountOwner")}
+                placeholder="eg:John Doe"
               />
             </div>
+            <div>
+              <Label className="my-2">
+                {t("bankAccount.accountNumber")}
+              </Label>
+              <Input
+                {...register("accountNumber")}
+                placeholder="eg:123456789"
+              />
+            </div>
+            <div>
+              <Label className="my-2">
+                {t("bankAccount.iban")}
+              </Label>
+              <Input
+                {...register("iban")}
+                placeholder="eg:IR12345678900000000 max:26"
+              />
+            </div>
+            <div>
+              <Label className="my-2">
+                {t("bankAccount.cardNumber")}
+              </Label>
+              <Input
+                {...register("cardNumber")}
+                placeholder="eg:1234-1234-1234-1234"
+              />
+            </div>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="image">
+                <AccordionTrigger className="flex justify-center hover:cursor-pointer">
+                  {t("upload.cardQuestion")}
+                  <WalletCards size={20} />
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="my-2">
+                    <ImageUploader
+                      label={t("upload.cardImage")}
+                      onFileSelect={(file) => {
+                        setSelectedImage(file);
+                      }}
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <Button type="submit" disabled={isSubmitting} className="w-full">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full"
+            >
               {selected?.id ? "ویرایش اطلاعات" : "ثبت حساب"}
             </Button>
           </form>
@@ -203,23 +269,22 @@ export default function BankAccountForm() {
                   {t("bank.holder")}: {acc.accountOwner}
                 </p>
                 <p>
-                  {t("bank.accountNumber")}: {acc.accountNumber}
+                  {t("bank.accountNumber")}:{" "}
+                  {acc.accountNumber}
                 </p>
-                <p>
-                  {t("bank.cardNumber")}: {acc.cardNumber}
-                </p>
-                <p>
-                  {t("bank.expiryDate")}: {acc.expiryMonth}/{acc.expiryYear}
-                </p>
-
                 <div className="flex gap-2 mt-4 flex-wrap">
-                  <Button variant="secondary" onClick={() => openEdit(acc)}>
+                  <Button
+                    variant="secondary"
+                    onClick={() => openEdit(acc)}
+                  >
                     ویرایش
                   </Button>
                   {acc.cardImage && (
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="outline">مشاهده تصویر</Button>
+                        <Button variant="outline">
+                          مشاهده تصویر
+                        </Button>
                       </DialogTrigger>
                       <DialogContent>
                         <Image

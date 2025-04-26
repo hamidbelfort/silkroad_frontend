@@ -53,7 +53,11 @@
     "fail": "Image upload failed",
     "preview": "Preview",
     "uploading": "Uploading...",
-    "choose": "Choose Image"
+    "choose": "Choose Image",
+    "cardImage": "Card Image",
+    "sliderImage": "Slider Image",
+    "profileImage": "Profile Image",
+    "cardQuestion": "Don't know the card details? upload a photo"
   },
   "profile": {
     "fullname": "Full Name",

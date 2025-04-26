@@ -8,19 +8,27 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 interface Props {
+  label: string;
   onFileSelect: (file: File) => void;
 }
 
-export function ImageUploader({ onFileSelect }: Props) {
+export function ImageUploader({
+  label,
+  onFileSelect,
+}: Props) {
   const { t } = useTranslation("common");
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<
+    string | null
+  >(null);
+  //const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setSelectedFile(file);
+    //setSelectedFile(file);
     setPreviewUrl(URL.createObjectURL(file));
     onFileSelect(file);
   };
@@ -28,7 +36,7 @@ export function ImageUploader({ onFileSelect }: Props) {
   return (
     <div className="space-y-3">
       <Label htmlFor="image-upload" className="block">
-        {t("upload.choose")}
+        {label}
       </Label>
       <Input
         id="image-upload"
