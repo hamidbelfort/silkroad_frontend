@@ -155,99 +155,109 @@ export default function BankAccountForm() {
           <Button
             onClick={() => setSelected({} as BankAccount)}
           >
-            Add your bank account
+            {t("bankAccount.add")}
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="text-lg font-semibold">
               {selected != null
-                ? "Edit Bank Account"
-                : "Submit Bank Account"}
+                ? t("bankAccount.update")
+                : t("bankAccount.add")}
             </DialogTitle>
           </DialogHeader>
-
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
-            <div>
-              <Label className="my-2">
-                {t("bankAccount.bankName")}
-              </Label>
-              <Input
-                {...register("bankName")}
-                placeholder="eg:Melli Bank"
-              />
-              {errors.bankName && (
-                <p className="text-sm text-red-500">
-                  {errors.bankName.message}
-                </p>
-              )}
-            </div>
-            <div>
-              <Label className="my-2">
-                {t("bankAccount.accountOwner")}
-              </Label>
-              <Input
-                {...register("accountOwner")}
-                placeholder="eg:John Doe"
-              />
-            </div>
-            <div>
-              <Label className="my-2">
-                {t("bankAccount.accountNumber")}
-              </Label>
-              <Input
-                {...register("accountNumber")}
-                placeholder="eg:123456789"
-              />
-            </div>
-            <div>
-              <Label className="my-2">
-                {t("bankAccount.iban")}
-              </Label>
-              <Input
-                {...register("iban")}
-                placeholder="eg:IR12345678900000000 max:26"
-              />
-            </div>
-            <div>
-              <Label className="my-2">
-                {t("bankAccount.cardNumber")}
-              </Label>
-              <Input
-                {...register("cardNumber")}
-                placeholder="eg:1234-1234-1234-1234"
-              />
-            </div>
-            <Accordion type="single" collapsible>
-              <AccordionItem value="image">
-                <AccordionTrigger className="flex justify-center hover:cursor-pointer">
-                  {t("upload.cardQuestion")}
-                  <WalletCards size={20} />
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="my-2">
-                    <ImageUploader
-                      label={t("upload.cardImage")}
-                      onFileSelect={(file) => {
-                        setSelectedImage(file);
-                      }}
+          <Accordion type="single" collapsible>
+            <AccordionItem value="card">
+              <AccordionTrigger>
+                Bank Account Info
+              </AccordionTrigger>
+              <AccordionContent>
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
+                  <div>
+                    <Label className="my-2">
+                      {t("bankAccount.bankName")}
+                    </Label>
+                    <Input
+                      {...register("bankName")}
+                      placeholder="eg:Melli Bank"
+                    />
+                    {errors.bankName && (
+                      <p className="text-sm text-red-500">
+                        {errors.bankName.message}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <Label className="my-2">
+                      {t("bankAccount.accountOwner")}
+                    </Label>
+                    <Input
+                      {...register("accountOwner")}
+                      placeholder="eg:John Doe"
                     />
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+                  <div>
+                    <Label className="my-2">
+                      {t("bankAccount.accountNumber")}
+                    </Label>
+                    <Input
+                      {...register("accountNumber")}
+                      placeholder="eg:123456789"
+                    />
+                  </div>
+                  <div>
+                    <Label className="my-2">
+                      {t("bankAccount.iban")}
+                    </Label>
+                    <Input
+                      {...register("iban")}
+                      placeholder="eg:IR12345678900000000 max:26"
+                    />
+                  </div>
+                  <div>
+                    <Label className="my-2">
+                      {t("bankAccount.cardNumber")}
+                    </Label>
+                    <Input
+                      {...register("cardNumber")}
+                      placeholder="eg:1234-1234-1234-1234"
+                    />
+                  </div>
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="image">
+                      <AccordionTrigger className="flex justify-center hover:cursor-pointer">
+                        {t("upload.cardQuestion")}
+                        <WalletCards size={20} />
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="my-2">
+                          <ImageUploader
+                            label={t("upload.cardImage")}
+                            onFileSelect={(file) => {
+                              setSelectedImage(file);
+                            }}
+                          />
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
 
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full"
-            >
-              {selected?.id ? "ویرایش اطلاعات" : "ثبت حساب"}
-            </Button>
-          </form>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full"
+                  >
+                    {selected?.id
+                      ? t("label.update")
+                      : t("add")}
+                  </Button>
+                </form>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </DialogContent>
       </Dialog>
 

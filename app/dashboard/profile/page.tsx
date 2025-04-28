@@ -13,24 +13,39 @@ import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/store/authStore";
 import { ImageUploader } from "@/components/ui/imageUploader";
+import { uploadImage } from "@/lib/api/upload";
 export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [selectedImage, setSelectedImage] =
+    useState<File | null>(null);
   const { t } = useTranslation("common");
   const { userId } = useAuthStore();
   const userProfileSchema = z.object({
     avatar: z.string().optional(),
-    address: z.string().min(5, t("validation.address")).optional(),
-    bio: z.string().max(300, t("validation.bio300")).optional(),
-    whatsapp: z.string().min(8, t("validation.whatsapp")).optional(),
-    wechat: z.string().min(3, t("validation.weChat")).optional(),
+    address: z
+      .string()
+      .min(5, t("validation.address"))
+      .optional(),
+    bio: z
+      .string()
+      .max(300, t("validation.bio300"))
+      .optional(),
+    whatsapp: z
+      .string()
+      .min(8, t("validation.whatsapp"))
+      .optional(),
+    wechat: z
+      .string()
+      .min(3, t("validation.weChat"))
+      .optional(),
   });
 
-  type UserProfileFormValues = z.infer<typeof userProfileSchema>;
+  type UserProfileFormValues = z.infer<
+    typeof userProfileSchema
+  >;
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<UserProfileFormValues>({
@@ -38,24 +53,34 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    getProfileData();
-  }, [reset]);
-  const getProfileData = async () => {
-    setLoading(true);
-    console.log(userId);
-    const data = await getProfile(userId);
-    console.log(data);
-    if (data) {
-      setValue("address", data?.address || "");
-      setValue("bio", data?.bio || "");
-      setValue("whatsapp", data?.whatsapp || "");
-      setValue("wechat", data?.wechat || "");
+    const getProfileData = async () => {
+      setLoading(true);
+      console.log(userId);
+      const data = await getProfile(userId);
+      console.log(data);
+      if (data) {
+        setValue("address", data?.address || "");
+        setValue("bio", data?.bio || "");
+        setValue("whatsapp", data?.whatsapp || "");
+        setValue("wechat", data?.wechat || "");
+        setLoading(false);
+      }
       setLoading(false);
-    }
-    setLoading(false);
-  };
-  const onSubmit = async (values: UserProfileFormValues) => {
+    };
+    getProfileData();
+  }, [userId, setValue]);
+
+  const onSubmit = async (
+    values: UserProfileFormValues
+  ) => {
     try {
+      if (selectedImage) {
+        const url = await uploadImage(
+          selectedImage,
+          "profile"
+        );
+        values.avatar = url;
+      }
       await postProfile(values);
       toast.success(t("validation.profileUpdateSuccess"));
     } catch {
@@ -70,50 +95,66 @@ export default function ProfilePage() {
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-6 max-w-2xl md:min-w-sm lg:min-w-md"
     >
-      <div>
+      <div className="flex flex-col gap-2">
         <Label>{t("profile.address")}</Label>
         <Input
           {...register("address")}
           placeholder="Example:No 123, Street name, City, Country"
         />
         {errors.address && (
-          <p className="text-sm text-red-500">{errors.address.message}</p>
+          <p className="text-sm text-red-500">
+            {errors.address.message}
+          </p>
         )}
       </div>
 
-      <div>
-        <div className="flex mx-auto">
-          <Label>{t("profile.avatar")}</Label>
-          <ImageUploader onFileSelect={(file) => setSelectedImage(file)} />
-        </div>
+      <div className="flex flex-col gap-2">
+        <ImageUploader
+          label={t("upload.profileImage")}
+          onFileSelect={(file) => setSelectedImage(file)}
+        />
         <Label>{t("profile.bio")}</Label>
         <Textarea
           {...register("bio")}
           placeholder="write something about yourself"
         />
         {errors.bio && (
-          <p className="text-sm text-red-500">{errors.bio.message}</p>
+          <p className="text-sm text-red-500">
+            {errors.bio.message}
+          </p>
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <Label>{t("profile.whatsapp")}</Label>
-        <Input {...register("whatsapp")} placeholder="eg : +989123456789" />
+        <Input
+          {...register("whatsapp")}
+          placeholder="eg : +989123456789"
+        />
         {errors.whatsapp && (
-          <p className="text-sm text-red-500">{errors.whatsapp.message}</p>
+          <p className="text-sm text-red-500">
+            {errors.whatsapp.message}
+          </p>
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col gap-2">
         <Label>{t("profile.wechat")}</Label>
-        <Input {...register("wechat")} placeholder="WeChat ID or Number" />
+        <Input
+          {...register("wechat")}
+          placeholder="WeChat ID or Number"
+        />
         {errors.wechat && (
-          <p className="text-sm text-red-500">{errors.wechat.message}</p>
+          <p className="text-sm text-red-500">
+            {errors.wechat.message}
+          </p>
         )}
       </div>
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? t("message.submitting") : t("message.saveChanges")}
+        {isSubmitting
+          ? t("message.submitting")
+          : t("message.saveChanges")}
       </Button>
     </form>
   );

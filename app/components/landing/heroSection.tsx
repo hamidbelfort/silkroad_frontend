@@ -4,7 +4,8 @@ import { AnimatedSection } from "@/components/ui/animatedSection";
 import Image from "next/image";
 
 export const HeroSection = () => {
-  const appTitle = process.env.APP_TITLE || "Silk Road Services";
+  const appTitle =
+    process.env.APP_TITLE || "Silk Road Services";
 
   return (
     <section className="relative h-[75vh] flex items-center bg-black text-white overflow-hidden">
@@ -31,7 +32,7 @@ export const HeroSection = () => {
 
           <Link
             href="/login"
-            className="bg-background text-gray-900 font-semibold rounded-lg px-4 py-2 no-underline hover:underline hover:bg-gray-800 hover:text-white transition-all duration-500 cursor-pointer "
+            className="text-gray-900 bg-white font-semibold rounded-lg px-4 py-2 no-underline hover:underline hover:bg-gray-800 hover:text-white transition-all duration-500 cursor-pointer "
           >
             Explore Our Services
           </Link>

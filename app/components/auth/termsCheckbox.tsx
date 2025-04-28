@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Dialog,
   DialogTitle,
@@ -45,15 +46,20 @@ export function TermsCheckbox({
             </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle>Terms and Conditions</DialogTitle>
+                <DialogTitle>
+                  Terms and Conditions
+                </DialogTitle>
               </DialogHeader>
-              <div className="text-sm leading-6 space-y-2">
-                <p>
-                  This is where your terms and conditions go. You can include
-                  any legal or usage information that users must accept before
-                  registering.
-                </p>
-              </div>
+              <ScrollArea className="h-80 rounded-md border">
+                <div className="text-sm leading-6 space-y-2">
+                  <p>
+                    This is where your terms and conditions
+                    go. You can include any legal or usage
+                    information that users must accept
+                    before registering.
+                  </p>
+                </div>
+              </ScrollArea>
             </DialogContent>
           </Dialog>
         </Label>

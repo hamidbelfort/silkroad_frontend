@@ -33,6 +33,7 @@
   "validation": {
     "password": "Password must be at least 6 characters",
     "email": "Invalid email",
+    "phone": "Phone Number must be between 10 and 15 digits",
     "required": "This field is required",
     "nametooShort": "Name must be at least 3 characters",
     "bio10": "Bio must be at 10 characters",
@@ -80,7 +81,9 @@
     "expiryYear": "Expiry Year",
     "cvv2": "CVV2",
     "cardImageUrl": "Card Image URL",
-    "viewCard": "View Card"
+    "viewCard": "View Card",
+    "add": "Add your bank account",
+    "update": "Update your bank account"
   },
   "message": {
     "profileGetError": "Error getting profile data",
@@ -131,5 +134,12 @@
     "lastUpdated": "Last Updated",
     "exchangeHistory": "Exchange History",
     "testimonials": "What our customers say"
+  },
+  "label": {
+    "add": "Add",
+    "update": "Update",
+    "delete": "Delete",
+    "save": "Save",
+    "refresh": "Refresh"
   }
 }
