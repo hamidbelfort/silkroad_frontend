@@ -1,6 +1,3 @@
-import { LucideIcon } from "lucide-react";
-import { JSX, ReactNode } from "react";
-
 export interface SidebarItemType {
   label: string;
   href: string;

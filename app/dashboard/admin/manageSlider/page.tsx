@@ -138,7 +138,10 @@ export default function SliderManagementPage() {
               )}
             </div>
             <div>
-              <ImageUploader onFileSelect={(file) => setSelectedImage(file)} />
+              <ImageUploader
+                label={t("upload.sliderImage")}
+                onFileSelect={(file) => setSelectedImage(file)}
+              />
               {errors.imageUrl && (
                 <p className="text-sm text-red-500">
                   {errors.imageUrl.message}
