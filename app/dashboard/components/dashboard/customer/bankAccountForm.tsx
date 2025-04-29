@@ -30,6 +30,7 @@ import {
   getBankAccounts,
 } from "@/lib/api/bankAccount";
 import { uploadImage } from "@/lib/api/upload";
+import { formatCardNumber } from "@/lib/utils/cardFormat";
 import { ImageUploader } from "@/components/ui/imageUploader";
 import { useAuthStore } from "@/store/authStore";
 import {
@@ -38,7 +39,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { WalletCards } from "lucide-react";
+import { WalletCards, CreditCard } from "lucide-react";
+import {
+  fixedLengthString,
+  optionalFixedLengthString,
+  optionalStringLength,
+} from "@/lib/validations/zodHelper";
 export default function BankAccountForm() {
   const [accounts, setAccounts] = useState<
     BankAccount[] | null
@@ -51,22 +57,24 @@ export default function BankAccountForm() {
   const { t } = useTranslation("common");
   const { userId } = useAuthStore();
   const bankAccountSchema = z.object({
-    bankName: z.string().min(2, t("valiation.bankName")),
-    accountOwner: z
-      .string()
-      .min(6, t("validation.accountOwner")),
-    accountNumber: z
-      .string()
-      .min(6, t("validation.accountNumber"))
-      .max(15, t("validation.accountNumber")),
-    iban: z
-      .string()
-      .min(26, t("validation.ibanInvalid"))
-      .optional(),
-    cardNumber: z
-      .string()
-      .min(16, t("validation.cardNumber"))
-      .optional(),
+    bankName: fixedLengthString(2, t("valiation.bankName")),
+    accountOwner: fixedLengthString(
+      6,
+      t("validation.accountOwner")
+    ),
+    accountNumber: optionalStringLength(
+      6,
+      15,
+      t("validation.accountNumber")
+    ),
+    iban: optionalFixedLengthString(
+      26,
+      t("validation.ibanInvalid")
+    ),
+    cardNumber: optionalFixedLengthString(
+      16,
+      t("validation.cardNumber")
+    ),
     cardImage: z.string().optional(),
   });
 
@@ -80,6 +88,8 @@ export default function BankAccountForm() {
   const {
     register,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<BankAccountFormValues>({
@@ -90,7 +100,25 @@ export default function BankAccountForm() {
     const fetchData = async () => {
       try {
         const data = await getBankAccounts(userId);
-        if (data && data.length > 0) setAccounts(data);
+        if (data && data.length > 0) {
+          const cleanedItem: Partial<BankAccount> = {};
+
+          for (const key of Object.keys(
+            item
+          ) as (keyof BankAccount)[]) {
+            const value = item[key];
+            cleanedItem[key] =
+              value === undefined ||
+              value === null ||
+              value === ""
+                ? NaN
+                : value;
+          }
+
+          return cleanedItem as BankAccount;
+
+          setAccounts(cleaned);
+        }
         console.log(data);
       } catch (err) {
         console.error("Error fetching profile:", err);
@@ -168,8 +196,9 @@ export default function BankAccountForm() {
           </DialogHeader>
           <Accordion type="single" collapsible>
             <AccordionItem value="card">
-              <AccordionTrigger>
+              <AccordionTrigger className="flex items-center">
                 Bank Account Info
+                <CreditCard size={20} />
               </AccordionTrigger>
               <AccordionContent>
                 <form
@@ -223,6 +252,15 @@ export default function BankAccountForm() {
                     </Label>
                     <Input
                       {...register("cardNumber")}
+                      value={formatCardNumber(
+                        getValues("cardNumber")
+                      )}
+                      onChange={(e) => {
+                        const raw = e.target.value
+                          .replace(/\D/g, "")
+                          .substring(0, 16);
+                        setValue("cardNumber", raw); // ذخیره بدون -
+                      }}
                       placeholder="eg:1234-1234-1234-1234"
                     />
                   </div>

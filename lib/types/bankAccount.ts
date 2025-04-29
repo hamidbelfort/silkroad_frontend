@@ -3,12 +3,10 @@ export interface BankAccount {
   userId: string;
   bankName: string;
   accountOwner: string;
-  accountNumber: string;
+  accountNumber?: string;
   iban?: string;
-  expiryMonth?: string;
-  expiryYear?: string;
-  cvv2?: string;
-  cardImageUrl?: string;
+  cardNumber?: string;
+  cardImage?: string;
 }
 export interface BankAccountResponse {
   success: boolean;
