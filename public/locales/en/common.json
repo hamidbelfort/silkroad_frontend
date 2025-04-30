@@ -44,10 +44,9 @@
     "bankName": "Bank Name is required",
     "bankAccountInvalid": "The bank account is invalid",
     "bankAccountOwnerRequired": "The bank account owner is required",
-    "ibanInvalid": "IBAN is invalid",
+    "ibanInvalid": "IBAN should be started with IR and must be 22 digits",
     "cardNumberInvalid": "Card Number must be 16 digits",
-    "expiryDateInvalid": "Expiry Date is invalid",
-    "cvv2Invalid": "CVV2 is invalid"
+    "accountNumberInvalid": "Account Number must be at last 15 characters"
   },
   "upload": {
     "success": "Image uploaded successfully",

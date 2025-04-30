@@ -1,5 +1,5 @@
 export interface BankAccount {
-  id: string;
+  id?: string;
   userId: string;
   bankName: string;
   accountOwner: string;
@@ -11,4 +11,5 @@ export interface BankAccount {
 export interface BankAccountResponse {
   success: boolean;
   message: string;
+  data?: BankAccount;
 }

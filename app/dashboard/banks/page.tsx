@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getBankAccounts } from "@/lib/api/bankAccount";
-import { BankAccountForm } from "./BankAccountForm";
-import { BankAccountList } from "./BankAccountList";
+import { BankAccountForm } from "../components/dashboard/customer/bankAccountForm";
+import { BankAccountList } from "../components/dashboard/customer/bankAccountList";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthStore } from "@/store/authStore";
 import { BankAccount } from "@/lib/types/bankAccount";
