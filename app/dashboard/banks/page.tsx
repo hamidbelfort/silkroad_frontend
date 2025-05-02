@@ -83,7 +83,7 @@ export default function BankAccountsPage() {
           }
         />
       ) : (
-        t("bankAccount.BankAccountNoAccounts")
+        t("message.BankAccountNoAccounts")
       )}
     </div>
   );

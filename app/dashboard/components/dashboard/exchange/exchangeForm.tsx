@@ -11,12 +11,18 @@ import { BankAccountSelector } from "./bankAccountSelector";
 
 const exchangeSchema = z.object({
   amount: z.string().min(1, "Amount is required"),
-  bankAccount: z.string().min(1, "Please select or enter a bank account"),
+  bankAccount: z
+    .string()
+    .min(1, "Please select or enter a bank account"),
 });
 
 type ExchangeFormValues = z.infer<typeof exchangeSchema>;
 
-export function ExchangeForm({ exchangeRate }: { exchangeRate: number }) {
+export function ExchangeForm({
+  exchangeRate,
+}: {
+  exchangeRate: number;
+}) {
   const {
     register,
     handleSubmit,
@@ -42,12 +48,17 @@ export function ExchangeForm({ exchangeRate }: { exchangeRate: number }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-4"
+    >
       <div>
         <Label htmlFor="amount">Amount</Label>
         <Input id="amount" {...register("amount")} />
         {errors.amount && (
-          <p className="text-sm text-red-500">{errors.amount.message}</p>
+          <p className="text-sm text-red-500">
+            {errors.amount.message}
+          </p>
         )}
       </div>
 
@@ -60,9 +71,11 @@ export function ExchangeForm({ exchangeRate }: { exchangeRate: number }) {
 
       <div>
         <Label>Bank Account</Label>
-        <BankAccountSelector register={register} />
+        <BankAccountSelector />
         {errors.bankAccount && (
-          <p className="text-sm text-red-500">{errors.bankAccount.message}</p>
+          <p className="text-sm text-red-500">
+            {errors.bankAccount.message}
+          </p>
         )}
       </div>
 

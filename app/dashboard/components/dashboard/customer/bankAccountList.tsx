@@ -23,7 +23,7 @@ export function BankAccountList({
   onEdit,
 }: BankAccountListProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {accounts.map((acc) => (
         <Card key={acc.id}>
           <CardHeader>
@@ -68,8 +68,8 @@ export function BankAccountList({
                 <Image
                   src={acc.cardImage}
                   alt="Bank card image"
-                  width={300}
-                  height={200}
+                  width={150}
+                  height={100}
                   className="rounded border"
                 />
               </div>
