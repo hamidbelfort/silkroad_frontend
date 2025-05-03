@@ -11,11 +11,9 @@ export async function getServerTranslation(ns = "common") {
 
   const i18nInstance = createInstance();
   await i18nInstance.use(Backend).init({
-    ...getOptions(lang, ns),
+    ...getOptions(lang, [ns]),
     backend: {
-      loadPath: path.resolve(
-        "./public/locales/{{lng}}/{{ns}}.json"
-      ),
+      loadPath: path.resolve("./public/locales/{{lng}}/{{ns}}.json"),
     },
   });
 
