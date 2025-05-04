@@ -78,7 +78,7 @@ export function optionalUrl(message = "Invalid URL") {
     }
   }, message);
 }
-export function requiredImage(size: number, message = "Image is required") {
+export function requiredImage(size: number) {
   const MAX_FILE_SIZE = size * 1024 * 1024; // MB
   const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
   return z
