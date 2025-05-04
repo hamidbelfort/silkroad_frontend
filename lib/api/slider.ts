@@ -1,7 +1,7 @@
 import axiosInstance from "../axios/axiosInstance";
 interface Slider {
   title: string;
-  imageUrl: string;
+  imageUrl: File;
   description?: string;
   link?: string;
   isActive: boolean;

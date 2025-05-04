@@ -53,7 +53,12 @@
     "ibanInvalid": "IBAN 无效",
     "expiryDateInvalid": "过期日期无效",
     "cardNumberInvalid": "卡号无效",
-    "cvv2Invalid": "CVV2 无效"
+    "cvv2Invalid": "CVV2 无效",
+    "slider": {
+      "title": "挡泥板",
+      "url": "URL 无效",
+      "image": "图片为必填项"
+    }
   },
   "upload": {
     "success": "上传成功",

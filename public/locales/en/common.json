@@ -46,7 +46,12 @@
     "bankAccountOwnerRequired": "The bank account owner is required",
     "ibanInvalid": "IBAN should be started with IR and must be 22 digits",
     "cardNumberInvalid": "Card Number must be 16 digits",
-    "accountNumberInvalid": "Account Number must be at last 15 characters"
+    "accountNumberInvalid": "Account Number must be at last 15 characters",
+    "slider": {
+      "title": "Title must be at least 10 characters",
+      "url": "Invalid url",
+      "image": "Image is required"
+    }
   },
   "upload": {
     "success": "Image uploaded successfully",

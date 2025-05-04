@@ -15,20 +15,14 @@ export async function uploadToServer(
   }
 
   try {
-    const response = await axiosInstance.post(
-      "/api/upload",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const response = await axiosInstance.post("/api/upload2", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data; // شامل path و bucket و غیره
   } catch (error: any) {
     console.error("Upload error:", error);
-    throw new Error(
-      error?.response?.data?.error || "Upload failed"
-    );
+    throw new Error(error?.response?.data?.error || "Upload failed");
   }
 }
