@@ -73,6 +73,7 @@ export function optionalUrl(message = "Invalid URL") {
       new URL(value);
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   }, message);

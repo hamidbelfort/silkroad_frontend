@@ -29,10 +29,6 @@ export default function SliderManagementPage() {
 
   type SliderFormValues = z.infer<typeof sliderSchema>;
 
-  interface SliderItem extends SliderFormValues {
-    id: string;
-    createdAt: string;
-  }
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [refreshFlag, setRefreshFlag] = useState(false);
   const {

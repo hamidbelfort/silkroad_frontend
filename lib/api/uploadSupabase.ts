@@ -21,8 +21,8 @@ export async function uploadToServer(
       },
     });
     return response.data; // شامل path و bucket و غیره
-  } catch (error: any) {
+  } catch (error) {
     console.error("Upload error:", error);
-    throw new Error(error?.response?.data?.error || "Upload failed");
+    throw error;
   }
 }
