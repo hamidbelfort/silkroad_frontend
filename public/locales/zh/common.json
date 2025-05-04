@@ -134,8 +134,12 @@
     "testimonials": "我们的客户怎么说"
   },
   "label": {
-    "add": "",
-    "update": "",
-    "delete": ""
+    "add": "加",
+    "update": "更新",
+    "delete": "删除",
+    "confirm:": "确认",
+    "save": "保存",
+    "refresh": "刷新",
+    "amount": "量"
   }
 }

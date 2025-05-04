@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <nav className="w-full h-14 px-6 flex items-center justify-between border-b">
-      <h1 className="text-lg font-semibold text-shadow-md">
+      <h1 className="lg:text-lg sm:text-sm font-semibold text-shadow-md">
         Main Dashboard
       </h1>
       <div className="flex items-center gap-4">

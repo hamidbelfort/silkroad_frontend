@@ -140,6 +140,8 @@
     "update": "Update",
     "delete": "Delete",
     "save": "Save",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "confirm": "Confirm",
+    "amount": "Amount"
   }
 }

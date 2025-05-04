@@ -49,7 +49,7 @@ export default function BankAccountsPage() {
   }, [userId]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 md:min-w-sm">
       <BankAccountForm
         onSuccess={(newAccount) =>
           setAccounts((prev) =>

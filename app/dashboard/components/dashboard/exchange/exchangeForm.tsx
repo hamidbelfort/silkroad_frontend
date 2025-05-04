@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import { BankAccountSelector } from "./bankAccountSelector";
-
+import { useTranslation } from "react-i18next";
+import { Loader } from "lucide-react";
 const exchangeSchema = z.object({
   amount: z.string().min(1, "Amount is required"),
   bankAccount: z
@@ -23,11 +24,12 @@ export function ExchangeForm({
 }: {
   exchangeRate: number;
 }) {
+  const { t } = useTranslation("common");
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ExchangeFormValues>({
     resolver: zodResolver(exchangeSchema),
   });
@@ -37,7 +39,7 @@ export function ExchangeForm({
   useEffect(() => {
     const amount = parseFloat(watch("amount")) || 0;
     setFinalAmount(amount * exchangeRate);
-  }, [watch("amount"), exchangeRate]);
+  }, [exchangeRate, watch]);
 
   const onSubmit = (data: ExchangeFormValues) => {
     console.log("Submitted:", {
@@ -53,7 +55,7 @@ export function ExchangeForm({
       className="space-y-4"
     >
       <div>
-        <Label htmlFor="amount">Amount</Label>
+        <Label htmlFor="amount">{t("label.amount")}</Label>
         <Input id="amount" {...register("amount")} />
         {errors.amount && (
           <p className="text-sm text-red-500">
@@ -65,7 +67,7 @@ export function ExchangeForm({
       <div>
         <Label>Final Amount</Label>
         <p className="border p-2 rounded-md">
-          {finalAmount.toLocaleString()} تومان
+          {finalAmount.toLocaleString()} IRR
         </p>
       </div>
 
@@ -80,7 +82,11 @@ export function ExchangeForm({
       </div>
 
       <Button type="submit" className="w-full">
-        Confirm
+        {isSubmitting ? (
+          <Loader className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          t("label.confirm")
+        )}
       </Button>
     </form>
   );

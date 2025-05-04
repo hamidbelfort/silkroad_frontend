@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Loader2, Mail, Lock } from "lucide-react";
+import { Loader, Mail, Lock } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -45,7 +45,8 @@ export function LoginForm() {
       //setLoading(true);
       const res = await loginUser(data);
       if (res.userId) {
-        const { userId, role, token, preferredLanguage } = res;
+        const { userId, role, token, preferredLanguage } =
+          res;
         //console.log(role as "admin" | "operator" | "customer");
         //مشخصات کاربر رو در استور ذخیره کنیم
         useAuthStore.getState().setAuth(
@@ -86,7 +87,9 @@ export function LoginForm() {
       <Card className="w-full max-w-md lg:min-w-md mx-auto my-auto">
         <CardHeader>
           <CardTitle>
-            <div className="text-2xl text-center">{t("title.login")}</div>
+            <div className="text-2xl text-center">
+              {t("title.login")}
+            </div>
             <h3 className="text-center text-sm underline text-muted-foreground mt-2">
               {t("title.login_sub")}
             </h3>
@@ -110,11 +113,15 @@ export function LoginForm() {
             </div>
           </div>
           {errors.email && (
-            <p className="text-sm text-red-500">{errors.email.message}</p>
+            <p className="text-sm text-red-500">
+              {errors.email.message}
+            </p>
           )}
           {/* Password */}
           <div className="space-y-2">
-            <Label htmlFor="password">{t("password")}</Label>
+            <Label htmlFor="password">
+              {t("password")}
+            </Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -127,16 +134,22 @@ export function LoginForm() {
               />
             </div>
             {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
+              <p className="text-sm text-red-500">
+                {errors.password.message}
+              </p>
             )}
           </div>
         </CardContent>
 
         <CardFooter className="flex flex-col gap-3">
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? (
               <>
-                <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                <Loader className="animate-spin h-4 w-4 mr-2" />
                 Submiting...
               </>
             ) : (
@@ -151,7 +164,10 @@ export function LoginForm() {
             >
               {t("forgotPassword")}
             </Link>
-            <Link href="/register" className="text-foreground hover:underline">
+            <Link
+              href="/register"
+              className="text-foreground hover:underline"
+            >
               {t("dontHaveAccount")}
             </Link>
           </div>

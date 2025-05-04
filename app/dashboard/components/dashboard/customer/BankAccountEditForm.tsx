@@ -9,13 +9,17 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { updateBankAccount } from "@/lib/api/bankAccount";
-import { BankAccount, BankAccountResponse } from "@/lib/types/bankAccount";
+import {
+  BankAccount,
+  BankAccountResponse,
+} from "@/lib/types/bankAccount";
 import {
   optionalFixedLengthString,
   requiredString,
   optionalStringLength,
 } from "@/lib/validations/zodHelper";
 import { ImageUploader } from "@/components/ui/imageUploader";
+import { uploadImage } from "@/lib/api/upload";
 import {
   Dialog,
   DialogContent,
@@ -39,19 +43,32 @@ export function BankAccountEditForm({
   onUpdated,
 }: EditFormProps) {
   const { t } = useTranslation("common");
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [selectedImage, setSelectedImage] =
+    useState<File | null>(null);
   const schema = z.object({
     id: z.string(),
     userId: z.string(),
-    bankName: optionalStringLength(5, 20, t("validation.bankName")),
-    accountOwner: requiredString("validation.bankAccountOwnerRequired"),
+    bankName: optionalStringLength(
+      5,
+      20,
+      t("validation.bankName")
+    ),
+    accountOwner: requiredString(
+      "validation.bankAccountOwnerRequired"
+    ),
     accountNumber: optionalStringLength(
       8,
       15,
       "validation.accountNumberInvalid"
     ),
-    cardNumber: optionalFixedLengthString(16, "validation.cardNumberInvalid"),
-    iban: optionalFixedLengthString(24, "validation.ibanInvalid"),
+    cardNumber: optionalFixedLengthString(
+      16,
+      "validation.cardNumberInvalid"
+    ),
+    iban: optionalFixedLengthString(
+      24,
+      "validation.ibanInvalid"
+    ),
     imageUrl: z.string().optional(),
   });
 
@@ -59,7 +76,6 @@ export function BankAccountEditForm({
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -68,6 +84,13 @@ export function BankAccountEditForm({
 
   const onSubmit = async (values: FormValues) => {
     try {
+      if (selectedImage) {
+        const url = await uploadImage(
+          selectedImage,
+          "bankAccount"
+        );
+        values.imageUrl = url;
+      }
       const updated = await updateBankAccount(values);
       onUpdated(updated);
       toast.success("common.bank_account.update_success");
@@ -81,9 +104,14 @@ export function BankAccountEditForm({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("title.editBankAccount")}</DialogTitle>
+          <DialogTitle>
+            {t("title.editBankAccount")}
+          </DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label>{t("bankAccount.bankName")}</Label>
@@ -104,8 +132,13 @@ export function BankAccountEditForm({
               )}
             </div>
             <div>
-              <Label>{t("bankAccount.accountNumber")}</Label>
-              <Input {...register("accountNumber")} inputMode="numeric" />
+              <Label>
+                {t("bankAccount.accountNumber")}
+              </Label>
+              <Input
+                {...register("accountNumber")}
+                inputMode="numeric"
+              />
               {errors.accountNumber && (
                 <p className="text-red-500 text-sm">
                   {errors.accountNumber.message}
@@ -126,24 +159,41 @@ export function BankAccountEditForm({
               )}
             </div>
             <div className="md:col-span-2">
-              <Label htmlFor="iban">{t("bankAccount.iban")}</Label>
-              <Input {...register("iban")} inputMode="numeric" maxLength={24} />
+              <Label htmlFor="iban">
+                {t("bankAccount.iban")}
+              </Label>
+              <Input
+                {...register("iban")}
+                inputMode="numeric"
+                maxLength={24}
+              />
               {errors.iban && (
-                <p className="text-red-500 text-sm">{errors.iban.message}</p>
+                <p className="text-red-500 text-sm">
+                  {errors.iban.message}
+                </p>
               )}
             </div>
             <div className="md:col-span-2">
               <ImageUploader
                 label={t("upload.cardImage")}
-                onFileSelect={(file) => setSelectedImage(file)}
+                onFileSelect={(file) =>
+                  setSelectedImage(file)
+                }
               />
             </div>
           </div>
-          <Button type="submit" disabled={isSubmitting} className="w-full">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full"
+          >
             {isSubmitting ? (
               <>
-                (t("common.submitting")
-                <Loader size={20} className="animate-spin" />)
+                {t("common.submitting")}
+                <Loader
+                  size={20}
+                  className="animate-spin"
+                />
               </>
             ) : (
               t("common.saveChanges")

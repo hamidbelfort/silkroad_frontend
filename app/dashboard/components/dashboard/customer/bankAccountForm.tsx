@@ -20,6 +20,7 @@ import { uploadImage } from "@/lib/api/upload";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
+import { formatCardNumber } from "@/lib/utils/cardFormat";
 
 interface BankAccountFormProps {
   onSuccess: (account: BankAccount) => void;
@@ -59,6 +60,7 @@ export function BankAccountForm({
     setValue,
     handleSubmit,
     reset,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -102,7 +104,7 @@ export function BankAccountForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4"
+      className="space-y-4 sm:min-w-sm"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -139,7 +141,12 @@ export function BankAccountForm({
         <div>
           <Label>{t("bankAccount.cardNumber")}</Label>
           <Input
-            {...register("cardNumber")}
+            value={formatCardNumber(watch("cardNumber"))}
+            onChange={(e) => {
+              const raw = e.target.value.replace(/\D/g, "");
+              setValue("cardNumber", raw);
+              console.log(raw);
+            }}
             maxLength={19}
             inputMode="numeric"
           />

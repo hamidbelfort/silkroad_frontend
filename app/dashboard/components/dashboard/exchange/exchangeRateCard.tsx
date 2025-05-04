@@ -3,7 +3,12 @@
 
 import { useEffect, useState } from "react";
 import { getExchangeRate } from "@/lib/api/exchange";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Circle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ExchangeRate } from "@/lib/types/exchange";
@@ -15,9 +20,12 @@ export function ExchangeRateCard({
 }: {
   onRateChange?: (rate: number) => void;
 }) {
-  const [rate, setRate] = useState<ExchangeRate | null>(null);
+  const [rate, setRate] = useState<ExchangeRate | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
-  const [lastUpdated, setLastUpdated] = useState<string>("");
+  const [lastUpdated, setLastUpdated] =
+    useState<string>("");
   const { t } = useTranslation("common");
   useEffect(() => {
     const fetchRate = async () => {
@@ -66,7 +74,7 @@ export function ExchangeRateCard({
               <Flag code="ir" style={{ width: 20 }} />
             </div>
             <div className="flex lg:flex-row sm:flex-col gap-2">
-              {t("title.basePrice")} :{" "}
+              {t("title.buyPrice")} :{" "}
               <h3 className="font-semibold mx-2">
                 {rate.buyPrice.toLocaleString()}ريال/IRR
               </h3>

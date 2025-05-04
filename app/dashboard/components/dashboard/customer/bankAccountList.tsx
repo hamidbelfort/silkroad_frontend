@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Trash2, Pencil } from "lucide-react";
+import { Trash2, Pencil, WalletCards } from "lucide-react";
 
 interface BankAccountListProps {
   accounts: BankAccount[];
@@ -22,8 +22,10 @@ export function BankAccountList({
   onDelete,
   onEdit,
 }: BankAccountListProps) {
+  //console.log(accounts);
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4">
+      {accounts.length === 0 && <p>No accounts found</p>}
       {accounts.map((acc) => (
         <Card key={acc.id}>
           <CardHeader>
@@ -33,6 +35,7 @@ export function BankAccountList({
                 <Button
                   variant="outline"
                   size="icon"
+                  className="hover:cursor-pointer"
                   onClick={() => onEdit(acc)}
                 >
                   <Pencil className="w-4 h-4" />
@@ -40,6 +43,7 @@ export function BankAccountList({
                 <Button
                   variant="destructive"
                   size="icon"
+                  className="hover:cursor-pointer"
                   onClick={() => onDelete(acc.id!)}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -63,7 +67,7 @@ export function BankAccountList({
             <p>
               <strong>IBAN:</strong> {acc.iban || "---"}
             </p>
-            {acc.cardImage && (
+            {acc.cardImage && acc.cardImage !== "NaN" ? (
               <div className="pt-2">
                 <Image
                   src={acc.cardImage}
@@ -73,6 +77,8 @@ export function BankAccountList({
                   className="rounded border"
                 />
               </div>
+            ) : (
+              <WalletCards size={20} />
             )}
           </CardContent>
         </Card>
