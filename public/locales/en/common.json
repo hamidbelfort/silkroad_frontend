@@ -51,6 +51,10 @@
       "title": "Title must be at least 10 characters",
       "url": "Invalid url",
       "image": "Image is required"
+    },
+    "contact": {
+      "subject": "Subject must be at least 5 characters",
+      "message": "Message must be between 5 to 200 characters"
     }
   },
   "upload": {
@@ -107,7 +111,8 @@
     "submitting": "Submitting...",
     "submit": "Submit",
     "cancel": "Cancel",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "failMessage": "Operation failed with server error"
   },
   "common": {
     "submitting": "Submitting...",
@@ -119,10 +124,13 @@
     "saveChanges": "Save Changes"
   },
   "title": {
+    "success": "Success",
+    "fail": "Failure",
     "login": "Login",
     "login_sub": "We are happy to see you again",
     "register": "Register",
     "register_sub": "Discover differenet experience of traveling to Iran",
+    "contactUs": "Contact Us",
     "bankAccount": "Manage Bank Accounts",
     "editBankAccount": "Edit Bank Account",
     "profile": "Manage Profile",
@@ -147,6 +155,13 @@
     "save": "Save",
     "refresh": "Refresh",
     "confirm": "Confirm",
-    "amount": "Amount"
+    "amount": "Amount",
+    "contact": {
+      "name": "Your full name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Enter your desired message",
+      "send": "Send Message"
+    }
   }
 }

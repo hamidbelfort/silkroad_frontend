@@ -7,6 +7,8 @@ export const getAppSettings = async () => {
 
 export const updateAppSettings = async (data: {
   orderDisputeThreshold: number;
+  adminEmail?: string;
+  profitMargin?: number;
 }) => {
   const response = await axiosInstance.put(
     "/api/settings",

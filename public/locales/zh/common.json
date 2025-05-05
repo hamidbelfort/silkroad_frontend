@@ -58,6 +58,10 @@
       "title": "挡泥板",
       "url": "URL 无效",
       "image": "图片为必填项"
+    },
+    "contact": {
+      "subject": "主题必须至少包含 5 个字符",
+      "message": "消息必须介于 5 到 200 个字符之间"
     }
   },
   "upload": {
@@ -115,13 +119,17 @@
     "submit": "提交",
     "cancel": "取消",
     "create": "创造",
-    "saveChanges": "保存更改"
+    "saveChanges": "保存更改",
+    "failMessage": "作失败，出现服务器错误"
   },
   "title": {
+    "success": "成功",
+    "fail": "失败",
     "login": "登录",
     "login_sub": "我们很高兴再次见到您",
     "register": "登记",
     "register_sub": "探索不同的旅行体验",
+    "contactUs": "联系我们",
     "bankAccount": "管理银行账户",
     "profile": "管理档案",
     "slider": "管理滑块",
@@ -145,6 +153,13 @@
     "confirm:": "确认",
     "save": "保存",
     "refresh": "刷新",
-    "amount": "量"
+    "amount": "量",
+    "contact": {
+      "name": "您的全名",
+      "email": "电子邮件",
+      "subject": "主题",
+      "message": "输入所需的消息",
+      "send": "发送消息"
+    }
   }
 }
