@@ -52,12 +52,12 @@ export function Navbar() {
       icon: <HelpCircle size={18} />,
     },
     {
-      href: "/about",
+      href: "/about-us",
       label: t("navbar.about"),
       icon: <Info size={18} />,
     },
     {
-      href: "/contact",
+      href: "/contact-us",
       label: t("navbar.contact"),
       icon: <Phone size={18} />,
     },
