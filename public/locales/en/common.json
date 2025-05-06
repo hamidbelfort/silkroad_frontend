@@ -55,6 +55,11 @@
     "contact": {
       "subject": "Subject must be at least 5 characters",
       "message": "Message must be between 5 to 200 characters"
+    },
+    "settings": {
+      "profitMargin": "Profit margin must be positive number between 1 to 99",
+      "email": "Invalid email",
+      "orderDisputeThreshold": "Threshold must be a valid number"
     }
   },
   "upload": {
@@ -112,7 +117,11 @@
     "submit": "Submit",
     "cancel": "Cancel",
     "saveChanges": "Save Changes",
-    "failMessage": "Operation failed with server error"
+    "failMessage": "Operation failed with server error",
+    "settings": {
+      "success": "Settings updated successfully",
+      "fail": "Error updating settings"
+    }
   },
   "common": {
     "submitting": "Submitting...",

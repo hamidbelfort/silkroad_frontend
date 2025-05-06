@@ -62,6 +62,11 @@
     "contact": {
       "subject": "主题必须至少包含 5 个字符",
       "message": "消息必须介于 5 到 200 个字符之间"
+    },
+    "settings": {
+      "profitMargin": "利润率必须是介于1到99之间的正数",
+      "email": "无效的电子邮件",
+      "orderDisputeThreshold": "阈值必须是有效数字"
     }
   },
   "upload": {
@@ -120,7 +125,11 @@
     "cancel": "取消",
     "create": "创造",
     "saveChanges": "保存更改",
-    "failMessage": "作失败，出现服务器错误"
+    "failMessage": "作失败，出现服务器错误",
+    "settings": {
+      "success": "设置更新成功",
+      "fail": "更新设置失败"
+    }
   },
   "title": {
     "success": "成功",

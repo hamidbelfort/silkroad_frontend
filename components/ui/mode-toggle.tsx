@@ -20,15 +20,14 @@ export function ModeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className="cursur-pointer"
       onClick={() =>
         setTheme(theme === "light" ? "dark" : "light")
       }
     >
       {theme === "light" ? (
-        <Moon className="h-5 w-5" />
+        <Moon className="h-5 w-5 hover:cursur-pointer" />
       ) : (
-        <Sun className="h-5 w-5" />
+        <Sun className="h-5 w-5 hover:cursur-pointer" />
       )}
     </Button>
   );

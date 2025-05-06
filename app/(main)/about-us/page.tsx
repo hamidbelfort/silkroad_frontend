@@ -11,9 +11,9 @@ export default function AboutUs() {
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-10 space-y-16">
       {/* Hero Section */}
-      <div className="relative bg-gray-100 h-64 flex items-center justify-center text-center rounded-2xl">
-        <div className="absolute inset-0 bg-black bg-opacity-30 rounded-2xl" />
-        <div className="relative z-10 text-white">
+      <div className="relative bg-gray-100 h-32 flex items-center justify-center text-center rounded-2xl">
+        <div className="absolute inset-0 bg-background border-gray-400 rounded-2xl" />
+        <div className="relative z-10 text-foreground">
           <h1 className="text-4xl font-bold mb-2">
             About Us
           </h1>
@@ -24,7 +24,7 @@ export default function AboutUs() {
       {/* Mission Section */}
       <section className="text-center space-y-4">
         <div className="flex items-center justify-center">
-          <CheckCircle className="w-10 h-10 text-primary mr-2" />
+          <CheckCircle className="w-10 h-10 text-red-500 mr-2" />
           <h2 className="text-2xl font-semibold">
             Mission
           </h2>
@@ -46,7 +46,7 @@ export default function AboutUs() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           <Card className="text-center">
             <CardContent className="py-8">
-              <CheckCircle className="w-8 h-8 mx-auto mb-2 text-primary" />
+              <CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-600" />
               <h3 className="font-medium">Security</h3>
               <p className="text-sm text-muted-foreground">
                 We protect our users&rsquo; data and
@@ -56,7 +56,7 @@ export default function AboutUs() {
           </Card>
           <Card className="text-center">
             <CardContent className="py-8">
-              <Globe className="w-8 h-8 mx-auto mb-2 text-primary" />
+              <Globe className="w-8 h-8 mx-auto mb-2 text-blue-500" />
               <h3 className="font-medium">
                 Multilingual Support
               </h3>
@@ -68,7 +68,7 @@ export default function AboutUs() {
           </Card>
           <Card className="text-center">
             <CardContent className="py-8">
-              <Handshake className="w-8 h-8 mx-auto mb-2 text-primary" />
+              <Handshake className="w-8 h-8 mx-auto mb-2 text-yellow-500" />
               <h3 className="font-medium">
                 Trusted Partnerships
               </h3>
@@ -84,11 +84,11 @@ export default function AboutUs() {
       <Separator />
 
       {/* Our Story Timeline */}
-      <section className="space-y-6">
-        <h2 className="text-2xl font-semibold text-center">
+      <section className="space-y-6 text-center">
+        <h2 className="text-2xl font-semibold text-center transition-all duration-500 hover:animate-pulse">
           Our Story
         </h2>
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 px-4">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 px-4">
           <div className="text-center">
             <div className="w-4 h-4 bg-primary rounded-full mx-auto mb-2" />
             <h3 className="font-medium">2024</h3>
