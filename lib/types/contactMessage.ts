@@ -4,7 +4,8 @@ export interface ContactMessage {
   email: string;
   subject: string;
   message: string;
-  token: string;
+  captchaAnswer: string;
+  captchaHash: string;
 }
 export interface ContactResponse {
   success: boolean;
