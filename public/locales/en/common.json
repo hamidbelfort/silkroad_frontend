@@ -155,7 +155,12 @@
     "sellPrice": "Sell Price",
     "lastUpdated": "Last Updated",
     "exchangeHistory": "Exchange History",
-    "testimonials": "What our customers say"
+    "testimonials": "What our customers say",
+    "settings": {
+      "main": "App Settings",
+      "general": "General",
+      "email": "Email"
+    }
   },
   "label": {
     "add": "Add",
@@ -171,6 +176,11 @@
       "subject": "Subject",
       "message": "Enter your desired message",
       "send": "Send Message"
+    },
+    "settings": {
+      "profitMargin": "Profit Margin",
+      "orderDisputeThreshold": "Order Dispute Threshold",
+      "adminEmail": "Admin Email"
     }
   }
 }

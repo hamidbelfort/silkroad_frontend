@@ -19,13 +19,16 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-//import { Loader } from "lucide-react";
-// ------------------ COMPONENT ------------------
+import { Loader } from "lucide-react";
+import { useEffect } from "react";
+import {
+  fetchAllSettings,
+  updateAppSettings,
+} from "@/lib/api/settings";
 
 export default function SettingsPage() {
   const { t } = useTranslation("common");
   // ------------------ SCHEMAS ------------------
-
   const generalSchema = z.object({
     profitMargin: z
       .number()
@@ -62,9 +65,9 @@ export default function SettingsPage() {
   const generalForm = useForm<GeneralForm>({
     resolver: zodResolver(generalSchema),
     defaultValues: {
-      profitMargin: 0,
+      profitMargin: 1,
       adminEmail: "",
-      orderDisputeThreshold: 5000,
+      orderDisputeThreshold: 50000,
     },
   });
 
@@ -76,34 +79,64 @@ export default function SettingsPage() {
       adminEmail: "",
     },
   });
+  useEffect(() => {
+    const loadSettings = async () => {
+      const data = await fetchAllSettings();
+      // helper برای پیدا کردن مقدار با کلید خاص
+      const get = (key: string) =>
+        data.find((item) => item.key === key)?.value || "";
 
-  const onSubmitGeneral = (data: GeneralForm) => {
-    toast.success(t("validation.settings.success"));
+      // مقداردهی فرم عمومی
+      generalForm.reset({
+        profitMargin: parseFloat(get("PROFIT_MARGIN")),
+        orderDisputeThreshold: parseInt(
+          get("ORDER_DISPUTE_THRESHOLD")
+        ),
+        adminEmail: get("ADMIN_EMAIL"),
+      });
+
+      // مقداردهی فرم ایمیل
+      emailForm.reset({
+        adminEmail: get("ADMIN_EMAIL"),
+      });
+    };
+
+    loadSettings();
+  }, [emailForm, generalForm]);
+
+  const onSubmitGeneral = async (data: GeneralForm) => {
+    const res = await updateAppSettings(data);
+    if (res)
+      toast.success(t("validation.settings.success"));
     console.log("General Settings:", data);
   };
 
   const onSubmitEmail = (data: EmailForm) => {
-    toast.success("تنظیمات ایمیل ذخیره شد");
+    toast.success("validation.settings.success");
     console.log("Email Settings:", data);
   };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
       <h1 className="text-2xl font-bold mb-6">
-        تنظیمات سایت
+        {t("title.settings.main")}
       </h1>
 
       <Tabs defaultValue="general" className="w-full">
         <TabsList className="flex gap-2 mb-4 flex-wrap">
-          <TabsTrigger value="general">عمومی</TabsTrigger>
-          <TabsTrigger value="email">ایمیل</TabsTrigger>
+          <TabsTrigger value="general">
+            {t("title.settings.general")}
+          </TabsTrigger>
+          <TabsTrigger value="email">
+            {t("title.settings.email")}
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="general">
           <Card>
             <CardHeader>
               <h2 className="text-lg font-semibold">
-                تنظیمات عمومی
+                {t("title.settings.general")}
               </h2>
             </CardHeader>
             <CardContent>
@@ -114,8 +147,13 @@ export default function SettingsPage() {
                 className="space-y-4"
               >
                 <div>
-                  <Label>درصد سود</Label>
+                  <Label>
+                    {t("label.settings.profitMargin")}
+                  </Label>
                   <Input
+                    inputMode="numeric"
+                    max={99}
+                    min={1}
                     {...generalForm.register(
                       "profitMargin"
                     )}
@@ -128,20 +166,15 @@ export default function SettingsPage() {
                   </p>
                 </div>
                 <div>
-                  <Label>ایمیل مدیر</Label>
+                  <Label>
+                    {t(
+                      "label.settings.orderDisputeThreshold"
+                    )}
+                  </Label>
                   <Input
-                    {...generalForm.register("adminEmail")}
-                  />
-                  <p className="text-sm text-red-500">
-                    {
-                      generalForm.formState.errors
-                        .adminEmail?.message
-                    }
-                  </p>
-                </div>
-                <div>
-                  <Label>آستانه اختلاف سفارش (ثانیه)</Label>
-                  <Input
+                    inputMode="numeric"
+                    max={100000}
+                    min={100}
                     {...generalForm.register(
                       "orderDisputeThreshold"
                     )}
@@ -154,8 +187,24 @@ export default function SettingsPage() {
                   </p>
                 </div>
 
-                <Button type="submit" className="w-full">
-                  ذخیره تنظیمات عمومی
+                <Button
+                  type="submit"
+                  disabled={
+                    generalForm.formState.isSubmitting
+                  }
+                  className="w-full"
+                >
+                  {generalForm.formState.isSubmitting ? (
+                    <>
+                      <Loader
+                        size={20}
+                        className="animate-spin"
+                      />
+                      {t("common.submitting")}
+                    </>
+                  ) : (
+                    t("common.saveChanges")
+                  )}
                 </Button>
               </form>
             </CardContent>
@@ -166,7 +215,7 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <h2 className="text-lg font-semibold">
-                تنظیمات ایمیل
+                {t("title.settings.email")}
               </h2>
             </CardHeader>
             <CardContent>
@@ -177,8 +226,11 @@ export default function SettingsPage() {
                 className="space-y-4"
               >
                 <div>
-                  <Label>ایمیل ارسال‌کننده</Label>
+                  <Label>
+                    {t("label.settings.adminEmail")}
+                  </Label>
                   <Input
+                    inputMode="email"
                     {...emailForm.register("adminEmail")}
                   />
                   <p className="text-sm text-red-500">
@@ -188,9 +240,24 @@ export default function SettingsPage() {
                     }
                   </p>
                 </div>
-
-                <Button type="submit" className="w-full">
-                  ذخیره تنظیمات ایمیل
+                <Button
+                  type="submit"
+                  disabled={
+                    emailForm.formState.isSubmitting
+                  }
+                  className="w-full"
+                >
+                  {emailForm.formState.isSubmitting ? (
+                    <>
+                      <Loader
+                        size={20}
+                        className="animate-spin"
+                      />
+                      {t("common.submitting")}
+                    </>
+                  ) : (
+                    t("common.saveChanges")
+                  )}
                 </Button>
               </form>
             </CardContent>

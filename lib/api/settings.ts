@@ -1,8 +1,11 @@
 import axiosInstance from "@/lib/axios/axiosInstance";
+import { Setting } from "../types/settings";
 
-export const getAppSettings = async () => {
-  const response = await axiosInstance.get("/api/settings");
-  return response.data;
+export const fetchAllSettings = async (): Promise<
+  Setting[]
+> => {
+  const res = await axiosInstance.get("/settings");
+  return res.data as Setting[];
 };
 
 export const updateAppSettings = async (data: {
