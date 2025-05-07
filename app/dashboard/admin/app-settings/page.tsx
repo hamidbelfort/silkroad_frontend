@@ -25,6 +25,7 @@ import {
   fetchAllSettings,
   updateAppSettings,
 } from "@/lib/api/settings";
+import { SettingKey } from "@/lib/types/settings";
 
 export default function SettingsPage() {
   const { t } = useTranslation("common");
@@ -88,16 +89,18 @@ export default function SettingsPage() {
 
       // مقداردهی فرم عمومی
       generalForm.reset({
-        profitMargin: parseFloat(get("PROFIT_MARGIN")),
-        orderDisputeThreshold: parseInt(
-          get("ORDER_DISPUTE_THRESHOLD")
+        profitMargin: parseFloat(
+          get(SettingKey.PROFIT_MARGIN)
         ),
-        adminEmail: get("ADMIN_EMAIL"),
+        orderDisputeThreshold: parseInt(
+          get(SettingKey.ORDER_DISPUTE_THRESHOLD)
+        ),
+        adminEmail: get(SettingKey.ADMIN_EMAIL),
       });
 
       // مقداردهی فرم ایمیل
       emailForm.reset({
-        adminEmail: get("ADMIN_EMAIL"),
+        adminEmail: get(SettingKey.ADMIN_EMAIL),
       });
     };
 

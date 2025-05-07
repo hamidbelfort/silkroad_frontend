@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axios/axiosInstance";
-import { Setting } from "../types/settings";
+import { Setting, SettingKey } from "../types/settings";
 
 export const fetchAllSettings = async (): Promise<
   Setting[]
@@ -9,13 +9,34 @@ export const fetchAllSettings = async (): Promise<
 };
 
 export const updateAppSettings = async (data: {
-  orderDisputeThreshold: number;
+  orderDisputeThreshold?: number;
   adminEmail?: string;
   profitMargin?: number;
 }) => {
+  const payload = [];
+  if (data.adminEmail !== undefined) {
+    payload.push({
+      key: SettingKey.ADMIN_EMAIL,
+      value: data.adminEmail,
+    });
+  }
+
+  if (data.profitMargin !== undefined) {
+    payload.push({
+      key: SettingKey.PROFIT_MARGIN,
+      value: data.profitMargin.toString(),
+    });
+  }
+
+  if (data.orderDisputeThreshold !== undefined) {
+    payload.push({
+      key: SettingKey.ORDER_DISPUTE_THRESHOLD,
+      value: data.orderDisputeThreshold.toString(),
+    });
+  }
   const response = await axiosInstance.put(
     "/api/settings",
-    data
+    payload
   );
   return response.data;
 };

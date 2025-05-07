@@ -20,7 +20,9 @@ export default function ContactForm() {
   const schema = z.object({
     name: z.string().min(5, t("validation.required")),
     email: z.string().email(t("validation.email")),
-    subject: z.string().min(5, t("validation.contact.subject")),
+    subject: z
+      .string()
+      .min(5, t("validation.contact.subject")),
     message: z
       .string()
       .min(5, t("validation.contact.message"))
@@ -38,32 +40,38 @@ export default function ContactForm() {
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
   });
-  const getCaptcha = async () => {
-    const res = await requestCaptcha();
-    if (res) {
-      setCaptchaImg(res.image);
-      setCaptchaHash(res.hash);
-      setValue("captchaHash", captchaHash);
-    }
-  };
-  useEffect(() => {}, []);
+
+  useEffect(() => {
+    const getCaptcha = async () => {
+      const res = await requestCaptcha();
+      if (res) {
+        setCaptchaImg(res.image);
+        setCaptchaHash(res.hash);
+        setValue("captchaHash", captchaHash);
+      }
+    };
+    getCaptcha();
+  }, [captchaHash, setValue]);
   const onSubmit = async (values: FormValues) => {
     try {
       const data = await submitMessage(values);
       if (data.success) {
         toast.success(t("title.success"), {
-          description: "Your message has successfully sent!",
+          description:
+            "Your message has successfully sent!",
         });
         reset();
       } else {
         toast.error(t("title.fail"), {
-          description: data.message || t("title.failMessage"),
+          description:
+            data.message || t("title.failMessage"),
         });
       }
     } catch (err) {
       console.log(err);
       toast(t("title.fail"), {
-        description: (err as Error).message || t("title.failMessage"),
+        description:
+          (err as Error).message || t("title.failMessage"),
       });
     }
   };
@@ -82,40 +90,53 @@ export default function ContactForm() {
             width={200}
             height={200}
           />
-          <h2 className="text-2xl font-semibold mt-6">Let’s get in touch!</h2>
+          <h2 className="text-2xl font-semibold mt-6">
+            Let’s get in touch!
+          </h2>
           <p className="text-muted-foreground mt-2">
-            We’re just one message away —<br /> we&apos;re here to help,
-            collaborate, or simply say hi.
+            We’re just one message away —<br /> we&apos;re
+            here to help, collaborate, or simply say hi.
           </p>
         </div>
         <div className="md:w-1/2 p-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 my-2">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-5 my-2"
+          >
             <div className="grid lg:grid-cols-1 gap-2">
               <Label>{t("label.contact.name")}</Label>
               <Input {...register("name")} />
               {errors.name && (
-                <p className="text-sm text-red-500">{errors.name.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.name.message}
+                </p>
               )}
             </div>
             <div className="grid lg:grid-cols-1 gap-2">
               <Label>{t("label.contact.email")}</Label>
               <Input {...register("email")} />
               {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.email.message}
+                </p>
               )}
             </div>
             <div className="grid lg:grid-cols-1 gap-2">
               <Label>{t("label.contact.subject")}</Label>
               <Input {...register("subject")} />
               {errors.subject && (
-                <p className="text-sm text-red-500">{errors.subject.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.subject.message}
+                </p>
               )}
             </div>
             <div className="grid lg:grid-cols-1 gap-2">
               <Label>{t("label.contact.message")}</Label>
               <Textarea {...register("message")} rows={5} />
               {errors.message && (
-                <p className="text-sm text-red-500">{errors.message.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.message.message}
+                </p>
               )}
             </div>
             <div>
@@ -132,7 +153,11 @@ export default function ContactForm() {
                 required
               />
             </div>
-            <Button type="submit" disabled={isSubmitting} className="w-full">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full"
+            >
               {isSubmitting ? (
                 <>
                   <Loader className="animate-spin h-4 w-4 mr-2" />
