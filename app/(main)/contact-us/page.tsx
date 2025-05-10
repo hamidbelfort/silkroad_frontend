@@ -47,13 +47,13 @@ export default function ContactForm() {
       if (res) {
         setCaptchaImg(res.image);
         setCaptchaHash(res.hash);
-        setValue("captchaHash", captchaHash);
       }
     };
     getCaptcha();
-  }, [captchaHash, setValue]);
+  }, []);
   const onSubmit = async (values: FormValues) => {
     try {
+      setValue("captchaHash", captchaHash);
       const data = await submitMessage(values);
       if (data.success) {
         toast.success(t("title.success"), {
@@ -78,10 +78,10 @@ export default function ContactForm() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-6 text-center text-shadow-amber-100">
+      <h1 className="text-3xl font-bold mb-6 text-center text-foreground">
         {t("title.contactUs")}
       </h1>
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
+      <div className="bg-background rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
         {/* Left CTA Section */}
         <div className="md:w-1/2 bg-blue-50 p-8 flex flex-col items-center justify-center text-center">
           <Image

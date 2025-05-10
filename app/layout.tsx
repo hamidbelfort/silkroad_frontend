@@ -1,5 +1,5 @@
-import { TranslationProvider } from "./components/providers/TranslationProvider";
-import { ThemeProvider } from "./components/providers/themeProvider";
+import { TranslationProvider } from "../components/providers/TranslationProvider";
+import { ThemeProvider } from "../components/providers/themeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 

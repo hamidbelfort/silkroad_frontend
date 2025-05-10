@@ -10,7 +10,7 @@ import {
   Lock,
   Phone,
   User,
-  Loader2,
+  Loader,
   Activity,
   LogIn,
 } from "lucide-react";
@@ -163,7 +163,7 @@ export default function RegisterForm() {
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="animate-spin" />
+                <Loader className="animate-spin" />
                 Registering...
               </>
             ) : (

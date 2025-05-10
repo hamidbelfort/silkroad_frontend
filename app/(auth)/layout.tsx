@@ -1,4 +1,4 @@
-import AuthFooter from "../components/layout/authFooter";
+import AuthFooter from "../../components/layout/authFooter";
 import "../globals.css";
 export default function AuthLayout({
   children,

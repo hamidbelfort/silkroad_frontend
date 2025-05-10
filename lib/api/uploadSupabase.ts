@@ -1,6 +1,6 @@
 import axiosInstance from "../axios/axiosInstance";
 
-type FolderType = "slider" | "profile" | "bankCard";
+type FolderType = "slide" | "profile" | "card";
 
 export async function uploadToServer(
   folder: FolderType,
@@ -15,11 +15,15 @@ export async function uploadToServer(
   }
 
   try {
-    const response = await axiosInstance.post("/api/upload2", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axiosInstance.post(
+      "/api/upload",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     return response.data; // شامل path و bucket و غیره
   } catch (error) {
     console.error("Upload error:", error);

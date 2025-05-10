@@ -111,12 +111,15 @@ export default function SettingsPage() {
     const res = await updateAppSettings(data);
     if (res)
       toast.success(t("validation.settings.success"));
-    console.log("General Settings:", data);
+    //console.log("General Settings:", data);
   };
 
-  const onSubmitEmail = (data: EmailForm) => {
-    toast.success("validation.settings.success");
-    console.log("Email Settings:", data);
+  const onSubmitEmail = async (data: EmailForm) => {
+    const res = await updateAppSettings(data);
+    if (res) {
+      toast.success("validation.settings.success");
+    }
+    //console.log("Email Settings:", data);
   };
 
   return (
