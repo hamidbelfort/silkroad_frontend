@@ -95,7 +95,7 @@ export const Testimonials = () => {
                         {item.name}
                       </p>
                     </div>
-                    <p className="text-muted-foreground text-md leading-relaxed relative pl-6">
+                    <p className="text-muted-foreground text-md italic leading-relaxed relative pl-6">
                       <span className="absolute left-0 top-0 text-4xl text-blue-400">
                         ”
                       </span>

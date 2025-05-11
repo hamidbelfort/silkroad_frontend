@@ -84,7 +84,7 @@ export function LoginForm() {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card className="w-full max-w-md lg:min-w-md mx-auto my-auto">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>
             <div className="text-2xl text-center">
