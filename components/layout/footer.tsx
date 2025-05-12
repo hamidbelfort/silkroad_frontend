@@ -25,7 +25,7 @@ export default function Footer() {
   }, []);
   //from-indigo-800/80 via-purple-700/80 to-pink-600/80
   return (
-    <footer className="w-full bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-400 text-white">
+    <footer className="w-full border-t bg-gradient-to-t from-background to-muted/50 text-muted-foreground">
       <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
         {/* حالت موبایل: آکاردئون */}
         <div className="md:hidden">

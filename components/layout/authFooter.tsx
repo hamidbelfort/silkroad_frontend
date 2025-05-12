@@ -25,13 +25,13 @@ const AuthFooter = () => {
     setYear(new Date().getFullYear());
   }, []);
   return (
-    <footer className="w-full bg-gradient-to-t border-t from-background to-muted/50 text-center py-2 text-sm text-muted-foreground mt-auto">
+    <footer className="w-full border-t bg-gradient-to-t from-background to-muted/50 text-muted-foreground text-center py-2 text-sm mt-auto">
       <nav className="max-w-7xl mx-auto px-4 space-y-4">
         <div className="flex flex-col md:flex-row justify-between items-center gap-2">
           <div className="flex flex-wrap items-center gap-6">
             <Link href="/">{t("home")}</Link>
-            <Link href="/about">{t("about")}</Link>
-            <Link href="/contact">{t("contact")}</Link>
+            <Link href="/about-us">{t("about")}</Link>
+            <Link href="/contact-us">{t("contact")}</Link>
           </div>
           <div className="flex items-center gap-4">
             <ModeToggle />

@@ -53,8 +53,9 @@
       "image": "Image is required"
     },
     "contact": {
-      "subject": "Subject must be at least 5 characters",
-      "message": "Message must be between 5 to 200 characters"
+      "subject": "Subject must be at least 3 characters",
+      "message": "Message must be between 5 to 200 characters",
+      "answer": "Captcha Answer must be 5 characters"
     },
     "settings": {
       "profitMargin": "Profit margin must be positive number between 1 to 99",
@@ -181,6 +182,18 @@
       "profitMargin": "Profit Margin",
       "orderDisputeThreshold": "Order Dispute Threshold",
       "adminEmail": "Admin Email"
+    }
+  },
+  "forms": {
+    "login": {
+      "title": "Welcome back",
+      "CTA": "Log in to access personalized services, manage your journey, and explore more exclusive features.",
+      "features": "“Secure · Fast · Personalized.”"
+    },
+    "register": {
+      "title": "Experience Iran Like Never Before",
+      "CTA": "Sign up now to unlock personalized travel services, book unique experiences, and explore hidden gems across Iran with ease and confidence.",
+      "features": "“Authentic. Seamless. Unforgettable.”"
     }
   }
 }

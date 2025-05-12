@@ -51,14 +51,15 @@ axiosInstance.interceptors.response.use(
         },
       });
     } else if (error.request) {
-      toast.error("Network Error: ", {
-        duration: 3000,
-        description: error.message,
-        action: {
-          label: "x",
-          onClick: () => toast.dismiss(),
-        },
-      });
+      console.log("Network error occured");
+      // toast.error("Network Error: ", {
+      //   duration: 3000,
+      //   description: error.message,
+      //   action: {
+      //     label: "x",
+      //     onClick: () => toast.dismiss(),
+      //   },
+      // });
     } /*else {
       toast.error("Error: ", {
         duration: 3000,
