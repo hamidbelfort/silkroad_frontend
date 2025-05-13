@@ -72,7 +72,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <Card className="w-full max-w-sm lg:min-w-md sm:min-w-sm mx-auto my-auto">
+    <Card>
       <CardHeader>
         <CardTitle>
           <div className="flex justify-center items-center text-2xl text-center">
