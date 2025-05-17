@@ -170,7 +170,7 @@
     "refresh": "刷新",
     "amount": "量",
     "contact": {
-      "name": "您的全名",
+      "name": "全名",
       "email": "电子邮件",
       "subject": "主题",
       "message": "输入所需的消息",

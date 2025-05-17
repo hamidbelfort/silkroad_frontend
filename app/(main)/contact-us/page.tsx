@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-//import DebugComponent from "./debugComponent";
+import ContactUsForm from "./contactUsForm";
 export default function ContactForm() {
   const { t } = useTranslation("common");
   return (
@@ -20,17 +20,14 @@ export default function ContactForm() {
             priority
             className="w-full min-w-sm max-w-md"
           />
-          <h2 className="text-2xl font-semibold mt-8">
-            Let’s get in touch!
-          </h2>
+          <h2 className="text-2xl font-semibold mt-8">Let’s get in touch!</h2>
           <p className="text-muted-foreground mt-2">
-            We’re just one message away —<br /> we&apos;re
-            here to help, collaborate, or simply say hi.
+            We’re just one message away —<br /> we&apos;re here to help,
+            collaborate, or simply say hi.
           </p>
         </div>
         <div className="md:w-1/2 p-8">
-          <ContactForm />
-          {/* <DebugComponent /> */}
+          <ContactUsForm />
         </div>
       </div>
     </div>

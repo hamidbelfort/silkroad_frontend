@@ -172,7 +172,7 @@
     "confirm": "Confirm",
     "amount": "Amount",
     "contact": {
-      "name": "Your full name",
+      "name": "Full name",
       "email": "Email",
       "subject": "Subject",
       "message": "Enter your desired message",

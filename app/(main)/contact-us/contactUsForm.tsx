@@ -13,11 +13,10 @@ import { Loader, RotateCcw } from "lucide-react";
 import { submitMessage } from "@/lib/api/contactMessage";
 import { requestCaptcha } from "@/lib/api/captcha";
 import Image from "next/image";
-const ContactForm = () => {
+const ContactUsForm = () => {
   const { t } = useTranslation("common");
-
-  const [captchaImg_s, setCaptchaImg] = useState<string | null>(null);
-  const [captchaHash_s, setCaptchaHash] = useState<string>("");
+  const [capHash, setCaptchaHash] = useState("");
+  const [captchaImage, setCaptchaImage] = useState("");
 
   const schema = z.object({
     name: z.string().min(5, t("validation.required")),
@@ -42,14 +41,12 @@ const ContactForm = () => {
   const loadCaptcha = async () => {
     try {
       const res = await requestCaptcha();
-      // if (res?.image && res?.hash) {
-      //   setCaptchaImg(res.image);
-      //   setCaptchaHash(res.hash);
-      // } else {
-      //   throw new Error("Invalid captcha response");
-      // }
-      setCaptchaImg(res?.image || null);
-      setCaptchaHash(res?.hash || "");
+      if (res?.image && res?.hash) {
+        setCaptchaImage(res.image);
+        setCaptchaHash(res.hash);
+      } else {
+        console.error("Invalid captcha response");
+      }
     } catch (err) {
       toast.error("Failed to load captcha");
       console.error(err);
@@ -62,7 +59,8 @@ const ContactForm = () => {
 
   const onSubmit = async (values: FormValues) => {
     try {
-      values.captchaHash = captchaHash_s;
+      //console.log("hash : " + capHash);
+      //console.table("values hash :" + values.captchaHash);
       const data = await submitMessage(values);
       if (data.success) {
         toast.success(t("title.success"), {
@@ -83,7 +81,7 @@ const ContactForm = () => {
     }
   };
 
-  if (!captchaImg_s || !captchaHash_s) {
+  if (!capHash || !captchaImage) {
     return (
       <div className="text-center py-20">
         <Loader className="h-8 w-8 animate-spin mx-auto mb-4" />
@@ -95,7 +93,7 @@ const ContactForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 my-4">
       {/* Name */}
-      <div>
+      <div className="flex flex-col gap-2">
         <Label>{t("label.contact.name")}</Label>
         <Input {...register("name")} />
         {errors.name && (
@@ -104,7 +102,7 @@ const ContactForm = () => {
       </div>
 
       {/* Email */}
-      <div>
+      <div className="flex flex-col gap-2">
         <Label>{t("label.contact.email")}</Label>
         <Input {...register("email")} />
         {errors.email && (
@@ -113,7 +111,7 @@ const ContactForm = () => {
       </div>
 
       {/* Subject */}
-      <div>
+      <div className="flex flex-col gap-2">
         <Label>{t("label.contact.subject")}</Label>
         <Input {...register("subject")} />
         {errors.subject && (
@@ -122,7 +120,7 @@ const ContactForm = () => {
       </div>
 
       {/* Message */}
-      <div>
+      <div className="flex flex-col gap-2">
         <Label>{t("label.contact.message")}</Label>
         <Textarea {...register("message")} rows={5} />
         {errors.message && (
@@ -132,15 +130,11 @@ const ContactForm = () => {
 
       {/* Captcha */}
       <div className="flex flex-col items-center justify-center">
-        <Input
-          type="hidden"
-          {...register("captchaHash")}
-          value={captchaHash_s}
-        />
+        <Input type="hidden" {...register("captchaHash")} value={capHash} />
 
         <div className="flex items-center gap-3 mb-2">
           <Image
-            src={captchaImg_s}
+            src={captchaImage}
             width={200}
             height={80}
             alt="Captcha"
@@ -168,7 +162,11 @@ const ContactForm = () => {
       </div>
 
       {/* Submit */}
-      <Button type="submit" disabled={isSubmitting} className="w-full">
+      <Button
+        type="submit"
+        disabled={isSubmitting || !capHash}
+        className="w-full"
+      >
         {isSubmitting ? (
           <>
             <Loader className="animate-spin h-4 w-4 mr-2" />
@@ -182,4 +180,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default ContactUsForm;
