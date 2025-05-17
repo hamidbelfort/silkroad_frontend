@@ -26,7 +26,7 @@ const RegisterPage = () => {
           {t("forms.register.features")}
         </p>
       </div>
-      <div className="w-full max-w-sm px-8 my-auto">
+      <div className="w-full lg:w-1/2 w-max-sm px-8 my-auto">
         <RegisterForm />
       </div>
     </div>

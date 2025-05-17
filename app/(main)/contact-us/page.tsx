@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
+//import DebugComponent from "./debugComponent";
 export default function ContactForm() {
   const { t } = useTranslation("common");
   return (
@@ -8,7 +9,7 @@ export default function ContactForm() {
       <h1 className="text-3xl font-bold mb-6 text-center text-foreground">
         {t("title.contactUs")}
       </h1>
-      <div className="bg-background rounded-xl shadow-lg shadow-card-foreground overflow-hidden flex flex-col md:flex-row">
+      <div className="bg-background rounded-xl shadow-sm shadow-card-foreground overflow-hidden flex flex-col md:flex-row">
         {/* Left CTA Section */}
         <div className="md:w-1/2 bg-background p-8 flex flex-col items-center justify-center text-center">
           <Image
@@ -16,6 +17,8 @@ export default function ContactForm() {
             alt="Contact Illustration"
             width={200}
             height={200}
+            priority
+            className="w-full min-w-sm max-w-md"
           />
           <h2 className="text-2xl font-semibold mt-8">
             Let’s get in touch!
@@ -27,6 +30,7 @@ export default function ContactForm() {
         </div>
         <div className="md:w-1/2 p-8">
           <ContactForm />
+          {/* <DebugComponent /> */}
         </div>
       </div>
     </div>
