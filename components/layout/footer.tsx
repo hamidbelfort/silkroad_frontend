@@ -31,7 +31,7 @@ export default function Footer() {
         <div className="md:hidden">
           <Accordion type="multiple">
             <AccordionItem value="item-1">
-              <AccordionTrigger className="text-white cursor-pointer">
+              <AccordionTrigger className="text-foreground cursor-pointer">
                 Quick Links
               </AccordionTrigger>
               <AccordionContent>
@@ -73,11 +73,11 @@ export default function Footer() {
             </AccordionItem>
 
             <AccordionItem value="item-2">
-              <AccordionTrigger className="text-white cursor-pointer">
+              <AccordionTrigger className="text-foreground cursor-pointer">
                 About
               </AccordionTrigger>
               <AccordionContent>
-                <p className="pl-2 text-white/90 leading-5">
+                <p className="pl-2 text-foreground leading-5">
                   We simplify travel for Chinese tourists in
                   Iran. Enjoy easy booking and local
                   services all in one place.
@@ -86,7 +86,7 @@ export default function Footer() {
             </AccordionItem>
 
             <AccordionItem value="item-3">
-              <AccordionTrigger className="text-white cursor-pointer">
+              <AccordionTrigger className="text-foreground cursor-pointer">
                 Follow Us
               </AccordionTrigger>
               <AccordionContent>
@@ -177,7 +177,7 @@ export default function Footer() {
                 />
               </Link>
             </div>
-            <p className="text-xs text-white/60 mt-auto">
+            <p className="text-xs text-foreground mt-auto">
               <HoverCard>
                 <HoverCardTrigger>
                   &copy; {year} {app_title}. All rights
@@ -195,7 +195,7 @@ export default function Footer() {
         </div>
 
         {/* کپی‌رایت در حالت موبایل */}
-        <div className="md:hidden mt-6 text-center text-xs text-white/60">
+        <div className="md:hidden mt-6 text-center text-xs text-foreground">
           &copy; {year} SilkRoad. All rights reserved.
         </div>
       </div>

@@ -19,6 +19,7 @@ axiosInstance.interceptors.request.use(
       "/auth/register",
       "/auth/forgot-password",
       "/exchange/history",
+      "/captcha",
     ];
 
     // فقط زمانی توکن اضافه کن که مسیر از مسیرهای عمومی نباشه

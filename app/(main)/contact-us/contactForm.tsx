@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -13,13 +13,14 @@ import { Loader, RotateCcw } from "lucide-react";
 import { submitMessage } from "@/lib/api/contactMessage";
 import { requestCaptcha } from "@/lib/api/captcha";
 import Image from "next/image";
-import { Skeleton } from "@/components/ui/skeleton";
-
 const ContactForm = () => {
   const { t } = useTranslation("common");
-  const [captchaImg, setCaptchaImg] = useState("");
-  const [captchaHash, setCaptchaHash] = useState("");
-  const [isLoading, setLoading] = useState(false);
+
+  const [captchaImg_s, setCaptchaImg] = useState<
+    string | null
+  >(null);
+  const [captchaHash_s, setCaptchaHash] =
+    useState<string>("");
 
   const schema = z.object({
     name: z.string().min(5, t("validation.required")),
@@ -29,7 +30,7 @@ const ContactForm = () => {
       .min(3, t("validation.contact.subject")),
     message: z
       .string()
-      .min(5, t("validation.contact.message"))
+      .min(5)
       .max(200, t("validation.contact.message")),
     captchaAnswer: z
       .string()
@@ -41,9 +42,8 @@ const ContactForm = () => {
 
   const {
     register,
-    reset,
     handleSubmit,
-    setValue,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -51,35 +51,36 @@ const ContactForm = () => {
 
   const loadCaptcha = async () => {
     try {
-      setLoading(true);
       const res = await requestCaptcha();
-      if (res) {
-        setCaptchaImg(res.image);
-        setCaptchaHash(res.hash);
-        setValue("captchaHash", res.hash); // ثبت در فرم
-      }
+      // if (res?.image && res?.hash) {
+      //   setCaptchaImg(res.image);
+      //   setCaptchaHash(res.hash);
+      // } else {
+      //   throw new Error("Invalid captcha response");
+      // }
+      setCaptchaImg(res?.image || null);
+      setCaptchaHash(res?.hash || "");
     } catch (err) {
-      toast.error("Captcha failed to load");
+      toast.error("Failed to load captcha");
       console.error(err);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     loadCaptcha();
-  });
+  }, []);
 
   const onSubmit = async (values: FormValues) => {
     try {
+      values.captchaHash = captchaHash_s;
       const data = await submitMessage(values);
       if (data.success) {
         toast.success(t("title.success"), {
           description:
-            "Your message has successfully been sent!",
+            "Your message has been sent successfully!",
         });
-        reset(); // پاک‌کردن فرم
-        loadCaptcha(); // کپچای جدید
+        reset();
+        loadCaptcha(); // Reload captcha after submission
       } else {
         toast.error(t("title.fail"), {
           description:
@@ -87,125 +88,126 @@ const ContactForm = () => {
         });
       }
     } catch (err) {
-      console.error(err);
-      toast(t("title.fail"), {
+      toast.error(t("title.fail"), {
         description:
           (err as Error).message || t("title.failMessage"),
       });
     }
   };
 
+  if (!captchaImg_s || !captchaHash_s) {
+    return (
+      <div className="text-center py-20">
+        <Loader className="h-8 w-8 animate-spin mx-auto mb-4" />
+        <p>Loading contact form...</p>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-5 my-2"
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-5 my-4"
+    >
+      {/* Name */}
+      <div>
+        <Label>{t("label.contact.name")}</Label>
+        <Input {...register("name")} />
+        {errors.name && (
+          <p className="text-sm text-red-500">
+            {errors.name.message}
+          </p>
+        )}
+      </div>
+
+      {/* Email */}
+      <div>
+        <Label>{t("label.contact.email")}</Label>
+        <Input {...register("email")} />
+        {errors.email && (
+          <p className="text-sm text-red-500">
+            {errors.email.message}
+          </p>
+        )}
+      </div>
+
+      {/* Subject */}
+      <div>
+        <Label>{t("label.contact.subject")}</Label>
+        <Input {...register("subject")} />
+        {errors.subject && (
+          <p className="text-sm text-red-500">
+            {errors.subject.message}
+          </p>
+        )}
+      </div>
+
+      {/* Message */}
+      <div>
+        <Label>{t("label.contact.message")}</Label>
+        <Textarea {...register("message")} rows={5} />
+        {errors.message && (
+          <p className="text-sm text-red-500">
+            {errors.message.message}
+          </p>
+        )}
+      </div>
+
+      {/* Captcha */}
+      <div className="flex flex-col items-center justify-center">
+        <Input
+          type="hidden"
+          {...register("captchaHash")}
+          value={captchaHash_s}
+        />
+
+        <div className="flex items-center gap-3 mb-2">
+          <Image
+            src={captchaImg_s}
+            width={200}
+            height={80}
+            alt="Captcha"
+            className="rounded border"
+          />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={loadCaptcha}
+          >
+            <RotateCcw className="h-5 w-5" />
+          </Button>
+        </div>
+
+        <Input
+          {...register("captchaAnswer")}
+          placeholder="Enter the code"
+          className="my-2"
+          required
+        />
+        {errors.captchaAnswer && (
+          <p className="text-sm text-red-500">
+            {errors.captchaAnswer.message}
+          </p>
+        )}
+      </div>
+
+      {/* Submit */}
+      <Button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full"
       >
-        {/* Name */}
-        <div className="grid gap-2">
-          <Label>{t("label.contact.name")}</Label>
-          <Input {...register("name")} />
-          {errors.name && (
-            <p className="text-sm text-red-500">
-              {errors.name.message}
-            </p>
-          )}
-        </div>
-
-        {/* Email */}
-        <div className="grid gap-2">
-          <Label>{t("label.contact.email")}</Label>
-          <Input {...register("email")} />
-          {errors.email && (
-            <p className="text-sm text-red-500">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-
-        {/* Subject */}
-        <div className="grid gap-2">
-          <Label>{t("label.contact.subject")}</Label>
-          <Input {...register("subject")} />
-          {errors.subject && (
-            <p className="text-sm text-red-500">
-              {errors.subject.message}
-            </p>
-          )}
-        </div>
-
-        {/* Message */}
-        <div className="grid gap-2">
-          <Label>{t("label.contact.message")}</Label>
-          <Textarea rows={5} {...register("message")} />
-          {errors.message && (
-            <p className="text-sm text-red-500">
-              {errors.message.message}
-            </p>
-          )}
-        </div>
-
-        {/* Captcha */}
-        <div className="flex flex-col items-center justify-center">
-          <input
-            type="hidden"
-            value={captchaHash}
-            {...register("captchaHash")}
-          />
-
-          <div className="flex items-center gap-3 mb-2">
-            {isLoading || !captchaImg ? (
-              <Skeleton className="w-[200px] h-[80px]" />
-            ) : (
-              <Image
-                src={""}
-                width={200}
-                height={80}
-                alt="Captcha"
-                className="rounded border"
-                unoptimized
-              />
-            )}
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={loadCaptcha}
-            >
-              <RotateCcw className="h-5 w-5" />
-            </Button>
-          </div>
-
-          <Input
-            {...register("captchaAnswer")}
-            placeholder="Enter the code"
-            className="my-2"
-            required
-          />
-          {errors.captchaAnswer && (
-            <p className="text-sm text-red-500">
-              {errors.captchaAnswer.message}
-            </p>
-          )}
-        </div>
-
-        {/* Submit */}
-        <Button
-          type="submit"
-          disabled={isSubmitting || !captchaImg}
-          className="w-full cursor-pointer"
-        >
-          {isSubmitting ? (
-            <>
-              <Loader className="animate-spin h-4 w-4 mr-2" />
-              {t("common.submitting")}
-            </>
-          ) : (
-            t("label.contact.send")
-          )}
-        </Button>
-      </form>
-    </div>
+        {isSubmitting ? (
+          <>
+            <Loader className="animate-spin h-4 w-4 mr-2" />
+            {t("common.submitting")}
+          </>
+        ) : (
+          t("label.contact.send")
+        )}
+      </Button>
+    </form>
   );
 };
 
