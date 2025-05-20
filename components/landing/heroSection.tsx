@@ -4,13 +4,12 @@ import { AnimatedSection } from "@/components/ui/animatedSection";
 import Image from "next/image";
 
 export const HeroSection = () => {
-  const appTitle =
-    process.env.APP_TITLE || "Silk Road Services";
+  const appTitle = process.env.APP_TITLE || "Silk Road Services";
 
   return (
     <section className="relative h-[75vh] flex items-center bg-black text-white overflow-hidden">
       <Image
-        src="/images/main-hero.jpg"
+        src="/images/main_hero.webp"
         alt="Hero Image"
         fill
         className="object-cover brightness-[0.9]"
