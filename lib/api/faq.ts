@@ -1,15 +1,15 @@
 import axiosInstance from "../axios/axiosInstance";
-import { Faq, FaqResponse } from "../types/faq";
-export const getFaqs = async (): Promise<Faq[] | null> => {
+import { FaqType, FaqResponse } from "../types/faq";
+export const getFaqs = async (): Promise<FaqType[] | null> => {
   try {
-    const res = await axiosInstance.get("/api/faq");
+    const res = await axiosInstance.get("/api/faq/list");
     return res.data;
   } catch (err) {
     console.log("Failed to get faqs : " + err);
     throw err;
   }
 };
-export const getFaq = async (id: string): Promise<Faq | null> => {
+export const getFaq = async (id: string): Promise<FaqType | null> => {
   try {
     const res = await axiosInstance.get(`/api/faq/${id}`);
     return res.data;
@@ -18,7 +18,7 @@ export const getFaq = async (id: string): Promise<Faq | null> => {
     throw err;
   }
 };
-export const createFaq = async (payload: Faq): Promise<FaqResponse> => {
+export const createFaq = async (payload: FaqType): Promise<FaqResponse> => {
   try {
     const res = await axiosInstance.post<FaqResponse>("/api/faq", payload);
     return res.data;
@@ -29,7 +29,7 @@ export const createFaq = async (payload: Faq): Promise<FaqResponse> => {
 };
 export const updateFaq = async (
   id: string,
-  payload: Faq
+  payload: FaqType
 ): Promise<FaqResponse> => {
   try {
     const res = await axiosInstance.put<FaqResponse>(`/api/faq/${id}`, payload);

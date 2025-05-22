@@ -1,75 +1,76 @@
-// components/FaqList.tsx
+import { FaqType } from "@/lib/types/faq";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Pencil, Trash2 } from "lucide-react";
-import Image from "next/image";
-
+import { Card, CardContent } from "@/components/ui/card";
+import { Pencil, Trash2, Loader } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 interface FaqListProps {
-  faqs: { question: string; answer: string }[];
-  loading: boolean;
-  handleEdit: (index: number) => void;
-  handleDelete: (index: number) => void;
+  faqs: FaqType[];
+  onEdit: (faq: FaqType) => void;
+  onDelete: (id: string) => void;
+  submittingId: string | undefined;
 }
 
 export const FaqList = ({
   faqs,
-  loading,
-  handleEdit,
-  handleDelete,
+  onEdit,
+  onDelete,
+  submittingId,
 }: FaqListProps) => {
-  if (loading) {
+  if (faqs && faqs.length > 0) {
     return (
-      <div className="space-y-4">
-        {[...Array(3)].map((_, i) => (
-          <Skeleton key={i} className="h-24 w-full rounded-xl" />
-        ))}
-      </div>
-    );
-  }
-
-  if (faqs.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center text-center space-y-4 mt-8">
-        <Image
-          src="/images/no-data.svg"
-          alt="No data"
-          width={200}
-          height={200}
-        />
-        <p className="text-muted-foreground">No FAQs added yet</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-4">
-      {faqs.map((faq, index) => (
-        <Card key={index}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-lg">{faq.question}</CardTitle>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => handleEdit(index)}
-              >
-                <Pencil className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => handleDelete(index)}
-              >
-                <Trash2 className="w-4 h-4 text-red-500" />
-              </Button>
+      <Card>
+        <CardContent className="p-4 md:p-6">
+          <ScrollArea className="flex items-center h-72 w-fit rounded-md border">
+            <div className="space-y-4">
+              {faqs.map((faq) => (
+                <div
+                  key={faq.id}
+                  className="border rounded-lg p-4 shadow-sm bg-muted hover:bg-muted/60 transition-all"
+                >
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="flex-1">
+                      <h4 className="text-base font-semibold mb-1">
+                        {faq.question}
+                      </h4>
+                      <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                        {faq.answer}
+                      </p>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 min-w-[48px]">
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        className="hover:cursor-pointer"
+                        disabled={submittingId === faq.id}
+                        onClick={() => onEdit(faq)}
+                      >
+                        {submittingId === faq.id ? (
+                          <Loader className="animate-spin" />
+                        ) : (
+                          <Pencil className="w-4 h-4" />
+                        )}
+                      </Button>
+                      <Button
+                        size="icon"
+                        variant="destructive"
+                        className="hover:cursor-pointer"
+                        disabled={submittingId === faq.id}
+                        onClick={() => onDelete(faq.id!)}
+                      >
+                        {submittingId === faq.id ? (
+                          <Loader className="animate-spin" />
+                        ) : (
+                          <Trash2 className="w-4 h-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">{faq.answer}</p>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
+          </ScrollArea>
+        </CardContent>
+      </Card>
+    );
+  }
 };

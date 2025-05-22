@@ -7,7 +7,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 interface DataStateProps {
   isLoading?: boolean;
   isError?: boolean;
-  isEmpty?: boolean;
   imageSrc?: string;
   title?: string;
   description?: string;
@@ -18,8 +17,7 @@ interface DataStateProps {
 export const DataState = ({
   isLoading = false,
   isError = false,
-  isEmpty = false,
-  imageSrc = "/images/empty.svg",
+  imageSrc = "/images/server-error.svg",
   title,
   description,
   onRetry,
@@ -36,7 +34,7 @@ export const DataState = ({
     );
   }
 
-  if (isError || isEmpty) {
+  if (isError) {
     return (
       <div className="flex flex-col items-center justify-center text-center p-6 min-h-[300px] sm:min-h-[400px]">
         <div className="relative w-60 h-60 sm:w-72 sm:h-72 mb-6">

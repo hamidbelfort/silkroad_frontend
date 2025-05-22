@@ -31,7 +31,7 @@ export const adminSidebarItems: SidebarItemType[] = [
     children: [
       {
         label: "FAQ",
-        href: "/dashboard/admin/faq",
+        href: "/dashboard/admin/manageFaq",
         icon: MailQuestionIcon,
       },
       {
