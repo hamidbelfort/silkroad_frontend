@@ -20,15 +20,17 @@ const FaqManagementPage = () => {
   const loadFaqs = async () => {
     try {
       setLoading(true);
+      setFaqs([]);
       const data = await getFaqs();
       if (data && data.length > 0) {
         setFaqs(data);
-        console.log(data);
         setLoading(false);
       } else {
+        setFaqs([]);
         setLoading(false);
         setEmpty(true);
       }
+      //console.log(`loading :${isloading},Empty:${isEmpty},error:${isError}`);
     } catch (err) {
       setError(true);
       console.log(err);
@@ -42,16 +44,15 @@ const FaqManagementPage = () => {
 
   const handleSave = async (data: FaqType) => {
     try {
+      setSubmitting(true);
       if (editingFaq) {
         setSubmittingId(editingFaq.id);
-        setSubmitting(true);
         const updated = await updateFaq(editingFaq.id!, data);
         if (updated && updated.success) {
           toast.success("FAQ updated successfully.");
           loadFaqs();
         }
       } else {
-        setSubmitting(true);
         setSubmittingId("new");
         const created = await createFaq(data);
         if (created && created.success) {
@@ -63,6 +64,7 @@ const FaqManagementPage = () => {
       setSubmittingId("");
       setEditingFaq(null);
     } catch (err) {
+      console.log(err);
       toast.error("Something went wrong.");
     } finally {
       setSubmitting(false);
@@ -77,7 +79,6 @@ const FaqManagementPage = () => {
   const handleDelete = async (id: string) => {
     try {
       setSubmittingId(id);
-      console.log(`id : ${id}`);
       const res = await deleteFaq(id);
       if (res && res.success) {
         loadFaqs();
