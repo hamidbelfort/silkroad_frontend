@@ -85,7 +85,7 @@ const FaqManagementPage = () => {
       } else {
         toast.error(res.message || "Something bad happened");
       }
-    } catch (error) {
+    } catch {
       toast.error("Error while deleting FAQ");
     } finally {
       setSubmittingId(undefined);
