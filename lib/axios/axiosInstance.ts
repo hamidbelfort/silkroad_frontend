@@ -21,10 +21,17 @@ axiosInstance.interceptors.request.use(
       "/exchange/history",
       "/captcha",
       "/faq/list",
+      "/auth/request-reset-password",
+      "/auth/verify-otp",
     ];
 
     // فقط زمانی توکن اضافه کن که مسیر از مسیرهای عمومی نباشه
-    if (token && !publicRoutes.some((route) => config.url?.includes(route))) {
+    if (
+      token &&
+      !publicRoutes.some((route) =>
+        config.url?.includes(route)
+      )
+    ) {
       config.headers.set("x-auth-token", token);
     }
 
@@ -40,7 +47,8 @@ axiosInstance.interceptors.response.use(
     if (error.response) {
       toast.error("Request Error: ", {
         duration: 3000,
-        description: error.response.data?.message || error.message,
+        description:
+          error.response.data?.message || error.message,
         action: {
           label: "x",
           onClick: () => toast.dismiss(),

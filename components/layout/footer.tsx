@@ -149,7 +149,7 @@ export default function Footer() {
             <h4 className="font-semibold text-xl mb-2">
               About
             </h4>
-            <p className="leading-5 text-white/90">
+            <p className="leading-5 text-foreground">
               We simplify travel for Chinese tourists in
               Iran. Enjoy easy booking and local services
               all in one place.
