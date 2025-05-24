@@ -1,17 +1,14 @@
 import axiosInstance from "../axios/axiosInstance";
 import {
-  RequestPasswordResponse,
-  RequestPasswordType,
-} from "../types/requestPassword";
+  ResetPasswordResponse,
+  ResetPasswordType,
+} from "../types/resetPassword";
 
-export const requestOTP = async (
-  payload: RequestPasswordType
-): Promise<RequestPasswordResponse | null> => {
+export const verifyOTP = async (
+  payload: ResetPasswordType
+): Promise<ResetPasswordResponse | null> => {
   try {
-    const res = await axiosInstance.post(
-      "/api/auth/verify-otp",
-      payload
-    );
+    const res = await axiosInstance.post("/api/auth/verify-otp", payload);
     return res.data;
   } catch {
     return null;

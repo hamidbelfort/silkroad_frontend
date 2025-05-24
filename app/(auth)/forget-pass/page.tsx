@@ -11,7 +11,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import forgotPassImage from "@/public/images/forgot-password.svg";
-import { requestOTP } from "@/lib/api/resetPassword";
+import { requestOTP } from "@/lib/api/requestPassword";
 export default function RequestResetForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -33,16 +33,12 @@ export default function RequestResetForm() {
   const onSubmit = async (data: FormSchema) => {
     setLoading(true);
     try {
-      data.language =
-        localStorage.getItem("language") || "en";
+      data.language = localStorage.getItem("language") || "en";
       const res = await requestOTP(data);
-      if (!res?.success)
-        throw new Error(res?.message || "An error occured");
+      if (!res?.success) throw new Error(res?.message || "An error occured");
 
       toast.success("OTP has been sent");
-      router.push(
-        `/reset-password/verify?email=${data.email}`
-      );
+      router.push(`/reset-password/verify?email=${data.email}`);
     } catch {
       toast.error("Something bad happend");
     } finally {
@@ -54,18 +50,11 @@ export default function RequestResetForm() {
       <Card className="w-full max-w-md shadow-xl">
         <CardContent className="p-6 space-y-6">
           <div className="text-center">
-            <h2 className="text-2xl font-bold">
-              Forget Password
-            </h2>
-            <p className="text-sm text-gray-500">
-              Please enter your email
-            </p>
+            <h2 className="text-2xl font-bold">Forget Password</h2>
+            <p className="text-sm text-gray-500">Please enter your email</p>
           </div>
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <Label htmlFor="email">Email</Label>
               <Input
@@ -81,11 +70,7 @@ export default function RequestResetForm() {
               )}
             </div>
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={loading}
-            >
+            <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Submitting..." : "Send OTP"}
             </Button>
           </form>
