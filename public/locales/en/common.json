@@ -61,6 +61,9 @@
       "profitMargin": "Profit margin must be positive number between 1 to 99",
       "email": "Invalid email",
       "orderDisputeThreshold": "Threshold must be a valid number"
+    },
+    "forgotPassword": {
+      "email": "Invalid email"
     }
   },
   "upload": {
@@ -131,7 +134,9 @@
     "update": "Update",
     "cancel": "Cancel",
     "create": "Create",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "sendOTP": "Send OTP",
+    "otpCode": "OTP Code"
   },
   "title": {
     "success": "Success",
@@ -171,6 +176,19 @@
     "refresh": "Refresh",
     "confirm": "Confirm",
     "amount": "Amount",
+    "common": {
+      "email": "Email",
+      "password": "Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "resetPassword": "Reset Password",
+      "name": "Name",
+      "phone": "Phone",
+      "weChat": "WeChat",
+      "whatsapp": "WhatsApp",
+      "address": "Address",
+      "bio": "Bio"
+    },
     "contact": {
       "name": "Full name",
       "email": "Email",
@@ -194,6 +212,14 @@
       "title": "Experience Iran Like Never Before",
       "CTA": "Sign up now to unlock personalized travel services, book unique experiences, and explore hidden gems across Iran with ease and confidence.",
       "features": "“Authentic. Seamless. Unforgettable.”"
+    },
+    "forgetPass": {
+      "title": "Forgot Your Password?",
+      "CTA": "Enter your email address and we will send you a link to reset your password."
+    },
+    "resetPass": {
+      "title": "Reset Your Password",
+      "CTA": "Enter your new password and confirm it to complete the password reset process."
     }
   }
 }

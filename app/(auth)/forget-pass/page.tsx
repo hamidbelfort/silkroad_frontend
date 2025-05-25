@@ -12,11 +12,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import forgotPassImage from "@/public/images/forgot-password.svg";
 import { requestOTP } from "@/lib/api/requestPassword";
+import { useTranslation } from "react-i18next";
 export default function RequestResetForm() {
+  const { t } = useTranslation("common");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const formSchema = z.object({
-    email: z.string().email({ message: "Invalid email" }),
+    email: z.string().email({
+      message: t("validation.email"),
+    }),
     language: z.string(),
   });
 
@@ -33,14 +37,16 @@ export default function RequestResetForm() {
   const onSubmit = async (data: FormSchema) => {
     setLoading(true);
     try {
-      data.language = localStorage.getItem("language") || "en";
       const res = await requestOTP(data);
-      if (!res?.success) throw new Error(res?.message || "An error occured");
+      if (!res?.success)
+        toast.error(res?.message || "An error occured", {
+          icon: "🚨",
+        });
 
-      toast.success("OTP has been sent");
-      router.push(`/reset-password/verify?email=${data.email}`);
+      toast.success("OTP has been sent", { icon: "🎉" });
+      router.push(`/reset-password/?email=${data.email}`);
     } catch {
-      toast.error("Something bad happend");
+      toast.error("Something bad happend", { icon: "🚨" });
     } finally {
       setLoading(false);
     }
@@ -49,14 +55,23 @@ export default function RequestResetForm() {
     <div className="min-h-screen flex items-center justify-center px-4">
       <Card className="w-full max-w-md shadow-xl">
         <CardContent className="p-6 space-y-6">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold">Forget Password</h2>
-            <p className="text-sm text-gray-500">Please enter your email</p>
+          <div className="text-center flex flex-col gap-4">
+            <h2 className="text-2xl font-bold">
+              {t("forms.forgetPass.title")}
+            </h2>
+            <p className="text-sm text-gray-500">
+              {t("forms.forgetPass.CTA")}
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div>
-              <Label htmlFor="email">Email</Label>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="email">
+                {t("label.common.email")}
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -69,9 +84,24 @@ export default function RequestResetForm() {
                 </p>
               )}
             </div>
+            <div>
+              <Input
+                type="hidden"
+                {...register("language")}
+                value={
+                  localStorage.getItem("language") || "en"
+                }
+              />
+            </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Submitting..." : "Send OTP"}
+            <Button
+              type="submit"
+              className="w-full hover:cursor-pointer"
+              disabled={loading}
+            >
+              {loading
+                ? t("label.common.submitting")
+                : t("common.sendOTP")}
             </Button>
           </form>
 
@@ -79,8 +109,8 @@ export default function RequestResetForm() {
             <Image
               src={forgotPassImage}
               alt="Forgot password"
-              width={150}
-              height={150}
+              width={200}
+              height={200}
               className="object-contain"
             />
           </div>

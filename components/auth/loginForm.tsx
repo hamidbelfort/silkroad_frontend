@@ -150,7 +150,7 @@ export function LoginForm() {
             {isSubmitting ? (
               <>
                 <Loader className="animate-spin h-4 w-4 mr-2" />
-                Submiting...
+                {t("common.submitting")}
               </>
             ) : (
               t("login")
@@ -159,7 +159,7 @@ export function LoginForm() {
 
           <div className="flex justify-between gap-8 w-full text-sm mt-4">
             <Link
-              href="/forgot-password"
+              href="/forget-pass"
               className="text-foreground hover:underline"
             >
               {t("forgotPassword")}

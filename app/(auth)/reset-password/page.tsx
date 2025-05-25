@@ -1,5 +1,9 @@
+"use client";
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import {
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,23 +18,31 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { verifyOTP } from "@/lib/api/resetPassword";
+import { Loader } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const formSchema = z
   .object({
-    otp: z.string().length(6, { message: "OTP must be 6 digits" }),
-    newPassword: z
+    otp: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
+      .length(6, { message: "OTP must be 6 digits" }),
+    newPassword: z.string().min(6, {
+      message: "Password must be at least 6 characters",
+    }),
     confirmPassword: z.string(),
   })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+  .refine(
+    (data) => data.newPassword === data.confirmPassword,
+    {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    }
+  );
 
 type FormSchema = z.infer<typeof formSchema>;
 
 export default function VerifyResetPasswordForm() {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
@@ -55,12 +67,17 @@ export default function VerifyResetPasswordForm() {
         newPassword: data.newPassword,
       });
       if (!res?.success)
-        throw toast.error(res?.message || "Something went wrong");
+        throw toast.error(
+          res?.message || "Something went wrong",
+          { icon: "🚨" }
+        );
 
-      toast.success("Password reset successfully");
+      toast.success("Password reset successfully", {
+        icon: "🎉",
+      });
       router.push("/login");
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      toast.error((err as Error).message);
     } finally {
       setLoading(false);
     }
@@ -71,18 +88,25 @@ export default function VerifyResetPasswordForm() {
       <Card className="w-full max-w-md shadow-xl">
         <CardContent className="p-6 space-y-6">
           <div className="text-center">
-            <h2 className="text-2xl font-bold">Reset Password</h2>
+            <h2 className="text-2xl font-bold">
+              {t("forms.resetPass.title")}
+            </h2>
             <p className="text-sm text-gray-500">
-              Enter the OTP and your new password
+              {t("forms.resetPass.CTA")}
             </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4"
+          >
             <div>
-              <Label htmlFor="otp">OTP Code</Label>
+              <Label htmlFor="otp">
+                {t("common.otpCode")}
+              </Label>
               <InputOTP
                 maxLength={6}
-                onChange={(val: any) => setValue("otp", val)}
+                onChange={(val) => setValue("otp", val)}
               >
                 <InputOTPGroup>
                   {[...Array(6)].map((_, i) => (
@@ -98,7 +122,9 @@ export default function VerifyResetPasswordForm() {
             </div>
 
             <div>
-              <Label htmlFor="newPassword">New Password</Label>
+              <Label htmlFor="newPassword">
+                {t("label.common.newPassword")}
+              </Label>
               <Input
                 id="newPassword"
                 type="password"
@@ -112,7 +138,9 @@ export default function VerifyResetPasswordForm() {
             </div>
 
             <div>
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword">
+                {t("label.common.confirmPassword")}
+              </Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -125,8 +153,19 @@ export default function VerifyResetPasswordForm() {
               )}
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Submitting..." : "Reset Password"}
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader className="mr-2 animate-spin" />
+                  {t("common.submitting")}
+                </>
+              ) : (
+                t("label.common.resetPassword")
+              )}
             </Button>
           </form>
         </CardContent>

@@ -93,7 +93,7 @@ export default function RegisterForm() {
               <User className="w-4 h-4" />
             </span>
             <Input
-              placeholder="eg : Mike Smith"
+              placeholder="eg : John Doe"
               {...register("fullname")}
               className="pl-9"
             />

@@ -31,6 +31,16 @@
     "admin": "管理",
     "operator": "运营商"
   },
+  "common": {
+    "submit": "提交",
+    "cancel": "取消",
+    "delete": "删除",
+    "update": "更新",
+    "create": "创造",
+    "saveChanges": "保存更改",
+    "sendOTP": "发送 OTP",
+    "otpCode": "OTP 代码"
+  },
   "dashboard": {
     "title": "挡泥板",
     "ordersHistory": "订单历史",
@@ -68,6 +78,9 @@
       "profitMargin": "利润率必须是介于1到99之间的正数",
       "email": "无效的电子邮件",
       "orderDisputeThreshold": "阈值必须是有效数字"
+    },
+    "forgotPassword": {
+      "email": "无效的电子邮件"
     }
   },
   "upload": {
@@ -169,6 +182,19 @@
     "save": "保存",
     "refresh": "刷新",
     "amount": "量",
+    "common": {
+      "email": "电子邮件",
+      "password": "密码",
+      "newPassword": "新密码",
+      "confirmPassword": "确认密码",
+      "resetPassword": "重置密码",
+      "name": "名称",
+      "phone": "电话",
+      "weChat": "微信",
+      "whatsapp": "WhatsApp",
+      "address": "地址",
+      "bio": "简介"
+    },
     "contact": {
       "name": "全名",
       "email": "电子邮件",
@@ -192,6 +218,14 @@
       "title": "前所未有的伊朗旅行体验",
       "CTA": "立即注册，开启专属旅行服务，预订独特体验，轻松探索伊朗的隐藏宝藏，安心畅游！",
       "features": "“原汁原味 · 流畅无阻 · 难以忘怀”"
+    },
+    "forgetPass": {
+      "title": "忘记密码",
+      "CTA": "请输入您的电子邮件地址，我们将向您发送重置密码链接。"
+    },
+    "resetPass": {
+      "title": "重置密码",
+      "CTA": "请输入您的新密码和确认它以完成密码重置过程。"
     }
   }
 }
