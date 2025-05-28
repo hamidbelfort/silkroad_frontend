@@ -60,9 +60,17 @@ export default function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormInputs) => {
     try {
-      await registerUser(data);
-      toast.success("Registration successful!");
-      router.push("/login");
+      const res = await registerUser(data);
+      if (res) {
+        if (res?.success) {
+          toast.success("Registration successful!");
+          router.push("/login");
+        } else {
+          toast.error(
+            res?.message || "Registration failed"
+          );
+        }
+      }
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message || "Registration failed");

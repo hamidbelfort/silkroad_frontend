@@ -18,6 +18,10 @@ interface RegisterPayload {
   email: string;
   password: string;
 }
+interface RegisterResponse {
+  success: boolean;
+  message: string;
+}
 export const loginUser = async (
   payload: LoginPayload
 ): Promise<LoginResponse> => {
@@ -58,7 +62,7 @@ export const loginUser = async (
 
 export const registerUser = async (
   payload: RegisterPayload
-) => {
+): Promise<RegisterResponse | null> => {
   try {
     const res = await axiosInstance.post(
       "/api/auth/register",
@@ -68,6 +72,7 @@ export const registerUser = async (
     return res.data;
   } catch (err) {
     console.log("Failed to get user info :" + err);
+    return null;
   }
 };
 export const getUserInfo = async (userId: string) => {

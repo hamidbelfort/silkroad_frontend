@@ -33,7 +33,8 @@ export function ExchangeRateCard({
         setLoading(true);
         const data = await getExchangeRate();
         setRate(data);
-        if (onRateChange) onRateChange(data.basePrice);
+        if (onRateChange)
+          onRateChange(data?.basePrice || 0);
         setLastUpdated(new Date().toLocaleTimeString());
       } catch (err) {
         console.error("Error fetching rate:", err);
