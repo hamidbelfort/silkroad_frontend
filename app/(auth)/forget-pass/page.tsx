@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import forgotPassImage from "@/public/images/forgot-password.svg";
 import { requestOTP } from "@/lib/api/requestPassword";
 import { useTranslation } from "react-i18next";
+import { Loader } from "lucide-react";
 export default function RequestResetForm() {
   const { t } = useTranslation("common");
   const [loading, setLoading] = useState(false);
@@ -53,38 +54,48 @@ export default function RequestResetForm() {
   };
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
-      <Card className="w-full max-w-md shadow-xl">
-        <CardContent className="p-6 space-y-6">
-          <div className="text-center flex flex-col gap-4">
-            <h2 className="text-2xl font-bold">
-              {t("forms.forgetPass.title")}
-            </h2>
-            <p className="text-sm text-gray-500">
-              {t("forms.forgetPass.CTA")}
-            </p>
-          </div>
-
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="email">
-                {t("label.common.email")}
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                {...register("email")}
+      <Card className="w-full max-w-4xl shadow-xl">
+        <CardContent className="p-6">
+          <div className="flex flex-col md:flex-row gap-6 items-center">
+            {/* سمت چپ: تصویر و عنوان */}
+            <div className="flex flex-col items-center text-center md:items-start md:text-left md:w-1/2 gap-4">
+              <h2 className="text-2xl font-bold">
+                {t("forms.forgetPass.title")}
+              </h2>
+              <p className="text-sm text-gray-500">
+                {t("forms.forgetPass.CTA")}
+              </p>
+              <Image
+                src={forgotPassImage}
+                alt="Forgot password"
+                width={250}
+                height={250}
+                className="object-contain"
               />
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email.message}
-                </p>
-              )}
             </div>
-            <div>
+
+            {/* سمت راست: فرم */}
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="w-full md:w-1/2 space-y-4"
+            >
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="email">
+                  {t("label.common.email")}
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
               <Input
                 type="hidden"
                 {...register("language")}
@@ -92,27 +103,22 @@ export default function RequestResetForm() {
                   localStorage.getItem("language") || "en"
                 }
               />
-            </div>
 
-            <Button
-              type="submit"
-              className="w-full hover:cursor-pointer"
-              disabled={loading}
-            >
-              {loading
-                ? t("label.common.submitting")
-                : t("common.sendOTP")}
-            </Button>
-          </form>
-
-          <div className="w-full flex justify-center pt-4">
-            <Image
-              src={forgotPassImage}
-              alt="Forgot password"
-              width={200}
-              height={200}
-              className="object-contain"
-            />
+              <Button
+                type="submit"
+                className="w-full hover:cursor-pointer"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    {t("common.submitting")}
+                  </>
+                ) : (
+                  t("common.sendOTP")
+                )}
+              </Button>
+            </form>
           </div>
         </CardContent>
       </Card>

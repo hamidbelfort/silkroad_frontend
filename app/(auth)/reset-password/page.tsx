@@ -100,7 +100,7 @@ export default function VerifyResetPasswordForm() {
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-4"
           >
-            <div>
+            <div className="flex flex-col items-center gap-2">
               <Label htmlFor="otp">
                 {t("common.otpCode")}
               </Label>
@@ -122,12 +122,10 @@ export default function VerifyResetPasswordForm() {
             </div>
 
             <div>
-              <Label htmlFor="newPassword">
-                {t("label.common.newPassword")}
-              </Label>
               <Input
                 id="newPassword"
                 type="password"
+                placeholder={t("label.common.newPassword")}
                 {...register("newPassword")}
               />
               {errors.newPassword && (
@@ -138,12 +136,12 @@ export default function VerifyResetPasswordForm() {
             </div>
 
             <div>
-              <Label htmlFor="confirmPassword">
-                {t("label.common.confirmPassword")}
-              </Label>
               <Input
                 id="confirmPassword"
                 type="password"
+                placeholder={t(
+                  "label.common.confirmPassword"
+                )}
                 {...register("confirmPassword")}
               />
               {errors.confirmPassword && (
