@@ -77,7 +77,9 @@
     "settings": {
       "profitMargin": "利润率必须是介于1到99之间的正数",
       "email": "无效的电子邮件",
-      "orderDisputeThreshold": "阈值必须是有效数字"
+      "orderDisputeThreshold": "阈值必须是一个介于 3600 和 86400 之间的数字",
+      "smtpUser": "SMTP 用户名必须至少包含 3 个字符",
+      "smtpPassword": "SMTP 密码必须至少包含 3 个字符"
     },
     "forgotPassword": {
       "email": "无效的电子邮件"
@@ -188,6 +190,7 @@
       "newPassword": "新密码",
       "confirmPassword": "确认密码",
       "resetPassword": "重置密码",
+      "linkToForget": "返回忘记密码",
       "name": "名称",
       "phone": "电话",
       "weChat": "微信",
@@ -204,8 +207,10 @@
     },
     "settings": {
       "profitMargin": "利润率",
-      "orderDisputeThreshold": "订单争议阈值",
-      "adminEmail": "管理员电子邮件"
+      "orderDisputeThreshold": "订单争议阈值 (秒)",
+      "adminEmail": "管理员电子邮件",
+      "smtpUser": "SMTP 用户名",
+      "smtpPass": "SMTP 密码"
     }
   },
   "forms": {

@@ -37,10 +37,12 @@ const ContactUsForm = () => {
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
   });
-
+  const [isLoading, setLoading] = useState(false);
   const loadCaptcha = async () => {
     try {
+      setLoading(true);
       const res = await requestCaptcha();
+      setLoading(false);
       if (res?.image && res?.hash) {
         setCaptchaImage(res.image);
         setCaptchaHash(res.hash);
@@ -50,6 +52,8 @@ const ContactUsForm = () => {
     } catch (err) {
       toast.error("Failed to load captcha");
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -145,8 +149,12 @@ const ContactUsForm = () => {
             variant="ghost"
             size="icon"
             onClick={loadCaptcha}
+            disabled={isLoading}
+            className="hover:cursor-pointer"
           >
-            <RotateCcw className="h-5 w-5" />
+            <RotateCcw
+              className={isLoading ? "h-5 w-5 animate-spin" : "h-5 w-5"}
+            />
           </Button>
         </div>
 
@@ -165,7 +173,7 @@ const ContactUsForm = () => {
       <Button
         type="submit"
         disabled={isSubmitting || !capHash}
-        className="w-full"
+        className="w-full hover:cursor-pointer"
       >
         {isSubmitting ? (
           <>

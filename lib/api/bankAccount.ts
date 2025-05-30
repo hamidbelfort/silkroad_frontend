@@ -8,8 +8,8 @@ export const getBankAccounts = async (
     const res = await axiosInstance.get(`/api/bankaccount/user/${userId}`);
     return res.status === 200 ? res.data : [];
   } catch (err) {
-    console.log("Error getting bank accounts");
-    throw err;
+    console.log("Error getting bank accounts" + err);
+    return [];
   }
 };
 export const createBankAccount = async (

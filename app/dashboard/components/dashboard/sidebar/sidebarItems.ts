@@ -16,6 +16,7 @@ import {
   MapPin,
   Info,
   User2,
+  Settings2,
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 export const adminSidebarItems: SidebarItemType[] = [
@@ -48,6 +49,11 @@ export const adminSidebarItems: SidebarItemType[] = [
         label: "Company Details",
         href: "/dashboard/admin/company-details",
         icon: Info,
+      },
+      {
+        label: "Main Settings",
+        href: "/dashboard/admin/app-settings",
+        icon: Settings2,
       },
     ],
   },

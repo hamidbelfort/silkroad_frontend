@@ -43,6 +43,28 @@ export function requiredStringLength(
   );
   return schema;
 }
+export function requiredMinNumber(min: number, errorMessage?: string) {
+  const schema = z.number().refine(
+    (val) => {
+      return val >= min;
+    },
+    {
+      message: errorMessage || `Value must be at least ${min}`,
+    }
+  );
+  return schema;
+}
+export function requiredMinString(min: number, errorMessage?: string) {
+  const schema = z.string().refine(
+    (val) => {
+      return val.length >= min;
+    },
+    {
+      message: errorMessage || `Length must be at least ${min} characters`,
+    }
+  );
+  return schema;
+}
 export function optionalFixedLengthString(
   length: number,
   message = `Field must be ${length} characters`

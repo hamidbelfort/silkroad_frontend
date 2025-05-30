@@ -60,7 +60,9 @@
     "settings": {
       "profitMargin": "Profit margin must be positive number between 1 to 99",
       "email": "Invalid email",
-      "orderDisputeThreshold": "Threshold must be a valid number"
+      "orderDisputeThreshold": "Threshold must be a number between 3600 and 86400",
+      "smtpUser": "SMTP user must be at least 3 characters",
+      "smtpPassword": "SMTP password must be at least 3 characters"
     },
     "forgotPassword": {
       "email": "Invalid email"
@@ -182,6 +184,7 @@
       "newPassword": "New Password",
       "confirmPassword": "Confirm Password",
       "resetPassword": "Reset Password",
+      "linkToForget": "Return to forget password",
       "name": "Name",
       "phone": "Phone",
       "weChat": "WeChat",
@@ -198,8 +201,10 @@
     },
     "settings": {
       "profitMargin": "Profit Margin",
-      "orderDisputeThreshold": "Order Dispute Threshold",
-      "adminEmail": "Admin Email"
+      "orderDisputeThreshold": "Order Dispute Threshold(seconds)",
+      "adminEmail": "Admin Email",
+      "smtpUser": "SMTP Username",
+      "smtpPass": "SMTP Password"
     }
   },
   "forms": {

@@ -4,7 +4,7 @@ export interface BankAccount {
   bankName: string;
   accountOwner: string;
   accountNumber?: string;
-  iban?: string;
+  iban: string;
   cardNumber?: string;
   cardImage?: string;
 }

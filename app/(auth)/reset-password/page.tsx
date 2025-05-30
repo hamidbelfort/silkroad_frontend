@@ -1,9 +1,6 @@
 "use client";
 import { useState } from "react";
-import {
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,24 +17,20 @@ import {
 import { verifyOTP } from "@/lib/api/resetPassword";
 import { Loader } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import Link from "next/link";
 
 const formSchema = z
   .object({
-    otp: z
-      .string()
-      .length(6, { message: "OTP must be 6 digits" }),
+    otp: z.string().length(6, { message: "OTP must be 6 digits" }),
     newPassword: z.string().min(6, {
       message: "Password must be at least 6 characters",
     }),
     confirmPassword: z.string(),
   })
-  .refine(
-    (data) => data.newPassword === data.confirmPassword,
-    {
-      message: "Passwords do not match",
-      path: ["confirmPassword"],
-    }
-  );
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 type FormSchema = z.infer<typeof formSchema>;
 
@@ -67,10 +60,9 @@ export default function VerifyResetPasswordForm() {
         newPassword: data.newPassword,
       });
       if (!res?.success)
-        throw toast.error(
-          res?.message || "Something went wrong",
-          { icon: "🚨" }
-        );
+        throw toast.error(res?.message || "Something went wrong", {
+          icon: "🚨",
+        });
 
       toast.success("Password reset successfully", {
         icon: "🎉",
@@ -88,25 +80,16 @@ export default function VerifyResetPasswordForm() {
       <Card className="w-full max-w-md shadow-xl">
         <CardContent className="p-6 space-y-6">
           <div className="text-center">
-            <h2 className="text-2xl font-bold">
-              {t("forms.resetPass.title")}
-            </h2>
-            <p className="text-sm text-gray-500">
-              {t("forms.resetPass.CTA")}
-            </p>
+            <h2 className="text-2xl font-bold">{t("forms.resetPass.title")}</h2>
+            <p className="text-sm text-gray-500">{t("forms.resetPass.CTA")}</p>
           </div>
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="flex flex-col items-center gap-2">
-              <Label htmlFor="otp">
-                {t("common.otpCode")}
-              </Label>
+              <Label htmlFor="otp">{t("common.otpCode")}</Label>
               <InputOTP
                 maxLength={6}
-                onChange={(val) => setValue("otp", val)}
+                onChange={(val: string) => setValue("otp", val)}
               >
                 <InputOTPGroup>
                   {[...Array(6)].map((_, i) => (
@@ -139,9 +122,7 @@ export default function VerifyResetPasswordForm() {
               <Input
                 id="confirmPassword"
                 type="password"
-                placeholder={t(
-                  "label.common.confirmPassword"
-                )}
+                placeholder={t("label.common.confirmPassword")}
                 {...register("confirmPassword")}
               />
               {errors.confirmPassword && (
@@ -153,7 +134,7 @@ export default function VerifyResetPasswordForm() {
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full hover:cursor-pointer"
               disabled={loading}
             >
               {loading ? (
@@ -165,6 +146,14 @@ export default function VerifyResetPasswordForm() {
                 t("label.common.resetPassword")
               )}
             </Button>
+            <div className="text-center">
+              <Link
+                href="/forget-pass"
+                className="text-sm underline text-muted-foreground hover:no-underline"
+              >
+                {t("label.common.linkToForget")}
+              </Link>
+            </div>
           </form>
         </CardContent>
       </Card>
