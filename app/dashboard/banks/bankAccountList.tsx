@@ -2,12 +2,7 @@
 import Image from "next/image";
 import { BankAccount } from "@/lib/types/bankAccount";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash2, Pencil, WalletCards } from "lucide-react";
 import { TruncatedText } from "@/components/ui/truncated-text";
 
@@ -52,12 +47,10 @@ export function BankAccountList({
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
             <p>
-              <strong>Owner:</strong>{" "}
-              {acc.accountOwner || "---"}
+              <strong>Owner:</strong> {acc.accountOwner || "---"}
             </p>
             <p>
-              <strong>Account Number:</strong>{" "}
-              {acc.accountNumber || "---"}
+              <strong>Account Number:</strong> {acc.accountNumber || "---"}
             </p>
             <p>
               <strong>Card Number:</strong>{" "}
@@ -68,7 +61,8 @@ export function BankAccountList({
             {/* <p className="w-40 truncate" title={acc.iban}>
               <strong>IBAN:</strong> {truncateText(acc.iban, 14)}
             </p> */}
-            <TruncatedText text={acc.iban} maxLength={14} />
+            {/* <TruncatedText text={acc.iban} maxLength={14} /> */}
+            <p>Hello IBAN</p>
             {acc.cardImage && acc.cardImage !== "NaN" ? (
               <div className="pt-2">
                 <Image
