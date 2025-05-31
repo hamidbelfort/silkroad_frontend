@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { BankAccountSelector } from "./bankAccountSelector";
 import { useTranslation } from "react-i18next";
 import { Loader } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 import { BankAccount } from "@/lib/types/bankAccount";
 const exchangeSchema = z.object({
