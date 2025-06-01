@@ -12,8 +12,12 @@ interface Props {
   accounts: BankAccount[];
   onSelect: (account: BankAccount) => void;
 }
-export function BankAccountSelector({ accounts, onSelect }: Props) {
-  const [selected, setSelected] = useState<BankAccount | null>(null);
+export function BankAccountSelector({
+  accounts,
+  onSelect,
+}: Props) {
+  const [selected, setSelected] =
+    useState<BankAccount | null>(null);
 
   const handleSelect = (acc: BankAccount) => {
     setSelected(acc);
@@ -37,11 +41,15 @@ export function BankAccountSelector({ accounts, onSelect }: Props) {
                 onClick={() => handleSelect(acc)}
                 className="cursor-pointer"
               >
-                {acc.bankName} - {acc.accountNumber}
+                {acc.bankName} - {acc.accountNumber}-
+                {acc.iban || ""}
               </DropdownMenuItem>
             ))
           ) : (
-            <DropdownMenuItem disabled className="text-muted-foreground">
+            <DropdownMenuItem
+              disabled
+              className="text-muted-foreground"
+            >
               {"No accounts found"}
             </DropdownMenuItem>
           )}

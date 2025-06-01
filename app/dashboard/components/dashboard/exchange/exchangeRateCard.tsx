@@ -27,32 +27,32 @@ export function ExchangeRateCard({
   const [lastUpdated, setLastUpdated] =
     useState<string>("");
   const { t } = useTranslation("common");
+  const fetchRate = async () => {
+    try {
+      setLoading(true);
+      const data = await getExchangeRate();
+      setRate(data);
+      if (onRateChange) onRateChange(data?.basePrice || 0);
+      setLastUpdated(new Date().toLocaleTimeString());
+    } catch (err) {
+      console.error("Error fetching rate:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchRate = async () => {
-      try {
-        setLoading(true);
-        const data = await getExchangeRate();
-        setRate(data);
-        if (onRateChange)
-          onRateChange(data?.basePrice || 0);
-        setLastUpdated(new Date().toLocaleTimeString());
-      } catch (err) {
-        console.error("Error fetching rate:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchRate();
-    const interval = setInterval(fetchRate, 10 * 60 * 1000); // هر ۱۰ دقیقه
-    return () => clearInterval(interval);
-  }, [onRateChange]);
+  }, []);
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Circle color="#00b300" size={16} />
+          <Circle
+            color="#00b300"
+            size={12}
+            fill="#00b300"
+          />
           <span className="flex justify-between gap-2">
             Live RMB Price
             <Flag code="cn" style={{ width: 20 }} />

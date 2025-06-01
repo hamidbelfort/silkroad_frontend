@@ -14,6 +14,11 @@ import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/store/authStore";
 import { ImageUploader } from "@/components/ui/imageUploader";
 import { uploadImage } from "@/lib/api/upload";
+import {
+  optionalFixedLengthString,
+  optionalMobile,
+} from "@/lib/validations/zodHelper";
+import { Loader } from "lucide-react";
 export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] =
@@ -22,22 +27,19 @@ export default function ProfilePage() {
   const { userId } = useAuthStore();
   const userProfileSchema = z.object({
     avatar: z.string().optional(),
-    address: z
-      .string()
-      .min(5, t("validation.address"))
-      .optional(),
-    bio: z
-      .string()
-      .max(300, t("validation.bio300"))
-      .optional(),
-    whatsapp: z
-      .string()
-      .min(8, t("validation.whatsapp"))
-      .optional(),
-    wechat: z
-      .string()
-      .min(3, t("validation.weChat"))
-      .optional(),
+    address: optionalFixedLengthString(
+      5,
+      t("validation.address")
+    ),
+    bio: optionalFixedLengthString(
+      300,
+      t("validation.bio300")
+    ),
+    whatsapp: optionalMobile(t("validation.whatsapp")),
+    wechat: optionalFixedLengthString(
+      3,
+      t("validation.weChat")
+    ),
   });
 
   type UserProfileFormValues = z.infer<
@@ -139,7 +141,7 @@ export default function ProfilePage() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <Label>{t("profile.wechat")}</Label>
+        <Label>{t("profile.weChat")}</Label>
         <Input
           {...register("wechat")}
           placeholder="WeChat ID or Number"
@@ -151,10 +153,19 @@ export default function ProfilePage() {
         )}
       </div>
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting
-          ? t("message.submitting")
-          : t("message.saveChanges")}
+      <Button
+        type="submit"
+        className="hover:cursor-pointer"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? (
+          <>
+            <Loader className="animate-spin mr-2" />
+            {t("message.submitting")}
+          </>
+        ) : (
+          t("message.saveChanges")
+        )}
       </Button>
     </form>
   );

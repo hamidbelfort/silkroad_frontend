@@ -46,7 +46,14 @@ const Exchange = () => {
   useEffect(() => {
     getExchangeRatePrice();
     getUserBankAccounts(userId);
-  });
+    const interval = setInterval(
+      getExchangeRatePrice,
+      10 * 60 * 1000
+    ); // هر ۱۰ دقیقه
+
+    // پاکسازی اینتروال هنگام unmount شدن کامپوننت
+    return () => clearInterval(interval);
+  }, [userId]);
   return (
     <div className="container mx-auto p-4 space-y-6">
       <h1 className="text-2xl font-bold text-center">
@@ -65,7 +72,9 @@ const Exchange = () => {
           <AccordionContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <ExchangeRateCard
-                onRateChange={(rate) => setRate(rate)}
+                onRateChange={(currentRate) =>
+                  setRate(currentRate)
+                }
               />
               <PriceChartCard />
             </div>

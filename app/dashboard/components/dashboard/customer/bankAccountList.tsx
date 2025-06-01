@@ -10,6 +10,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Trash2, Pencil, WalletCards } from "lucide-react";
+//import { TruncatedText } from "@/components/ui/truncated-text";
+import { truncateText } from "@/lib/utils/stringHelpers";
 
 interface BankAccountListProps {
   accounts: BankAccount[];
@@ -65,8 +67,10 @@ export function BankAccountList({
               {acc.cardNumber || "---"}
             </p>
             <p>
-              <strong>IBAN:</strong> {acc.iban || "---"}
+              <strong>IBAN:</strong>{" "}
+              {truncateText(acc.iban, 10)}
             </p>
+
             {acc.cardImage && acc.cardImage !== "NaN" ? (
               <div className="pt-2">
                 <Image
