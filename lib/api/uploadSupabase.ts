@@ -6,14 +6,13 @@ export async function uploadToServer(
   folder: FolderType,
   file: File,
   userId?: string
-) {
+): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("folder", folder);
+  formData.append("type", folder);
   if (userId) {
     formData.append("userId", userId);
   }
-
   try {
     const response = await axiosInstance.post(
       "/api/upload",
@@ -24,9 +23,9 @@ export async function uploadToServer(
         },
       }
     );
-    return response.data; // شامل path و bucket و غیره
+    return response.data.imageUrl; // شامل path و bucket و غیره
   } catch (error) {
     console.error("Upload error:", error);
-    throw error;
+    return "";
   }
 }

@@ -94,7 +94,8 @@
     "cardImage": "卡片图像",
     "sliderImage": "滑块图像",
     "profileImage": "个人图像",
-    "cardQuestion": "不知道卡片详情?上传照片"
+    "cardQuestion": "不知道卡片详情?上传照片",
+    "pending": "等待中..."
   },
   "profile": {
     "fullname": "全名",

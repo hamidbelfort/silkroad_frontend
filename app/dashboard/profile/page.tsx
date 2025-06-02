@@ -13,12 +13,13 @@ import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/store/authStore";
 import { ImageUploader } from "@/components/ui/imageUploader";
-import { uploadImage } from "@/lib/api/upload";
+//import { uploadImage } from "@/lib/api/upload";
 import {
   optionalFixedLengthString,
   optionalMobile,
 } from "@/lib/validations/zodHelper";
 import { Loader } from "lucide-react";
+import { uploadToServer } from "@/lib/api/uploadSupabase";
 export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] =
@@ -65,6 +66,7 @@ export default function ProfilePage() {
         setValue("bio", data?.bio || "");
         setValue("whatsapp", data?.whatsapp || "");
         setValue("wechat", data?.wechat || "");
+        setValue("avatar", data?.avatar || undefined);
         setLoading(false);
       }
       setLoading(false);
@@ -77,16 +79,20 @@ export default function ProfilePage() {
   ) => {
     try {
       if (selectedImage) {
-        const url = await uploadImage(
+        const url = await uploadToServer(
+          "profile",
           selectedImage,
-          "profile"
+          userId
         );
-        values.avatar = url;
+        console.log(url);
+        if (url !== "") {
+          values.avatar = url;
+        }
       }
       await postProfile(values);
-      toast.success(t("validation.profileUpdateSuccess"));
+      toast.success(t("message.profileUpdateSuccess"));
     } catch {
-      toast.error(t("valiation.profileSubmitError"));
+      toast.error(t("message.profileSubmitError"));
     }
   };
 

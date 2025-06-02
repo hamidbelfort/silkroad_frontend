@@ -5,10 +5,11 @@ export const uploadImage = async (
   folder: string
 ): Promise<string> => {
   const formData = new FormData();
-  formData.append("image", file);
+  formData.append("file", file);
+  formData.append("type", folder);
 
   const response = await axiosInstance.post(
-    `/api/upload?folder=${folder}`,
+    `/api/upload`,
     formData,
     {
       headers: { "Content-Type": "multipart/form-data" },
