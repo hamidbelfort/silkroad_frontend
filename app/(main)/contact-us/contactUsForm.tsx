@@ -9,7 +9,7 @@ import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader, RotateCcw } from "lucide-react";
+import { Loader, RotateCcw, CloudOffIcon } from "lucide-react";
 import { submitMessage } from "@/lib/api/contactMessage";
 import { requestCaptcha } from "@/lib/api/captcha";
 import Image from "next/image";
@@ -47,10 +47,12 @@ const ContactUsForm = () => {
         setCaptchaImage(res.image);
         setCaptchaHash(res.hash);
       } else {
-        console.error("Invalid captcha response");
+        setCaptchaImage("");
+        setCaptchaHash("");
+        //console.error("Invalid captcha response");
       }
     } catch (err) {
-      toast.error("Failed to load captcha");
+      toast.error("Failed to load captcha. Please reload the page");
       console.error(err);
     } finally {
       setLoading(false);
@@ -90,6 +92,14 @@ const ContactUsForm = () => {
       <div className="text-center py-20">
         <Loader className="h-8 w-8 animate-spin mx-auto mb-4" />
         <p>Loading contact form...</p>
+      </div>
+    );
+  }
+  if (capHash == "" || captchaImage == "") {
+    return (
+      <div className="text-center py-20">
+        <CloudOffIcon className="h-8 w-8 mx-auto mb-4" />
+        <p>Please reload the page</p>
       </div>
     );
   }
