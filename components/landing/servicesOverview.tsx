@@ -2,7 +2,6 @@
 "use client";
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { AnimatedSection } from "@/components/ui/animatedSection";
 import { Hotel, DollarSign, Users, LifeBuoy } from "lucide-react";
 

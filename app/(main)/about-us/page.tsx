@@ -46,7 +46,7 @@ export default function AboutUs() {
               <CheckCircle className="w-10 h-10 mx-auto mb-4 text-green-600" />
               <h3 className="text-xl font-medium">Security</h3>
               <p className="text-sm text-muted-foreground mt-2">
-                We protect our users’ data and transactions with top-grade
+                We protect our users&apos data and transactions with top-grade
                 security.
               </p>
             </CardContent>
