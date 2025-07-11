@@ -43,11 +43,11 @@ export default function AboutUs() {
           {/* (تغییر) رنگ آیکن برای هماهنگی و حس مثبت به text-primary تغییر کرد */}
           <CheckCircle className="w-10 h-10 text-primary mr-2" />
           <h2 className="text-3xl font-semibold">
-            {t("pages.about.sections.missions.title")}
+            {t("pages.about.sections.mission.title")}
           </h2>
         </div>
         <p className="max-w-3xl mx-auto text-muted-foreground text-lg">
-          {t("pages.about.sections.missions.desc")}
+          {t("pages.about.sections.mission.desc")}
         </p>
       </section>
 
@@ -55,7 +55,9 @@ export default function AboutUs() {
 
       {/* Values Section */}
       <section className="space-y-8">
-        <h2 className="text-3xl font-semibold text-center">Our Values</h2>
+        <h2 className="text-3xl font-semibold text-center">
+          {t("pages.about.sections.values.title")}
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           <Card className="text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
             <CardContent className="py-8">
@@ -110,9 +112,9 @@ export default function AboutUs() {
                 className="relative bg-background p-4 rounded-lg border w-48 text-center transition-transform duration-300 hover:scale-110"
               >
                 <div className="absolute -top-2.5 left-1/2 md:left-1/2 md:-top-2 w-5 h-5 bg-primary rounded-full border-4 border-background -translate-x-1/2" />
-                <h3 className="font-semibold text-lg">{event.year}</h3>
+                <h3 className="font-semibold text-lg">{t(event.year)}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {event.description}
+                  {t(event.description)}
                 </p>
               </div>
             ))}
@@ -150,13 +152,15 @@ export default function AboutUs() {
       {/* CTA Section - (تغییر) دکمه به لینک تبدیل شده است */}
       <div className="text-center space-y-4">
         <p className="text-lg text-muted-foreground">
-          Have any ideas in your mind? Let&apos;s talk.
+          {t("pages.about.sections.contact.title")}
         </p>
         <Link href="/contact-us" passHref>
           <Button
             size="lg"
             className="text-lg cursor-pointer hover:scale-105 transition-all duration-200"
-          ></Button>
+          >
+            {t("pages.about.sections.contact.CTA")}
+          </Button>
         </Link>
       </div>
     </div>

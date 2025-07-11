@@ -242,6 +242,7 @@
           "desc": "Our mission is to simplify travel for tourists by providing seamless,multilingual and reliable services."
         },
         "values": {
+          "title": "Our Values",
           "security": "Security",
           "securityDesc": "We protect our user's data and transactions with top-grade security.",
           "support": "Multilingual Support",
@@ -250,7 +251,7 @@
           "partnersDesc": "We work with trusted local businesses to ensure quality service."
         },
         "timeline": {
-          "title": "",
+          "title": "Our Story",
           "a": {
             "year": "2024",
             "desc": "Project launched"
