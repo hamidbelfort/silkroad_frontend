@@ -1,35 +1,43 @@
 // components/landing/ServiceSections.tsx
+"use client";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
 import { AnimatedSection } from "@/components/ui/animatedSection";
+import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 const services = [
   {
     id: "hotel",
-    title: "Hotel Booking",
-    desc: "Beyond a simple search, book with confidence. We offer a curated selection of verified hotels, from boutique guesthouses to luxury resorts, all across Iran. Our seamless booking process ensures you have a comfortable and secure place to stay, so you can focus on your journey.",
+    title: "sections.hotelServices.title",
+    desc: "sections.hotelServices.desc",
     img: "/images/hotel.png",
+    alt: "Hotel Booking",
   },
   {
     id: "exchange",
-    title: "Currency Exchange",
-    desc: "Navigate currency exchange with clarity and confidence. Avoid hidden fees and confusing rates with our platform, which provides transparent, real-time exchange rates. Exchange your currency securely and get the best value for your money.",
+    title: "sections.exchangeServices.title",
+    desc: "sections.exchangeServices.desc",
     img: "/images/exchange.jpg",
+    alt: "Currency Exchange",
   },
   {
     id: "tours",
-    title: "Tour Guides",
-    desc: "Discover the soul of Iran with those who know it best. We connect you with experienced, multilingual local guides who are passionate about sharing their culture. Unlock authentic experiences, from historical wonders to hidden culinary gems, with a trusted local expert by your side.",
+    title: "sections.tourServices.title",
+    desc: "sections.tourServices.desc",
     img: "/images/tour.jpg",
+    alt: "Tour Guides",
   },
   {
     id: "support",
-    title: "Local Support",
-    desc: "Travel with complete peace of mind, knowing you're never alone. Our dedicated 24/7 support team is always just a call or message away. Whether you need help with translation, directions, or any unforeseen situation, we are your reliable support system on the ground in Iran.",
+    title: "sections.supportServices.title",
+    desc: "sections.supportServices.desc",
     img: "/images/support.jpeg",
+    alt: "Local Support",
   },
 ];
 
 export const ServiceSections = () => {
+  const { t } = useTranslation();
   return (
     <section className="py-24 space-y-24 px-4">
       {services.map((s, i) => (
@@ -45,15 +53,15 @@ export const ServiceSections = () => {
               <AspectRatio ratio={16 / 9}>
                 <Image
                   src={s.img}
-                  alt={s.title}
+                  alt={s.alt}
                   fill
                   className="object-cover rounded-md"
                 />
               </AspectRatio>
             </div>
             <div className="md:w-1/2 space-y-3 text-center md:text-left">
-              <h3 className="text-2xl font-semibold">{s.title}</h3>
-              <p className="text-muted-foreground">{s.desc}</p>
+              <h3 className="text-2xl font-semibold">{t(s.title)}</h3>
+              <p className="text-muted-foreground">{t(s.desc)}</p>
             </div>
           </div>
         </AnimatedSection>

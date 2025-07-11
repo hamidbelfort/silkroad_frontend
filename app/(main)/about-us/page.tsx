@@ -1,24 +1,40 @@
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Globe, Handshake, Building } from "lucide-react";
 import Link from "next/link"; // (تغییر) ایمپورت کردن کامپوننت Link برای لینک‌دهی
-
+import { useTranslation } from "react-i18next";
+import { pages } from "next/dist/build/templates/app-page";
 // (تغییر) داده‌های تایم‌لاین به صورت یک آرایه برای خوانایی و توسعه بهتر
 const timelineEvents = [
-  { year: "2024", description: "Project launched" },
-  { year: "2024", description: "Partnerships established" },
-  { year: "2025", description: "Multilingual version introduced" },
+  {
+    year: "pages.about.sections.timeline.a.year",
+    description: "pages.about.sections.timeline.a.desc",
+  },
+  {
+    year: "pages.about.sections.timeline.a.year",
+    description: "pages.about.sections.timeline.b.desc",
+  },
+  {
+    year: "pages.about.sections.timeline.a.year",
+    description: "pages.about.sections.timeline.c.desc",
+  },
 ];
 
 export default function AboutUs() {
+  const { t } = useTranslation();
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-10 space-y-20">
       {/* Hero Section - (تغییر) طراحی مجدد با گرادیان برای جذابیت بیشتر */}
       <div className="relative bg-gradient-to-r from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-800 h-48 flex items-center justify-center text-center rounded-2xl p-6">
         <div className="relative z-10 text-foreground">
-          <h1 className="text-4xl md:text-5xl font-bold mb-3">About Us</h1>
-          <p className="text-lg text-muted-foreground">We Make Travel Easier</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-3">
+            {t("pages.about.title")}
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            {t("pages.about.desc")}
+          </p>
         </div>
       </div>
 
@@ -27,11 +43,12 @@ export default function AboutUs() {
         <div className="flex items-center justify-center">
           {/* (تغییر) رنگ آیکن برای هماهنگی و حس مثبت به text-primary تغییر کرد */}
           <CheckCircle className="w-10 h-10 text-primary mr-2" />
-          <h2 className="text-3xl font-semibold">Our Mission</h2>
+          <h2 className="text-3xl font-semibold">
+            {t("pages.about.sections.missions.title")}
+          </h2>
         </div>
         <p className="max-w-3xl mx-auto text-muted-foreground text-lg">
-          Our mission is to simplify travel for tourists by providing seamless,
-          multilingual and reliable services.
+          {t("pages.about.sections.missions.desc")}
         </p>
       </section>
 
@@ -44,29 +61,33 @@ export default function AboutUs() {
           <Card className="text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
             <CardContent className="py-8">
               <CheckCircle className="w-10 h-10 mx-auto mb-4 text-green-600" />
-              <h3 className="text-xl font-medium">Security</h3>
+              <h3 className="text-xl font-medium">
+                {t("pages.about.sections.values.security")}
+              </h3>
               <p className="text-sm text-muted-foreground mt-2">
-                We protect our users&apos data and transactions with top-grade
-                security.
+                {t("pages.about.sections.values.securityDesc")}
               </p>
             </CardContent>
           </Card>
           <Card className="text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
             <CardContent className="py-8">
               <Globe className="w-10 h-10 mx-auto mb-4 text-blue-500" />
-              <h3 className="text-xl font-medium">Multilingual Support</h3>
+              <h3 className="text-xl font-medium">
+                {t("pages.about.sections.values.support")}
+              </h3>
               <p className="text-sm text-muted-foreground mt-2">
-                Our platform is available in multiple languages for a better
-                experience.
+                {t("pages.about.sections.values.supportDesc")}
               </p>
             </CardContent>
           </Card>
           <Card className="text-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
             <CardContent className="py-8">
               <Handshake className="w-10 h-10 mx-auto mb-4 text-yellow-500" />
-              <h3 className="text-xl font-medium">Trusted Partnerships</h3>
+              <h3 className="text-xl font-medium">
+                {t("pages.about.sections.values.partners")}
+              </h3>
               <p className="text-sm text-muted-foreground mt-2">
-                We work with trusted local businesses to ensure quality service.
+                {t("pages.about.sections.values.partnersDesc")}
               </p>
             </CardContent>
           </Card>
@@ -78,7 +99,7 @@ export default function AboutUs() {
       {/* Our Story Timeline - (تغییر) بازطراحی کامل برای بهبود ظاهر و واکنش‌گرایی */}
       <section className="space-y-8">
         <h2 className="text-3xl font-semibold text-center transition-all duration-500 hover:animate-pulse">
-          Our Story
+          {t("pages.about.sections.timeline.title")}
         </h2>
         <div className="relative max-w-2xl mx-auto">
           {/* خط تایم‌لاین (عمودی در موبایل، افقی در دسکتاپ) */}
@@ -104,9 +125,11 @@ export default function AboutUs() {
 
       {/* (جدید) بخش همکاران برای افزایش اعتماد */}
       <section className="space-y-8 text-center">
-        <h2 className="text-3xl font-semibold">Our Trusted Partners</h2>
+        <h2 className="text-3xl font-semibold">
+          {t("pages.about.sections.partners.title")}
+        </h2>
         <p className="text-muted-foreground">
-          We are proud to collaborate with industry leaders.
+          {t("pages.about.sections.partners.desc")}
         </p>
         <div className="flex justify-center items-center gap-8 flex-wrap">
           {/* Placeholder for logos */}
@@ -134,9 +157,7 @@ export default function AboutUs() {
           <Button
             size="lg"
             className="text-lg cursor-pointer hover:scale-105 transition-all duration-200"
-          >
-            Get in Touch
-          </Button>
+          ></Button>
         </Link>
       </div>
     </div>

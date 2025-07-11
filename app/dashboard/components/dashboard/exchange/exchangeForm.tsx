@@ -51,7 +51,10 @@ export function ExchangeForm({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="flex flex-col gap-2">
         <Label htmlFor="amount">{t("label.amount")}</Label>
-        <Input id="amount" {...register("amount")} />
+        <div className="flex justify-between">
+          <Input id="amount" {...register("amount")} />
+          <b>¥</b>
+        </div>
         {errors.amount && (
           <p className="text-sm text-red-500">{errors.amount.message}</p>
         )}

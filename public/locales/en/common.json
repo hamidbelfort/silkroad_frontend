@@ -226,6 +226,79 @@
     "resetPass": {
       "title": "Reset Your Password",
       "CTA": "Enter your new password and confirm it to complete the password reset process."
+    },
+    "contact": {
+      "title": "Get in Touch with Us",
+      "CTA": "We're here to help. Fill out the form below and we'll get back to you as soon as possible."
+    }
+  },
+  "pages": {
+    "about": {
+      "title": "About Us",
+      "desc": "We Make Travel Easier",
+      "sections": {
+        "mission": {
+          "title": "Our Missions",
+          "desc": "Our mission is to simplify travel for tourists by providing seamless,multilingual and reliable services."
+        },
+        "values": {
+          "security": "Security",
+          "securityDesc": "We protect our user's data and transactions with top-grade security.",
+          "support": "Multilingual Support",
+          "supportDesc": "Our platform is available in multiple languages for a better experience.",
+          "partners": "Trusted Partnerships",
+          "partnersDesc": "We work with trusted local businesses to ensure quality service."
+        },
+        "timeline": {
+          "title": "",
+          "a": {
+            "year": "2024",
+            "desc": "Project launched"
+          },
+          "b": {
+            "year": "2024",
+            "desc": "Partnerships established"
+          },
+          "c": {
+            "year": "2025",
+            "desc": "Multilingual version introduced"
+          }
+        },
+        "partners": {
+          "title": "Our Trusted Partners",
+          "desc": "We are proud to collaborate with industry leaders."
+        },
+        "contact": {
+          "title": "Have any ideas in your mind? Let's talk.",
+          "CTA": "Get in Touch"
+        }
+      }
+    }
+  },
+  "sections": {
+    "overview": {
+      "title": "Our Services",
+      "desc": " We offer trusted, high-quality services for travelers.",
+      "hotel": "Hotel Booking",
+      "exchange": "Currency Exchange",
+      "tours": "Tour Guides",
+      "support": "Local Support"
+    },
+    "hotelServices": {
+      "title": "Hotel Booking",
+      "desc": "Beyond a simple search, book with confidence. We offer a curated selection of verified hotels, from boutique guesthouses to luxury resorts, all across Iran. Our seamless booking process ensures you have a comfortable and secure place to stay, so you can focus on your journey."
+    },
+    "exchangeServices": {
+      "title": "Currency Exchange",
+      "desc": "Navigate currency exchange with clarity and confidence. Avoid hidden fees and confusing rates with our platform, which provides transparent, real-time exchange rates. Exchange your currency securely and get the best value for your money."
+    },
+    "tourServices": {
+      "title": "Tour Guides",
+      "desc": "Discover the soul of Iran with those who know it best. We connect you with experienced, multilingual local guides who are passionate about sharing their culture. Unlock authentic experiences, from historical wonders to hidden culinary gems, with a trusted local expert by your side."
+    },
+    "supportServices": {
+      "title": "Local Support",
+      "desc": "Travel with complete peace of mind, knowing you're never alone. Our dedicated 24/7 support team is always just a call or message away. Whether you need help with translation, directions, or any unforeseen situation, we are your reliable support system on the ground in Iran."
     }
   },
   "footer": {

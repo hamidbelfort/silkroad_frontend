@@ -33,12 +33,12 @@ export function Navbar() {
   const [hydrated, setHydrated] = useState(false);
   const { token } = useAuthStore();
   const router = useRouter();
+  const app_name = process.env.APP_NAME || "SilkRoad";
   useEffect(() => {
     setHydrated(true);
   }, []);
 
-  if (!setHydrated)
-    return <Skeleton className="h-16 w-full" />;
+  if (!setHydrated) return <Skeleton className="h-16 w-full" />;
   const isLoggedIn = !!token;
   const publicLinks: LinkItemType[] = [
     {
@@ -97,7 +97,7 @@ export function Navbar() {
         {" "}
         <Link href="/" className="text-xl font-bold">
           {" "}
-          SilkRoad{" "}
+          {app_name}{" "}
         </Link>
         <nav className="hidden md:flex gap-6 items-center">
           {navLinks.map((link, idx) => (
@@ -129,9 +129,7 @@ export function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <SheetTitle className="text-center p-2">
-                {t("menu")}
-              </SheetTitle>
+              <SheetTitle className="text-center p-2">{t("menu")}</SheetTitle>
               <div className="flex flex-col gap-4 mt-4 pl-4">
                 {navLinks.map((link) => (
                   <Link
