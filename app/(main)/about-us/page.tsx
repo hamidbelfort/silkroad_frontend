@@ -126,9 +126,15 @@ export default function AboutUs() {
       </section>
 
       {/* CTA Section - (تغییر) دکمه به لینک تبدیل شده است */}
-      <div className="text-center">
+      <div className="text-center space-y-4">
+        <p className="text-lg text-muted-foreground">
+          Have any ideas in your mind? Let's talk.
+        </p>
         <Link href="/contact-us" passHref>
-          <Button size="lg" className="text-lg cursor-pointer">
+          <Button
+            size="lg"
+            className="text-lg cursor-pointer hover:scale-105 transition-all duration-200"
+          >
             Get in Touch
           </Button>
         </Link>

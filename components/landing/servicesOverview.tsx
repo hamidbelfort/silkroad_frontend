@@ -1,19 +1,10 @@
 // components/landing/ServicesOverview.tsx
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AnimatedSection } from "@/components/ui/animatedSection";
-import {
-  Hotel,
-  DollarSign,
-  Users,
-  LifeBuoy,
-} from "lucide-react";
+import { Hotel, DollarSign, Users, LifeBuoy } from "lucide-react";
 
 const services = [
   {
@@ -45,14 +36,11 @@ export const ServicesOverview = () => {
   };
 
   return (
-    <section className="py-20 bg-muted text-center px-4">
+    <section id="services" className="py-20 bg-muted text-center px-4">
       <AnimatedSection delay={0.1}>
-        <h2 className="text-3xl font-bold mb-2">
-          Our Services
-        </h2>
+        <h2 className="text-3xl font-bold mb-2">Our Services</h2>
         <p className="text-muted-foreground mb-10">
-          We offer trusted, high-quality services for
-          travelers.
+          We offer trusted, high-quality services for travelers.
         </p>
       </AnimatedSection>
       <AnimatedSection delay={0.1}>
@@ -66,9 +54,6 @@ export const ServicesOverview = () => {
               <CardContent className="flex flex-col items-center gap-3 py-6">
                 {service.icon}
                 <CardTitle>{service.title}</CardTitle>
-                <Badge variant="outline">
-                  Click to explore
-                </Badge>
               </CardContent>
             </Card>
           ))}

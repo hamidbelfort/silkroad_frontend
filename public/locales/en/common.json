@@ -227,5 +227,8 @@
       "title": "Reset Your Password",
       "CTA": "Enter your new password and confirm it to complete the password reset process."
     }
+  },
+  "footer": {
+    "aboutText": "Discover the heart of Iran, worry-free. As your dedicated partner, we provide Chinese tourists with trusted local services for an unforgettable journey."
   }
 }

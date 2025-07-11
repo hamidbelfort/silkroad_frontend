@@ -8,6 +8,7 @@ export const HeroSection = () => {
 
   return (
     <section className="relative h-[75vh] flex items-center bg-black text-white overflow-hidden">
+      <div className="absolute inset-0 bg-black/40 z-0" />
       <Image
         src="/images/main_hero.webp"
         alt="Hero Image"
@@ -30,7 +31,7 @@ export const HeroSection = () => {
           </p>
 
           <Link
-            href="/login"
+            href="/#services"
             className="text-gray-900 bg-white font-semibold rounded-lg px-4 py-2 no-underline hover:underline hover:bg-gray-800 hover:text-white transition-all duration-500 cursor-pointer "
           >
             Explore Our Services

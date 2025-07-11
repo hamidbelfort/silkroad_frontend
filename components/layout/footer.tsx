@@ -13,12 +13,11 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { useTranslation } from "react-i18next";
 export default function Footer() {
-  const app_title =
-    process.env.APP_TITLE || "Silk Road Services";
-  const [year, setYear] = useState(
-    new Date().getFullYear()
-  );
+  const { t } = useTranslation();
+  const app_title = process.env.APP_TITLE || "Silk Road Services";
+  const [year, setYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     setYear(new Date().getFullYear());
@@ -37,34 +36,22 @@ export default function Footer() {
               <AccordionContent>
                 <ul className="space-y-1 pl-2">
                   <li>
-                    <Link
-                      href="/"
-                      className="hover:underline"
-                    >
+                    <Link href="/" className="hover:underline">
                       Home
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      href="/about-us"
-                      className="hover:underline"
-                    >
+                    <Link href="/about-us" className="hover:underline">
                       About Us
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      href="/contact-us"
-                      className="hover:underline"
-                    >
+                    <Link href="/contact-us" className="hover:underline">
                       Contact
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      href="/faq"
-                      className="hover:underline"
-                    >
+                    <Link href="/faq" className="hover:underline">
                       FAQ
                     </Link>
                   </li>
@@ -78,9 +65,7 @@ export default function Footer() {
               </AccordionTrigger>
               <AccordionContent>
                 <p className="pl-2 text-foreground leading-5">
-                  We simplify travel for Chinese tourists in
-                  Iran. Enjoy easy booking and local
-                  services all in one place.
+                  {t("footer.aboutText")}
                 </p>
               </AccordionContent>
             </AccordionItem>
@@ -109,9 +94,7 @@ export default function Footer() {
         {/* حالت دسکتاپ: ۳ ستونه */}
         <div className="hidden md:grid grid-cols-3 gap-6 text-sm">
           <div>
-            <h4 className="font-semibold text-xl mb-2">
-              Quick Links
-            </h4>
+            <h4 className="font-semibold text-xl mb-2">Quick Links</h4>
             <ul className="space-y-1">
               <li>
                 <Link href="/" className="hover:underline">
@@ -119,26 +102,17 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/about-us"
-                  className="hover:underline"
-                >
+                <Link href="/about-us" className="hover:underline">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/contact-us"
-                  className="hover:underline"
-                >
+                <Link href="/contact-us" className="hover:underline">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/faq"
-                  className="hover:underline"
-                >
+                <Link href="/faq" className="hover:underline">
                   FAQ
                 </Link>
               </li>
@@ -146,13 +120,10 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-xl mb-2">
-              About
-            </h4>
+            <h4 className="font-semibold text-xl mb-2">About</h4>
             <p className="leading-5 text-foreground">
-              We simplify travel for Chinese tourists in
-              Iran. Enjoy easy booking and local services
-              all in one place.
+              We simplify travel for Chinese tourists in Iran. Enjoy easy
+              booking and local services all in one place.
             </p>
           </div>
 
@@ -180,14 +151,11 @@ export default function Footer() {
             <p className="text-xs text-foreground mt-auto">
               <HoverCard>
                 <HoverCardTrigger>
-                  &copy; {year} {app_title}. All rights
-                  reserved.
+                  &copy; {year} {app_title}. All rights reserved.
                 </HoverCardTrigger>
                 <HoverCardContent>
                   Made with ❤️ by{" "}
-                  <Link href="https://github.com/hamidbelfort">
-                    Hamid
-                  </Link>
+                  <Link href="https://github.com/hamidbelfort">Hamid</Link>
                 </HoverCardContent>
               </HoverCard>
             </p>

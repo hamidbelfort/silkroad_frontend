@@ -87,7 +87,8 @@ const ContactUsForm = () => {
     }
   };
 
-  if (!capHash || !captchaImage) {
+  //show loading progress then wait 10 secs show reload message
+  if (isLoading) {
     return (
       <div className="text-center py-20">
         <Loader className="h-8 w-8 animate-spin mx-auto mb-4" />
@@ -95,15 +96,14 @@ const ContactUsForm = () => {
       </div>
     );
   }
-  if (capHash == "" || captchaImage == "") {
+  if (!capHash || !captchaImage) {
     return (
       <div className="text-center py-20">
         <CloudOffIcon className="h-8 w-8 mx-auto mb-4" />
-        <p>Please reload the page</p>
+        <p>Failed to load.Please reload the page</p>
       </div>
     );
   }
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 my-4">
       {/* Name */}
