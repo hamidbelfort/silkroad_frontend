@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle, Globe, Handshake, Building } from "lucide-react";
 import Link from "next/link"; // (تغییر) ایمپورت کردن کامپوننت Link برای لینک‌دهی
 import { useTranslation } from "react-i18next";
-import { pages } from "next/dist/build/templates/app-page";
-// (تغییر) داده‌های تایم‌لاین به صورت یک آرایه برای خوانایی و توسعه بهتر
+
 const timelineEvents = [
   {
     year: "pages.about.sections.timeline.a.year",

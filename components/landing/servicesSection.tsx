@@ -4,7 +4,6 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
 import { AnimatedSection } from "@/components/ui/animatedSection";
 import { useTranslation } from "react-i18next";
-import { t } from "i18next";
 const services = [
   {
     id: "hotel",
