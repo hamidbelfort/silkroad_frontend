@@ -121,10 +121,7 @@ export default function Footer() {
 
           <div>
             <h4 className="font-semibold text-xl mb-2">About</h4>
-            <p className="leading-5 text-foreground">
-              We simplify travel for Chinese tourists in Iran. Enjoy easy
-              booking and local services all in one place.
-            </p>
+            <p className="leading-5 text-foreground">{t("footer.aboutText")}</p>
           </div>
 
           <div className="flex flex-col justify-between">

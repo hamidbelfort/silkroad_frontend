@@ -128,7 +128,7 @@ export default function AboutUs() {
       {/* CTA Section - (تغییر) دکمه به لینک تبدیل شده است */}
       <div className="text-center space-y-4">
         <p className="text-lg text-muted-foreground">
-          Have any ideas in your mind? Let's talk.
+          Have any ideas in your mind? Let&apos;s talk.
         </p>
         <Link href="/contact-us" passHref>
           <Button
