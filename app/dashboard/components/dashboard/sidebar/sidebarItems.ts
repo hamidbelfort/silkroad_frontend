@@ -21,54 +21,54 @@ import {
 import { useAuthStore } from "@/store/authStore";
 export const adminSidebarItems: SidebarItemType[] = [
   {
-    label: "Dashboard",
+    label: "label.sidebar.dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
   },
   {
-    label: "App Settings",
+    label: "label.sidebar.appSettings",
     icon: Settings,
     href: "#",
     children: [
       {
-        label: "FAQ",
+        label: "label.sidebar.faq",
         href: "/dashboard/admin/manageFaq",
         icon: MailQuestionIcon,
       },
       {
-        label: "Company Info",
+        label: "label.sidebar.companyInfo",
         href: "/dashboard/admin/company-info",
         icon: Factory,
       },
       {
-        label: "Company Address",
+        label: "label.sidebar.companyAddress",
         href: "/dashboard/admin/company-address",
         icon: MapPin,
       },
       {
-        label: "Company Details",
+        label: "label.sidebar.companyDetails",
         href: "/dashboard/admin/company-details",
         icon: Info,
       },
       {
-        label: "Main Settings",
+        label: "label.sidebar.appSettings",
         href: "/dashboard/admin/app-settings",
         icon: Settings2,
       },
     ],
   },
   {
-    label: "Slider",
+    label: "label.sidebar.sliderManagement",
     icon: Image,
     href: "/dashboard/admin/manageSlider",
   },
   {
-    label: "Change Password",
+    label: "label.sidebar.changePassword",
     icon: Lock,
     href: "/dashboard/change-password",
   },
   {
-    label: "Sign out",
+    label: "label.sidebar.logout",
     icon: LogOut,
     href: "#",
     hrefRouter: "/login",
@@ -80,29 +80,29 @@ export const adminSidebarItems: SidebarItemType[] = [
 
 export const operatorSidebarItems: SidebarItemType[] = [
   {
-    label: "Dashboard",
+    label: "label.sidebar.dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
   },
   {
-    label: "Profile",
+    label: "label.sidebar.profile",
     icon: UserCircle,
     href: "#",
     children: [
       {
-        label: "Edit Profile",
+        label: "label.sidebar.editProfile",
         href: "/dashboard/profile",
         icon: UserCircle,
       },
       {
-        label: "Change Password",
+        label: "label.sidebar.changePassword",
         href: "/dashboard/change-password",
         icon: Lock,
       },
     ],
   },
   {
-    label: "Sign out",
+    label: "label.sidebar.logout",
     icon: LogOut,
     href: "/#",
     hrefRouter: "/login",
@@ -114,66 +114,66 @@ export const operatorSidebarItems: SidebarItemType[] = [
 
 export const customerSidebarItems: SidebarItemType[] = [
   {
-    label: "Dashboard",
+    label: "label.sidebar.dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
   },
   {
-    label: "Exchange",
+    label: "label.sidebar.exchange",
     icon: Banknote,
     href: "/dashboard/exchange",
   },
   {
-    label: "Reserve Hotel",
+    label: "label.sidebar.hotelBooking",
     icon: Hotel,
-    href: "/dashboard/customer/reserve-hotel",
+    href: "#",
   },
   {
-    label: "History",
+    label: "label.sidebar.history",
     icon: History,
     href: "#",
     children: [
       {
-        label: "Exchanges",
-        href: "/dashboard/customer/history/exchanges",
+        label: "label.sidebar.exchanges",
+        href: "#",
         icon: Banknote,
       },
       {
-        label: "Reservations",
-        href: "/dashboard/customer/history/reservations",
+        label: "label.sidebar.bookings",
+        href: "#",
         icon: Ticket,
       },
     ],
   },
   {
-    label: "Support Tickets",
+    label: "label.sidebar.supportTickets",
     icon: HelpCircle,
-    href: "/dashboard/customer/support-tickets",
+    href: "#",
   },
   {
-    label: "Profile",
+    label: "label.sidebar.profile",
     icon: UserCircle,
     href: "#",
     children: [
       {
-        label: "Edit Profile",
+        label: "label.sidebar.editProfile",
         href: "/dashboard/profile",
         icon: User2,
       },
       {
-        label: "Bank Accounts",
+        label: "label.sidebar.bankAccounts",
         href: "/dashboard/banks",
         icon: Banknote,
       },
       {
-        label: "Change Password",
+        label: "label.sidebar.changePassword",
         href: "/dashboard/change-password",
         icon: Lock,
       },
     ],
   },
   {
-    label: "Sign out",
+    label: "label.sidebar.logout",
     icon: LogOut,
     href: "#",
     hrefRouter: "/login",

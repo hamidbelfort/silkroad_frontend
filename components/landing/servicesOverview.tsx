@@ -1,9 +1,18 @@
 // components/landing/ServicesOverview.tsx
 "use client";
 
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardTitle,
+} from "@/components/ui/card";
 import { AnimatedSection } from "@/components/ui/animatedSection";
-import { Hotel, DollarSign, Users, LifeBuoy } from "lucide-react";
+import {
+  Hotel,
+  DollarSign,
+  Users,
+  LifeBuoy,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 const services = [
   {
@@ -36,14 +45,18 @@ export const ServicesOverview = () => {
   };
 
   return (
-    <section id="services" className="py-20 bg-muted text-center px-4">
+    <section
+      id="services"
+      className="py-20 bg-muted text-center px-4"
+    >
       <AnimatedSection delay={0.1}>
         <h2 className="text-3xl font-bold mb-2">
           {t("sections.services.title")}
         </h2>
         <p className="text-muted-foreground mb-10">
-          <h2 className="text-3xl font-bold mb-2">{t("")}</h2>
-          {t("sections.services.desc")}
+          <h2 className="text-3xl font-bold mb-2">
+            {t("sections.services.desc")}
+          </h2>
         </p>
       </AnimatedSection>
       <AnimatedSection delay={0.1}>

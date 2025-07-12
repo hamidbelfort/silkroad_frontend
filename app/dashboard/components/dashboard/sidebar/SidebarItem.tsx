@@ -4,7 +4,6 @@ import Link from "next/link";
 import { SidebarItemProps } from "@/lib/types/sidebar";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-
 export const SidebarItem = ({
   label,
   href,

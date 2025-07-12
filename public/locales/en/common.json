@@ -206,6 +206,30 @@
       "adminEmail": "Admin Email",
       "smtpUser": "SMTP Username",
       "smtpPass": "SMTP Password"
+    },
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "appSettings": "App Settings",
+      "faq": "FAQ",
+      "logout": "Logout",
+      "operator": "Operator",
+      "admin": "Admin",
+      "customer": "Customer",
+      "mainSettings": "Main Settings",
+      "companyInfo": "Company Info",
+      "companyAddress": "Company Address",
+      "companyDetails": "Company Details",
+      "changePassword": "Change Password",
+      "profile": "Profile",
+      "editProfile": "Edit Profile",
+      "exchange": "Exchange",
+      "hotelBooking": "Hotel Booking",
+      "history": "History",
+      "bookings": "Bookings",
+      "exchanges": "Exchanges",
+      "supportTickets": "Support Tickets",
+      "bacnkAccounts": "Bank Accounts",
+      "sliderManagement": "Slider Management"
     }
   },
   "forms": {

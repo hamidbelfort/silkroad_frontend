@@ -1,9 +1,17 @@
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+} from "@/components/ui/avatar";
 import { useAuthStore } from "@/store/authStore";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getUserInfo } from "@/lib/api/auth";
 import { useEffect, useState } from "react";
-export function SidebarHeader({ isCollapsed }: { isCollapsed: boolean }) {
+export function SidebarHeader({
+  isCollapsed,
+}: {
+  isCollapsed: boolean;
+}) {
   const { userId } = useAuthStore();
   const [user, setUser] = useState<{
     fullname: string;
@@ -38,16 +46,25 @@ export function SidebarHeader({ isCollapsed }: { isCollapsed: boolean }) {
         </>
       ) : (
         <>
-          <Avatar className="w-12 h-12">
+          <Avatar
+            className={
+              isCollapsed ? "w-10 h-10" : "w-12 h-12"
+            }
+          >
             {user?.avatar && (
-              <AvatarImage src={user.avatar} alt={user.fullname} />
+              <AvatarImage
+                src={user.avatar}
+                alt={user.fullname}
+              />
             )}
             <AvatarFallback>
               {user?.fullname?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           {!isCollapsed && (
-            <span className="text-sm font-medium mt-2">{user?.fullname}</span>
+            <span className="text-sm font-medium mt-2">
+              {user?.fullname}
+            </span>
           )}
         </>
       )}

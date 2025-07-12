@@ -212,6 +212,30 @@
       "adminEmail": "管理员电子邮件",
       "smtpUser": "SMTP 用户名",
       "smtpPass": "SMTP 密码"
+    },
+    "sidebar": {
+      "dashboard": "仪表板",
+      "appSettings": "应用设置",
+      "faq": "FAQ",
+      "logout": "登出",
+      "operator": "运营商",
+      "admin": "管理员",
+      "customer": "客户",
+      "mainSettings": "主设置",
+      "companyInfo": "公司信息",
+      "companyAddress": "公司地址",
+      "companyDetails": "公司详情",
+      "changePassword": "更改密码",
+      "profile": "档案",
+      "editProfile": "编辑档案",
+      "exchange": "交换",
+      "hotelBooking": "酒店预订",
+      "history": "历史",
+      "bookings": "预订",
+      "exchanges": "交换",
+      "supportTickets": "支持票",
+      "bacnkAccounts": "银行账户",
+      "sliderManagement": "滑块管理"
     }
   },
   "forms": {

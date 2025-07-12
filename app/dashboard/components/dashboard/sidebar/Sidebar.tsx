@@ -15,11 +15,13 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 interface SidebarProps {
   isCollapsed: boolean;
 }
 
 const Sidebar = ({ isCollapsed }: SidebarProps) => {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const role = useAuthStore((state) => state.role);
   const pathname = usePathname();
@@ -56,7 +58,7 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
         {items.map((item) => {
           const isActive = pathname === item.href;
           const hasChildren = !!item.children;
-          const isOpen = openMenus.includes(item.label);
+          const isOpen = openMenus.includes(t(item.label));
           const Icon = item.icon;
           const itemOnClick = item.onClick!;
           return (
@@ -71,7 +73,7 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
                   onClick={(e) => {
                     if (hasChildren) {
                       e.preventDefault();
-                      toggleMenu(item.label);
+                      toggleMenu(t(item.label));
                     }
                     if (itemOnClick) {
                       itemOnClick(router);
@@ -80,13 +82,15 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
                 >
                   <span>{Icon && <Icon size={18} />}</span>
                   {!isCollapsed && (
-                    <span>{item.label}</span>
+                    <span>{t(item.label)}</span>
                   )}
                 </Link>
                 {hasChildren && !isCollapsed && (
                   <button
-                    onClick={() => toggleMenu(item.label)}
-                    className="mr-2 text-muted-foreground"
+                    onClick={() =>
+                      toggleMenu(t(item.label))
+                    }
+                    className="mr-2 text-muted-foreground cursor-pointer"
                   >
                     {isOpen ? (
                       <ChevronDown size={16} />
@@ -99,11 +103,11 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
 
               {hasChildren && isOpen && !isCollapsed && (
                 <ul className="ml-6 mt-1 space-y-1">
-                  {item.children?.map((child) => {
+                  {item.children?.map((child, i) => {
                     const childActive =
                       pathname === child.href;
                     return (
-                      <li key={child.label}>
+                      <li key={i}>
                         <Link
                           href={child.href}
                           className={cn(
@@ -112,7 +116,7 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
                               "bg-accent text-primary font-medium"
                           )}
                         >
-                          {child.label}
+                          {t(child.label)}
                         </Link>
                       </li>
                     );

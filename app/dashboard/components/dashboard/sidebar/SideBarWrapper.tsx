@@ -21,7 +21,7 @@ const SidebarWrapper = () => {
         <Button
           variant="outline"
           size="icon"
-          className="h-6 w-6 rounded-full"
+          className="h-6 w-6 rounded-full cursor-pointer"
           onClick={() => setIsCollapsed(!isCollapsed)}
         >
           {isCollapsed ? (
