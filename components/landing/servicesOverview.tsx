@@ -51,11 +51,11 @@ export const ServicesOverview = () => {
     >
       <AnimatedSection delay={0.1}>
         <h2 className="text-3xl font-bold mb-2">
-          {t("sections.services.title")}
+          {t("sections.overview.title")}
         </h2>
         <p className="text-muted-foreground mb-10">
           <h2 className="text-3xl font-bold mb-2">
-            {t("sections.services.desc")}
+            {t("sections.overview.desc")}
           </h2>
         </p>
       </AnimatedSection>

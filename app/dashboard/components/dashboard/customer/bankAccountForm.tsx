@@ -42,7 +42,7 @@ export function BankAccountForm({
     accountNumber: optionalStringLength(
       6,
       15,
-      t("validation.accountNumber")
+      t("validation.accountNumberInvalid")
     ),
     cardNumber: optionalFixedLengthString(
       16,

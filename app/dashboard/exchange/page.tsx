@@ -15,7 +15,9 @@ import { toast } from "sonner";
 import { useAuthStore } from "@/store/authStore";
 import { BankAccount } from "@/lib/types/bankAccount";
 import { getBankAccounts } from "@/lib/api/bankAccount";
+import { useTranslation } from "react-i18next";
 const Exchange = () => {
+  const { t } = useTranslation("common");
   const [rate, setRate] = useState<number>(0);
   const [accounts, setAccounts] = useState<BankAccount[]>(
     []
@@ -57,7 +59,7 @@ const Exchange = () => {
   return (
     <div className="container mx-auto p-4 space-y-6">
       <h1 className="text-2xl font-bold text-center">
-        Exchange
+        {t("label.exchange.bankAccount")}
       </h1>
 
       <Accordion

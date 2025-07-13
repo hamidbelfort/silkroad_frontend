@@ -64,7 +64,9 @@ export function BankAccountList({
             </p>
             <p>
               <strong>Card Number:</strong>{" "}
-              {acc.cardNumber || "---"}
+              {acc.cardNumber
+                ? truncateText(acc.cardNumber, 10)
+                : "---"}
             </p>
             <p>
               <strong>IBAN:</strong>{" "}

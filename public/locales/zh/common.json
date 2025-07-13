@@ -61,9 +61,8 @@
     "bankAccountInvalid": "银行账户无效",
     "bankAccountOwnerRequired": "银行账户持有人为必填项",
     "ibanInvalid": "IBAN 无效",
-    "expiryDateInvalid": "过期日期无效",
     "cardNumberInvalid": "卡号无效",
-    "cvv2Invalid": "CVV2 无效",
+    "accountNumberInvalid": "帐号必须介于 6 至 15 个字符之间",
     "slider": {
       "title": "挡泥板",
       "url": "URL 无效",
@@ -184,7 +183,14 @@
     "confirm:": "确认",
     "save": "保存",
     "refresh": "刷新",
-    "amount": "量",
+    "exchange": {
+      "title": "交换",
+      "amount": "量",
+      "finalAmount": "最终量",
+      "bankAccount": "银行账户",
+      "selectAccount": "选择一个银行账户",
+      "bankAccountDesc": "你的钱将发送到的银行账户。如果你想使用不同的银行账户，选择你想使用的账户。"
+    },
     "common": {
       "email": "电子邮件",
       "password": "密码",
@@ -234,7 +240,7 @@
       "bookings": "预订",
       "exchanges": "交换",
       "supportTickets": "支持票",
-      "bacnkAccounts": "银行账户",
+      "bankAccounts": "银行账户",
       "sliderManagement": "滑块管理"
     }
   },

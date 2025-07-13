@@ -46,7 +46,7 @@
     "bankAccountOwnerRequired": "The bank account owner is required",
     "ibanInvalid": "IBAN should be started with IR and must be 22 digits",
     "cardNumberInvalid": "Card Number must be 16 digits",
-    "accountNumberInvalid": "Account Number must be at last 15 characters",
+    "accountNumberInvalid": "Account Number must be between 6 to 15 characters",
     "slider": {
       "title": "Title must be at least 10 characters",
       "url": "Invalid url",
@@ -178,7 +178,14 @@
     "save": "Save",
     "refresh": "Refresh",
     "confirm": "Confirm",
-    "amount": "Amount",
+    "exchange": {
+      "title": "Exchange",
+      "amount": "Amount",
+      "finalAmount": "Final Amount",
+      "bankAccount": "Bank Account",
+      "selectAccount": "Select a bank account",
+      "bankAccountDesc": "The bank account where the money will be sent to.If you want to use a different bank account, select the account you want to use."
+    },
     "common": {
       "email": "Email",
       "password": "Password",
@@ -228,7 +235,7 @@
       "bookings": "Bookings",
       "exchanges": "Exchanges",
       "supportTickets": "Support Tickets",
-      "bacnkAccounts": "Bank Accounts",
+      "bankAccounts": "Bank Accounts",
       "sliderManagement": "Slider Management"
     }
   },
