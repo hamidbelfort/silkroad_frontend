@@ -157,15 +157,18 @@
     "slider": "Manage Sliders",
     "order": "Manage Orders",
     "orderHistory": "Order History",
-    "rmbPrice": "RMB Price",
-    "rmbPriceHistory": "RMB Price History",
-    "yuanRate": "Yuan Rate",
-    "exchange": "Exchange",
-    "basePrice": "Base Price",
-    "buyPrice": "Buy Price",
-    "sellPrice": "Sell Price",
-    "lastUpdated": "Last Updated",
-    "exchangeHistory": "Exchange History",
+    "exchange": {
+      "rmbPrice": "RMB Price",
+      "rmbPriceHistory": "RMB Price History",
+      "yuanRate": "Yuan Rate",
+      "basePrice": "Base Price",
+      "buyPrice": "Buy Price",
+      "sellPrice": "Sell Price",
+      "lastUpdated": "Last Updated",
+      "exchangeHistory": "Exchange History",
+      "nextUpdateIn": "Next Update In"
+    },
+
     "testimonials": "What our customers say",
     "settings": {
       "main": "App Settings",
@@ -181,7 +184,8 @@
     "refresh": "Refresh",
     "confirm": "Confirm",
     "exchange": {
-      "title": "Exchange",
+      "title": "Currency Exchange",
+      "liveRmbPrice": "Live RMB Price",
       "amount": "Amount",
       "finalAmount": "Final Amount",
       "bankAccount": "Bank Account",

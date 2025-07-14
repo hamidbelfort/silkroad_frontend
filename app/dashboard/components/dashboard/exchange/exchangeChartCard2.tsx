@@ -4,12 +4,7 @@
 import { useEffect, useState } from "react";
 import { getExchangeHistory } from "@/lib/api/exchange";
 import { ExchangeRateHistory } from "@/lib/types/exchange";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   AreaChart,
@@ -24,9 +19,7 @@ import { useTranslation } from "react-i18next";
 export default function PriceChartCard() {
   const { t } = useTranslation("common");
   const [loading, setLoading] = useState(true);
-  const [history, setHistory] = useState<
-    ExchangeRateHistory[]
-  >([]);
+  const [history, setHistory] = useState<ExchangeRateHistory[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,10 +27,7 @@ export default function PriceChartCard() {
         const data = await getExchangeHistory();
         setHistory(data);
       } catch (err) {
-        console.error(
-          "Error fetching exchange history",
-          err
-        );
+        console.error("Error fetching exchange history", err);
       } finally {
         setLoading(false);
       }
@@ -46,14 +36,17 @@ export default function PriceChartCard() {
   }, []);
 
   const formattedData = history.map((h) => ({
-    date: new Date(h.createdAt).toLocaleDateString("en-US"),
+    date: new Date(h.createdAt).toLocaleDateString("fa-IR", {
+      month: "2-digit",
+      day: "2-digit",
+    }),
     price: h.basePrice,
   }));
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t("title.rmbPriceHistory")}</CardTitle>
+        <CardTitle>{t("title.exchange.rmbPriceHistory")}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[200px] md:h-[200px] w-full">
@@ -71,34 +64,15 @@ export default function PriceChartCard() {
                 }}
               >
                 <defs>
-                  <linearGradient
-                    id="colorPrice"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop
-                      offset="5%"
-                      stopColor="#3b82f6"
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor="#3b82f6"
-                      stopOpacity={0}
-                    />
+                  <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <XAxis
-                  dataKey="date"
-                  tick={{ fontSize: 12 }}
-                />
+                <XAxis dataKey="date" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip
-                  formatter={(value: number) =>
-                    `${value.toLocaleString()} IRR`
-                  }
+                  formatter={(value: number) => `${value.toLocaleString()} IRR`}
                 />
                 <Area
                   type="monotone"

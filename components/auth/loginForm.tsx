@@ -65,20 +65,8 @@ export function LoginForm() {
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        /*toast.error("Login failed", {
-          duration: 3000,
-          description: error.cause as string,
-          action: {
-            label: "x",
-            onClick: () => {
-              toast.dismiss();
-            },
-          },
-        });*/
         console.log(error.message);
       }
-    } finally {
-      //setLoading(false);
     }
   };
   return (

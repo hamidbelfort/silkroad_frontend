@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { ExchangeRateCard } from "../components/dashboard/exchange/exchangeRateCard";
-//import ExchangeChart from "../components/dashboard/exchange/exchangeChartCard";
 import PriceChartCard from "../components/dashboard/exchange/exchangeChartCard2";
 import { ExchangeForm } from "../components/dashboard/exchange/exchangeForm";
 import {
@@ -16,22 +15,25 @@ import { useAuthStore } from "@/store/authStore";
 import { BankAccount } from "@/lib/types/bankAccount";
 import { getBankAccounts } from "@/lib/api/bankAccount";
 import { useTranslation } from "react-i18next";
+import { ExchangeRate } from "@/lib/types/exchange";
 const Exchange = () => {
   const { t } = useTranslation("common");
-  const [rate, setRate] = useState<number>(0);
-  const [accounts, setAccounts] = useState<BankAccount[]>(
-    []
-  );
+  const [rate, setRate] = useState<ExchangeRate | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [accounts, setAccounts] = useState<BankAccount[]>([]);
   const userId = useAuthStore((state) => state.userId);
   const getExchangeRatePrice = async () => {
     try {
+      setLoading(true);
       const res = await getExchangeRate();
       if (res) {
-        setRate(res.basePrice);
+        setRate(res);
       }
     } catch (error) {
       toast.error("Error fetching exchange rate ⚠️");
       console.error("Error fetching exchange rate:", error);
+    } finally {
+      setLoading(false);
     }
   };
   const getUserBankAccounts = async (userId: string) => {
@@ -48,10 +50,7 @@ const Exchange = () => {
   useEffect(() => {
     getExchangeRatePrice();
     getUserBankAccounts(userId);
-    const interval = setInterval(
-      getExchangeRatePrice,
-      10 * 60 * 1000
-    ); // هر ۱۰ دقیقه
+    const interval = setInterval(getExchangeRatePrice, 10 * 60 * 1000); // هر ۱۰ دقیقه
 
     // پاکسازی اینتروال هنگام unmount شدن کامپوننت
     return () => clearInterval(interval);
@@ -59,34 +58,23 @@ const Exchange = () => {
   return (
     <div className="container mx-auto p-4 space-y-6">
       <h1 className="text-2xl font-bold text-center">
-        {t("label.exchange.bankAccount")}
+        {t("label.exchange.title")}
       </h1>
 
-      <Accordion
-        type="single"
-        collapsible
-        className="w-full"
-      >
+      <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="item-1">
           <AccordionTrigger className="hover:cursor-pointer text-xl font-bold">
-            Currency Rate Data
+            Currency Rate Data 💹
           </AccordionTrigger>
           <AccordionContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <ExchangeRateCard
-                onRateChange={(currentRate) =>
-                  setRate(currentRate)
-                }
-              />
+              <ExchangeRateCard rate={rate} loading={loading} />
               <PriceChartCard />
             </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      <ExchangeForm
-        exchangeRate={rate}
-        accounts={accounts}
-      />
+      <ExchangeForm exchangeRate={rate?.basePrice || 0} accounts={accounts} />
     </div>
   );
 };
