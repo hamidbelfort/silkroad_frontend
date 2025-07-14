@@ -51,23 +51,23 @@ export function BankAccountEditForm({
     bankName: optionalStringLength(
       5,
       20,
-      t("validation.bankName")
+      t("validation.bankForm.bankName")
     ),
     accountOwner: requiredString(
-      "validation.bankAccountOwnerRequired"
+      "validation.bankForm.bankAccountOwnerRequired"
     ),
     accountNumber: optionalStringLength(
       8,
       15,
-      "validation.accountNumberInvalid"
+      "validation.bankForm.accountNumberInvalid"
     ),
     cardNumber: optionalFixedLengthString(
       16,
-      "validation.cardNumberInvalid"
+      "validation.bankForm.cardNumberInvalid"
     ),
     iban: optionalFixedLengthString(
       24,
-      "validation.ibanInvalid"
+      "validation.bankForm.ibanInvalid"
     ),
     imageUrl: z.string().optional(),
   });

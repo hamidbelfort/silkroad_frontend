@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import illustration from "@/public/images/login.svg";
 export default function LoginPage() {
   const { t } = useTranslation("common");
+
   const isLoggedIn = useAuthStore(
     (state) => state.isLoggedIn
   );

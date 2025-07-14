@@ -2,6 +2,7 @@
 "use client";
 import axiosInstance from "../axios/axiosInstance";
 import Cookies from "js-cookie";
+import { UserResponse } from "../types/user";
 interface LoginPayload {
   email: string;
   password: string;
@@ -75,11 +76,17 @@ export const registerUser = async (
     return null;
   }
 };
-export const getUserInfo = async (userId: string) => {
-  const res = await axiosInstance.get(
-    `/api/auth/${userId}`
-  );
-  return res.data;
+export const getUserInfo = async (
+  userId: string
+): Promise<UserResponse | null> => {
+  try {
+    const res = await axiosInstance.get(
+      `/api/auth/${userId}`
+    );
+    return res.data;
+  } catch {
+    return null;
+  }
 };
 export const updateLanguage = async (lang: "en" | "zh") => {
   const res = await axiosInstance.post(

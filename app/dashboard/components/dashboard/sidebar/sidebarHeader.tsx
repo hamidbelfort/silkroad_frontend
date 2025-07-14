@@ -1,3 +1,4 @@
+"use client";
 import {
   Avatar,
   AvatarImage,
@@ -7,6 +8,7 @@ import { useAuthStore } from "@/store/authStore";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getUserInfo } from "@/lib/api/auth";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 export function SidebarHeader({
   isCollapsed,
 }: {
@@ -18,12 +20,22 @@ export function SidebarHeader({
     avatar?: string;
   } | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
   useEffect(() => {
-    if (!userId) return;
-
+    if (!userId) {
+      router.push("/");
+      return;
+    }
     const fetchUser = async () => {
       try {
         const data = await getUserInfo(userId);
+        if (!data) {
+          console.warn(
+            "User data is empty, redirecting to login."
+          );
+          router.push("/login");
+          return;
+        }
         setUser({
           fullname: data.fullname || "User Fullname",
           avatar: data.avatar,
@@ -36,7 +48,7 @@ export function SidebarHeader({
     };
 
     fetchUser();
-  }, [userId]);
+  }, [userId, router]);
   return (
     <div className="flex flex-col items-center py-4 border-b">
       {loading ? (

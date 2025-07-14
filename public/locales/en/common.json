@@ -41,12 +41,14 @@
     "whatsapp": "Invalid Whatsapp Number",
     "weChat": "invalid WeChat Number",
     "address": "Addree is too short",
-    "bankName": "Bank Name is required",
-    "bankAccountInvalid": "The bank account is invalid",
-    "bankAccountOwnerRequired": "The bank account owner is required",
-    "ibanInvalid": "IBAN should be started with IR and must be 22 digits",
-    "cardNumberInvalid": "Card Number must be 16 digits",
-    "accountNumberInvalid": "Account Number must be between 6 to 15 characters",
+    "bankForm": {
+      "bankName": "Bank Name is required",
+      "bankAccountInvalid": "The bank account is invalid",
+      "bankAccountOwnerRequired": "The bank account owner is required",
+      "ibanInvalid": "IBAN should be started with IR and must be 22 digits",
+      "cardNumberInvalid": "Card Number must be 16 digits",
+      "accountNumberInvalid": "Account Number must be between 6 to 15 characters"
+    },
     "slider": {
       "title": "Title must be at least 10 characters",
       "url": "Invalid url",

@@ -19,11 +19,9 @@ import { OrderStatus } from "@/lib/types/orderStatus";
 import { ExchangeOrder } from "@/lib/types/exchangeOrder";
 import { toast } from "sonner";
 import { createExchangeOrder } from "@/lib/api/exchange";
+import { Info } from "lucide-react";
 const exchangeSchema = z.object({
   amount: z.string().min(1, "Amount is required"),
-  bankAccount: z
-    .string()
-    .min(1, "Please select or enter a bank account"),
 });
 
 type ExchangeFormValues = z.infer<typeof exchangeSchema>;
@@ -47,19 +45,14 @@ export function ExchangeForm({
     defaultValues: { amount: "" },
   });
   const amount = watch("amount");
-  const finalAmount = parseFloat(amount) * exchangeRate;
+  let finalAmount = parseFloat(amount) * exchangeRate;
   const [selectedAccount, setSelectedAccount] =
     useState<BankAccount>();
 
   const onSubmit = async (data: ExchangeFormValues) => {
-    console.log("Submitted:", {
-      ...data,
-      finalAmount,
-      selectedAccount,
-      status: OrderStatus.PENDING,
-    });
     if (!selectedAccount) {
       toast.error("Bank Account not selected");
+      return;
     }
     const bodyData: ExchangeOrder = {
       amount: parseFloat(data.amount),
@@ -68,6 +61,8 @@ export function ExchangeForm({
         selectedAccount?.id ?? "unknown bank account",
       status: OrderStatus.PENDING,
     };
+    //console.log(bodyData);
+    finalAmount = 0;
     const res = await createExchangeOrder(bodyData);
     if (res.success) {
       toast.success("Success 🎉", {
@@ -76,8 +71,10 @@ export function ExchangeForm({
         duration: 3000,
       });
       reset();
+      setSelectedAccount(undefined);
+      finalAmount = 0;
     } else {
-      toast.success("Failed ⚠", {
+      toast.error("Failed ❌", {
         description: res.message,
         duration: 3000,
       });
@@ -117,11 +114,13 @@ export function ExchangeForm({
       </div>
 
       <div className="flex flex-col gap-2">
-        <div className="flex justify-between">
+        <div className="flex content-baseline gap-4 ">
           <Label>{t("label.exchange.bankAccount")}</Label>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="outline">?</Button>
+              <Button variant="ghost">
+                <Info />
+              </Button>
             </TooltipTrigger>
             <TooltipContent>
               <p>{t("label.exchange.bankAccountDesc")}</p>
@@ -135,12 +134,6 @@ export function ExchangeForm({
             setSelectedAccount(selected);
           }}
         />
-
-        {errors.bankAccount && (
-          <p className="text-sm text-red-500">
-            {errors.bankAccount.message}
-          </p>
-        )}
       </div>
 
       <Button type="submit" className="w-full">

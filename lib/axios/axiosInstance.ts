@@ -45,7 +45,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
-      toast.error("Request Error: ", {
+      toast.error("Request Error", {
         duration: 3000,
         description:
           error.response.data?.message || error.message,

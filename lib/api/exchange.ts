@@ -27,7 +27,7 @@ export const createExchangeOrder = async (
 ): Promise<OrderResponse> => {
   try {
     const response = await axiosInstance.post(
-      "/api/exchange",
+      "/api/exchangeorder",
       data
     );
     return response.data;

@@ -53,11 +53,9 @@ export const ServicesOverview = () => {
         <h2 className="text-3xl font-bold mb-2">
           {t("sections.overview.title")}
         </h2>
-        <p className="text-muted-foreground mb-10">
-          <h2 className="text-3xl font-bold mb-2">
-            {t("sections.overview.desc")}
-          </h2>
-        </p>
+        <h2 className="text-3xl text-muted-foreground font-bold mb-10">
+          {t("sections.overview.desc")}
+        </h2>
       </AnimatedSection>
       <AnimatedSection delay={0.1}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">

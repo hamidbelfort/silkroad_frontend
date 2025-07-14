@@ -57,12 +57,14 @@
     "whatsapp": "WhatsApp 号码无效",
     "weChat": "微信号无效",
     "address": "地址无效",
-    "bankNameRequired": "银行名称为必填项",
-    "bankAccountInvalid": "银行账户无效",
-    "bankAccountOwnerRequired": "银行账户持有人为必填项",
-    "ibanInvalid": "IBAN 无效",
-    "cardNumberInvalid": "卡号无效",
-    "accountNumberInvalid": "帐号必须介于 6 至 15 个字符之间",
+    "bankForm": {
+      "bankNameRequired": "银行名称为必填项",
+      "bankAccountInvalid": "银行账户无效",
+      "bankAccountOwnerRequired": "银行账户持有人为必填项",
+      "ibanInvalid": "IBAN 无效",
+      "cardNumberInvalid": "卡号无效",
+      "accountNumberInvalid": "帐号必须介于 6 至 15 个字符之间"
+    },
     "slider": {
       "title": "挡泥板",
       "url": "URL 无效",
