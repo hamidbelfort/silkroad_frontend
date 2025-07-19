@@ -23,7 +23,7 @@ export function SidebarHeader({
   const router = useRouter();
   useEffect(() => {
     if (!userId) {
-      router.push("/");
+      router.push("/login");
       return;
     }
     const fetchUser = async () => {
@@ -33,6 +33,7 @@ export function SidebarHeader({
           console.warn(
             "User data is empty, redirecting to login."
           );
+          useAuthStore.getState().logout();
           router.push("/login");
           return;
         }
