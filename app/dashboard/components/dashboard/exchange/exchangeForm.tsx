@@ -27,6 +27,7 @@ import { ExchangeOrder } from "@/lib/types/exchangeOrder";
 import { toast } from "sonner";
 import { createExchangeOrder } from "@/lib/api/exchange";
 import { useEffect, useRef } from "react";
+import { QuickAmountSelector } from "./QuickAmountSelector";
 
 // 1. Schema updated to support two-way calculation
 const exchangeSchema = z
@@ -43,9 +44,7 @@ const exchangeSchema = z
       })
       .positive("Amount must be positive")
       .optional(),
-    bankAccountId: z
-      .string()
-      .min(1, "Please select a bank account"),
+    bankAccountId: z.string().min(1, "Please select a bank account"),
   })
   .refine((data) => data.yuanAmount || data.rialAmount, {
     message: "Please enter either a Yuan or Rial amount",
@@ -75,27 +74,17 @@ export function ExchangeForm({
   // 2. Watch form values to react to changes
   const yuanAmount = form.watch("yuanAmount");
   const rialAmount = form.watch("rialAmount");
-  const lastChangedField = useRef<"yuan" | "rial" | null>(
-    null
-  );
+  const lastChangedField = useRef<"yuan" | "rial" | null>(null);
 
   // 3. Effect to update Rial based on Yuan
   useEffect(() => {
-    if (
-      yuanAmount !== undefined &&
-      lastChangedField.current === "yuan"
-    ) {
+    if (yuanAmount !== undefined && lastChangedField.current === "yuan") {
       const calculatedRial = yuanAmount * exchangeRate;
       // To prevent unnecessary re-renders due to floating point inaccuracies, we round the values
-      if (
-        Math.round(rialAmount || 0) !==
-        Math.round(calculatedRial)
-      ) {
-        form.setValue(
-          "rialAmount",
-          parseFloat(calculatedRial.toFixed(2)),
-          { shouldValidate: true }
-        );
+      if (Math.round(rialAmount || 0) !== Math.round(calculatedRial)) {
+        form.setValue("rialAmount", parseFloat(calculatedRial.toFixed(2)), {
+          shouldValidate: true,
+        });
       }
     } else if (
       yuanAmount === undefined &&
@@ -109,20 +98,12 @@ export function ExchangeForm({
 
   // 4. Effect to update Yuan based on Rial
   useEffect(() => {
-    if (
-      rialAmount !== undefined &&
-      lastChangedField.current === "rial"
-    ) {
+    if (rialAmount !== undefined && lastChangedField.current === "rial") {
       const calculatedYuan = rialAmount / exchangeRate;
-      if (
-        Math.round(yuanAmount || 0) !==
-        Math.round(calculatedYuan)
-      ) {
-        form.setValue(
-          "yuanAmount",
-          parseFloat(calculatedYuan.toFixed(2)),
-          { shouldValidate: true }
-        );
+      if (Math.round(yuanAmount || 0) !== Math.round(calculatedYuan)) {
+        form.setValue("yuanAmount", parseFloat(calculatedYuan.toFixed(2)), {
+          shouldValidate: true,
+        });
       }
     } else if (
       rialAmount === undefined &&
@@ -134,12 +115,18 @@ export function ExchangeForm({
     }
   }, [rialAmount, exchangeRate, yuanAmount, form]);
 
+  const handleSelectAmount = (amount: number) => {
+    // 1. به سیستم میگیم که آخرین تغییر از سمت فیلد یوان بوده
+    lastChangedField.current = "yuan";
+
+    // 2. مقدار فیلد یوان رو در فرم آپدیت می‌کنیم
+    form.setValue("yuanAmount", amount, { shouldValidate: true });
+  };
+
   const onSubmit = async (data: ExchangeFormValues) => {
     // Ensure both values are available before submitting to the server
-    const finalYuanAmount =
-      data.yuanAmount || data.rialAmount! / exchangeRate;
-    const finalRialAmount =
-      data.rialAmount || data.yuanAmount! * exchangeRate;
+    const finalYuanAmount = data.yuanAmount || data.rialAmount! / exchangeRate;
+    const finalRialAmount = data.rialAmount || data.yuanAmount! * exchangeRate;
 
     const bodyData: ExchangeOrder = {
       amount: finalYuanAmount,
@@ -151,8 +138,7 @@ export function ExchangeForm({
     const res = await createExchangeOrder(bodyData);
     if (res.success) {
       toast.success("Order Submitted Successfully 🎉", {
-        description:
-          "Your order has been submitted for review.",
+        description: "Your order has been submitted for review.",
         duration: 3000,
       });
       form.reset();
@@ -166,10 +152,7 @@ export function ExchangeForm({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="yuanAmount"
@@ -184,14 +167,13 @@ export function ExchangeForm({
                   onChange={(e) => {
                     lastChangedField.current = "yuan";
                     field.onChange(
-                      e.target.value === ""
-                        ? undefined
-                        : e.target.valueAsNumber
+                      e.target.value === "" ? undefined : e.target.valueAsNumber
                     );
                   }}
                   value={field.value ?? ""}
                 />
               </FormControl>
+              <QuickAmountSelector onSelectAmount={handleSelectAmount} />
               <FormMessage />
             </FormItem>
           )}
@@ -215,9 +197,7 @@ export function ExchangeForm({
                   onChange={(e) => {
                     lastChangedField.current = "rial";
                     field.onChange(
-                      e.target.value === ""
-                        ? undefined
-                        : e.target.valueAsNumber
+                      e.target.value === "" ? undefined : e.target.valueAsNumber
                     );
                   }}
                   value={field.value ?? ""}
@@ -234,32 +214,22 @@ export function ExchangeForm({
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center gap-2">
-                <Label>
-                  {t("label.exchange.bankAccount")}
-                </Label>
+                <Label>{t("label.exchange.bankAccount")}</Label>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6"
-                    >
+                    <Button variant="ghost" size="icon" className="h-6 w-6">
                       <Info className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>
-                      {t("label.exchange.bankAccountDesc")}
-                    </p>
+                    <p>{t("label.exchange.bankAccountDesc")}</p>
                   </TooltipContent>
                 </Tooltip>
               </div>
               <FormControl>
                 <BankAccountSelector
                   accounts={accounts}
-                  onSelect={(selected) =>
-                    field.onChange(selected.id)
-                  }
+                  onSelect={(selected) => field.onChange(selected.id)}
                 />
               </FormControl>
               <FormMessage />

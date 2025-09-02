@@ -16,7 +16,6 @@ export function ExchangeRateCard({
   rate: ExchangeRate | number | null;
   loading: boolean;
 }) {
-  const [lastUpdated, setLastUpdated] = useState<string>("");
   const { t } = useTranslation("common");
   const UPDATE_INTERVAL_SECONDS = 600; // ۱۰ دقیقه
   const [countdown, setCountdown] = useState(UPDATE_INTERVAL_SECONDS);
@@ -72,22 +71,6 @@ export function ExchangeRateCard({
 
     return () => clearInterval(timerId); // پاکسازی تایمر
   }, [countdown]);
-  // const fetchRate = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const data = await getExchangeRate();
-  //     setRate(data);
-  //     if (onRateChange) onRateChange(data?.basePrice || 0);
-  //     setLastUpdated(new Date().toLocaleTimeString());
-  //   } catch (err) {
-  //     console.error("Error fetching rate:", err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchRate();
-  // }, []);
 
   return (
     <Card>
@@ -106,32 +89,6 @@ export function ExchangeRateCard({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {/* {loading || !rate ? (
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-40" />
-            <Skeleton className="h-3 w-32" />
-          </div>
-        ) : (
-          <div className="text-sm space-y-1">
-            <div className="flex lg:flex-row sm:flex-col gap-2">
-              {t("title.basePrice")} :{" "}
-              <h3 className="font-semibold mx-2">
-                {rate.basePrice.toLocaleString()}ريال/IRR
-              </h3>
-              <Flag code="ir" style={{ width: 20 }} />
-            </div>
-            <div className="flex lg:flex-row sm:flex-col gap-2">
-              {t("title.buyPrice")} :{" "}
-              <h3 className="font-semibold mx-2">
-                {rate.buyPrice.toLocaleString()}ريال/IRR
-              </h3>
-              <Flag code="ir" style={{ width: 20 }} />
-            </div>
-            <div className="text-muted-foreground flex lg:flex-row sm:flex-col gap-2 mt-4">
-              {t("title.lastUpdated")} : {lastUpdated}
-            </div>
-          </div>
-        )} */}
         {loading ? (
           <div className="space-y-2">
             <Skeleton className="h-6 w-48" />
