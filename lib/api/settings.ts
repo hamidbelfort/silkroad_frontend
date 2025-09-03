@@ -1,7 +1,9 @@
 import axiosInstance from "@/lib/axios/axiosInstance";
 import { Setting, SettingKey } from "../types/settings";
 
-export const fetchAllSettings = async (): Promise<Setting[]> => {
+export const fetchAllSettings = async (): Promise<
+  Setting[]
+> => {
   const res = await axiosInstance.get("/api/settings");
   return res.data as Setting[];
 };
@@ -32,6 +34,26 @@ export const updateAppSettings = async (data: {
       value: data.orderDisputeThreshold.toString(),
     });
   }
-  const response = await axiosInstance.put("/api/settings", payload);
+  const response = await axiosInstance.put(
+    "/api/settings",
+    payload
+  );
   return response.data;
+};
+/**
+ * Fetches a specific setting from the server by its key.
+ * @param key The key of the setting to fetch (e.g., "ORDER_DISPUTE_THRESHOLD").
+ * @returns The setting object or null if not found.
+ */
+export const getSetting = async (
+  key: string
+): Promise<Setting | null> => {
+  try {
+    const response = await axiosInstance.get(
+      `/api/settings/${key}`
+    );
+    return response.data;
+  } catch {
+    return null;
+  }
 };

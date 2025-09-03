@@ -17,6 +17,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,8 +29,9 @@ import { toast } from "sonner";
 import { createExchangeOrder } from "@/lib/api/exchange";
 import { useEffect, useRef } from "react";
 import { QuickAmountSelector } from "./QuickAmountSelector";
+import { Checkbox } from "@/components/ui/checkbox"; // 1. Import Checkbox component
 
-// 1. Schema updated to support two-way calculation
+// 2. Add hasDispute to the schema
 const exchangeSchema = z
   .object({
     yuanAmount: z.coerce
@@ -44,21 +46,27 @@ const exchangeSchema = z
       })
       .positive("Amount must be positive")
       .optional(),
-    bankAccountId: z.string().min(1, "Please select a bank account"),
+    bankAccountId: z
+      .string()
+      .min(1, "Please select a bank account"),
+    hasDispute: z.boolean().default(false).optional(),
   })
   .refine((data) => data.yuanAmount || data.rialAmount, {
     message: "Please enter either a Yuan or Rial amount",
-    path: ["yuanAmount"], // Error will be displayed on the first field
+    path: ["yuanAmount"],
   });
 
 type ExchangeFormValues = z.infer<typeof exchangeSchema>;
 
+// 3. Accept disputeThreshold as a prop
 export function ExchangeForm({
   exchangeRate,
   accounts,
+  disputeThreshold,
 }: {
   exchangeRate: number;
   accounts: BankAccount[];
+  disputeThreshold: number;
 }) {
   const { t } = useTranslation("common");
 
@@ -68,21 +76,37 @@ export function ExchangeForm({
       yuanAmount: undefined,
       rialAmount: undefined,
       bankAccountId: "",
+      hasDispute: false,
     },
   });
 
-  // 2. Watch form values to react to changes
   const yuanAmount = form.watch("yuanAmount");
   const rialAmount = form.watch("rialAmount");
-  const lastChangedField = useRef<"yuan" | "rial" | null>(null);
+  const lastChangedField = useRef<"yuan" | "rial" | null>(
+    null
+  );
 
-  // 3. Effect to update Rial based on Yuan
+  // This derived state determines if the checkbox should be visible
+  const showDisputeCheckbox =
+    rialAmount !== undefined &&
+    rialAmount > disputeThreshold;
+
+  // Reset dispute checkbox if amount goes below threshold
   useEffect(() => {
-    if (yuanAmount !== undefined && lastChangedField.current === "yuan") {
+    if (!showDisputeCheckbox) {
+      form.setValue("hasDispute", false);
+    }
+  }, [showDisputeCheckbox, form]);
+
+  useEffect(() => {
+    if (
+      yuanAmount !== undefined &&
+      lastChangedField.current === "yuan"
+    ) {
       const calculatedRial = yuanAmount * exchangeRate;
-      // To prevent unnecessary re-renders due to floating point inaccuracies, we round the values
-      if (Math.round(rialAmount || 0) !== Math.round(calculatedRial)) {
-        form.setValue("rialAmount", parseFloat(calculatedRial.toFixed(2)), {
+      const roundedRial = Math.round(calculatedRial);
+      if (rialAmount !== roundedRial) {
+        form.setValue("rialAmount", roundedRial, {
           shouldValidate: true,
         });
       }
@@ -96,12 +120,17 @@ export function ExchangeForm({
     }
   }, [yuanAmount, exchangeRate, rialAmount, form]);
 
-  // 4. Effect to update Yuan based on Rial
   useEffect(() => {
-    if (rialAmount !== undefined && lastChangedField.current === "rial") {
+    if (
+      rialAmount !== undefined &&
+      lastChangedField.current === "rial"
+    ) {
       const calculatedYuan = rialAmount / exchangeRate;
-      if (Math.round(yuanAmount || 0) !== Math.round(calculatedYuan)) {
-        form.setValue("yuanAmount", parseFloat(calculatedYuan.toFixed(2)), {
+      const roundedYuan = parseFloat(
+        calculatedYuan.toFixed(2)
+      );
+      if (yuanAmount !== roundedYuan) {
+        form.setValue("yuanAmount", roundedYuan, {
           shouldValidate: true,
         });
       }
@@ -115,30 +144,42 @@ export function ExchangeForm({
     }
   }, [rialAmount, exchangeRate, yuanAmount, form]);
 
-  const handleSelectAmount = (amount: number) => {
-    // 1. به سیستم میگیم که آخرین تغییر از سمت فیلد یوان بوده
-    lastChangedField.current = "yuan";
-
-    // 2. مقدار فیلد یوان رو در فرم آپدیت می‌کنیم
-    form.setValue("yuanAmount", amount, { shouldValidate: true });
-  };
-
+  // 4. Update onSubmit logic
   const onSubmit = async (data: ExchangeFormValues) => {
-    // Ensure both values are available before submitting to the server
-    const finalYuanAmount = data.yuanAmount || data.rialAmount! / exchangeRate;
-    const finalRialAmount = data.rialAmount || data.yuanAmount! * exchangeRate;
+    const finalYuanAmount =
+      data.yuanAmount ||
+      parseFloat(
+        (data.rialAmount! / exchangeRate).toFixed(2)
+      );
+    const finalRialAmount =
+      data.rialAmount ||
+      Math.round(data.yuanAmount! * exchangeRate);
+
+    // Determine status based on dispute logic
+    const isDisputed =
+      data.hasDispute && finalRialAmount > disputeThreshold;
+    const status = isDisputed
+      ? OrderStatus.WAITING_REVIEW
+      : OrderStatus.PENDING;
+
+    // Set expiration for 12 hours from now
+    const expiresAt = new Date(
+      Date.now() + 12 * 60 * 60 * 1000
+    ).toISOString();
 
     const bodyData: ExchangeOrder = {
       amount: finalYuanAmount,
       finalAmount: finalRialAmount,
       bankAccountId: data.bankAccountId,
-      status: OrderStatus.PENDING,
+      status: status,
+      expiredAt: expiresAt,
     };
 
     const res = await createExchangeOrder(bodyData);
     if (res.success) {
       toast.success("Order Submitted Successfully 🎉", {
-        description: "Your order has been submitted for review.",
+        description:
+          "Your order has been submitted for review.",
         duration: 3000,
       });
       form.reset();
@@ -150,9 +191,21 @@ export function ExchangeForm({
     }
   };
 
+  const handleSelectAmount = (amount: number) => {
+    lastChangedField.current = "yuan";
+    form.setValue("yuanAmount", amount, {
+      shouldValidate: true,
+    });
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6"
+      >
+        {" "}
+        {/* Increased spacing */}
         <FormField
           control={form.control}
           name="yuanAmount"
@@ -161,28 +214,40 @@ export function ExchangeForm({
               <FormLabel>Yuan Amount (¥)</FormLabel>
               <FormControl>
                 <Input
-                  type="number"
+                  type="text"
+                  inputMode="decimal"
                   placeholder="Enter Yuan amount"
-                  {...field}
                   onChange={(e) => {
-                    lastChangedField.current = "yuan";
-                    field.onChange(
-                      e.target.value === "" ? undefined : e.target.valueAsNumber
+                    const rawValue = e.target.value.replace(
+                      /,/g,
+                      ""
                     );
+                    const numValue = parseFloat(rawValue);
+                    lastChangedField.current = "yuan";
+                    if (rawValue === "")
+                      field.onChange(undefined);
+                    else if (!isNaN(numValue))
+                      field.onChange(numValue);
                   }}
-                  value={field.value ?? ""}
+                  value={
+                    field.value !== undefined
+                      ? field.value.toLocaleString("en-US")
+                      : ""
+                  }
                 />
               </FormControl>
-              <QuickAmountSelector onSelectAmount={handleSelectAmount} />
+              <QuickAmountSelector
+                onSelectAmount={handleSelectAmount}
+              />
               <FormMessage />
             </FormItem>
           )}
         />
-
-        <div className="flex justify-center my-[-10px]">
+        <div className="flex justify-center my-[-15px]">
+          {" "}
+          {/* Adjusted spacing */}
           <ArrowDownUp className="h-6 w-6 text-gray-400" />
         </div>
-
         <FormField
           control={form.control}
           name="rialAmount"
@@ -191,52 +256,97 @@ export function ExchangeForm({
               <FormLabel>Rial Amount (IRR)</FormLabel>
               <FormControl>
                 <Input
-                  type="number"
+                  type="text"
+                  inputMode="decimal"
                   placeholder="Enter Rial amount"
-                  {...field}
                   onChange={(e) => {
-                    lastChangedField.current = "rial";
-                    field.onChange(
-                      e.target.value === "" ? undefined : e.target.valueAsNumber
+                    const rawValue = e.target.value.replace(
+                      /,/g,
+                      ""
                     );
+                    const numValue = parseInt(rawValue, 10);
+                    lastChangedField.current = "rial";
+                    if (rawValue === "")
+                      field.onChange(undefined);
+                    else if (!isNaN(numValue))
+                      field.onChange(numValue);
                   }}
-                  value={field.value ?? ""}
+                  value={
+                    field.value !== undefined
+                      ? field.value.toLocaleString("en-US")
+                      : ""
+                  }
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
+        {/* 5. Conditionally render the dispute checkbox */}
+        {showDisputeCheckbox && (
+          <FormField
+            control={form.control}
+            name="hasDispute"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 transition-all animate-in fade-in-50">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>
+                    I want to dispute the exchange rate
+                  </FormLabel>
+                  <FormDescription>
+                    Your order amount exceeds the threshold.
+                    By checking this, a specialist will
+                    contact you to agree on a final rate.
+                  </FormDescription>
+                </div>
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name="bankAccountId"
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center gap-2">
-                <Label>{t("label.exchange.bankAccount")}</Label>
+                <Label>
+                  {t("label.exchange.bankAccount")}
+                </Label>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-6 w-6">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                    >
                       <Info className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>{t("label.exchange.bankAccountDesc")}</p>
+                    <p>
+                      {t("label.exchange.bankAccountDesc")}
+                    </p>
                   </TooltipContent>
                 </Tooltip>
               </div>
               <FormControl>
                 <BankAccountSelector
                   accounts={accounts}
-                  onSelect={(selected) => field.onChange(selected.id)}
+                  onSelect={(selected) =>
+                    field.onChange(selected.id)
+                  }
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
         <Button
           type="submit"
           className="w-full"
