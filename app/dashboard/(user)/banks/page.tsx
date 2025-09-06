@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getBankAccounts } from "@/lib/api/bankAccount";
-import { BankAccountForm } from "../components/dashboard/customer/bankAccountForm";
-import { BankAccountList } from "../components/dashboard/customer/bankAccountList";
+import { BankAccountForm } from "../../components/dashboard/customer/bankAccountForm";
+import { BankAccountList } from "../../components/dashboard/customer/bankAccountList";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthStore } from "@/store/authStore";
 import { BankAccount } from "@/lib/types/bankAccount";
@@ -11,7 +11,9 @@ import { useTranslation } from "react-i18next";
 export default function BankAccountsPage() {
   const { t } = useTranslation("common");
   const { userId } = useAuthStore();
-  const [accounts, setAccounts] = useState<BankAccount[] | null>(null);
+  const [accounts, setAccounts] = useState<
+    BankAccount[] | null
+  >(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +23,9 @@ export default function BankAccountsPage() {
         if (!rawData) return;
         const cleaned = rawData.map((item) => {
           const cleanedItem: Partial<BankAccount> = {};
-          for (const key of Object.keys(item) as (keyof BankAccount)[]) {
+          for (const key of Object.keys(
+            item
+          ) as (keyof BankAccount)[]) {
             const value = item[key];
             cleanedItem[key] =
               value === undefined || value === null
@@ -47,7 +51,9 @@ export default function BankAccountsPage() {
     <div className="space-y-6 md:min-w-sm">
       <BankAccountForm
         onSuccess={(newAccount) =>
-          setAccounts((prev) => (prev ? [...prev, newAccount] : [newAccount]))
+          setAccounts((prev) =>
+            prev ? [...prev, newAccount] : [newAccount]
+          )
         }
       />
 
@@ -61,13 +67,17 @@ export default function BankAccountsPage() {
         <BankAccountList
           accounts={accounts}
           onDelete={(id) =>
-            setAccounts((prev) => prev?.filter((acc) => acc.id !== id) || [])
+            setAccounts(
+              (prev) =>
+                prev?.filter((acc) => acc.id !== id) || []
+            )
           }
           onEdit={(updated) =>
             setAccounts(
               (prev) =>
-                prev?.map((acc) => (acc.id === updated.id ? updated : acc)) ||
-                []
+                prev?.map((acc) =>
+                  acc.id === updated.id ? updated : acc
+                ) || []
             )
           }
         />
