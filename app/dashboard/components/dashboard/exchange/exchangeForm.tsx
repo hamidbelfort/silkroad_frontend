@@ -88,8 +88,8 @@ export function ExchangeForm({
 
   // This derived state determines if the checkbox should be visible
   const showDisputeCheckbox =
-    rialAmount !== undefined &&
-    rialAmount > disputeThreshold;
+    yuanAmount !== undefined &&
+    yuanAmount > disputeThreshold;
 
   // Reset dispute checkbox if amount goes below threshold
   useEffect(() => {

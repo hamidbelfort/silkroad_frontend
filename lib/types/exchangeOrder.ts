@@ -3,7 +3,7 @@ import { User } from "./user";
 
 export interface ExchangeOrder {
   id?: string;
-  userId: string;
+  userId?: string;
   amount: number;
   finalAmount: number;
   bankAccountId: string;
