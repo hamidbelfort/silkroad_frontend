@@ -246,7 +246,9 @@
       "exchanges": "交换",
       "supportTickets": "支持票",
       "bankAccounts": "银行账户",
-      "sliderManagement": "滑块管理"
+      "sliderManagement": "滑块管理",
+      "usersManagement": "用户管理",
+      "ordersManagement": "订单管理"
     }
   },
   "forms": {

@@ -6,7 +6,16 @@ export interface UserResponse {
   role: ROLE;
   avatar: string;
 }
-enum ROLE {
+export interface User {
+  id: string;
+  fullname: string;
+  email: string;
+  phone: string;
+  role: ROLE;
+  isActive: boolean;
+  createdAt: string;
+}
+export const enum ROLE {
   ADMIN = "ADMIN",
   OPERATOR = "OPERATOR",
   CUSTOMER = "CUSTOMER",

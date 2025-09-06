@@ -17,13 +17,25 @@ import {
   Info,
   User2,
   Settings2,
+  ListOrdered,
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
+//Admin
 export const adminSidebarItems: SidebarItemType[] = [
   {
     label: "label.sidebar.dashboard",
     icon: LayoutDashboard,
     href: "/dashboard",
+  },
+  {
+    label: "label.sidebar.usersManagement",
+    icon: User2,
+    href: "/dashboard/admin/users",
+  },
+  {
+    label: "label.sidebar.ordersManagement",
+    icon: ListOrdered,
+    href: "/dashboard/admin/orders",
   },
   {
     label: "label.sidebar.appSettings",
@@ -77,7 +89,7 @@ export const adminSidebarItems: SidebarItemType[] = [
     },
   },
 ];
-
+//Operator
 export const operatorSidebarItems: SidebarItemType[] = [
   {
     label: "label.sidebar.dashboard",
@@ -111,7 +123,7 @@ export const operatorSidebarItems: SidebarItemType[] = [
     },
   },
 ];
-
+//Customer
 export const customerSidebarItems: SidebarItemType[] = [
   {
     label: "label.sidebar.dashboard",

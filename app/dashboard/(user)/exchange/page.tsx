@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ExchangeRateCard } from "../components/dashboard/exchange/exchangeRateCard";
-import PriceChartCard from "../components/dashboard/exchange/exchangeChartCard2";
-import { ExchangeForm } from "../components/dashboard/exchange/exchangeForm";
+import { ExchangeRateCard } from "../../components/dashboard/exchange/exchangeRateCard";
+import PriceChartCard from "../../components/dashboard/exchange/exchangeChartCard2";
+import { ExchangeForm } from "../../components/dashboard/exchange/exchangeForm";
 import { getExchangeRate } from "@/lib/api/exchange";
 import { getSetting } from "@/lib/api/settings";
 import { toast } from "sonner";

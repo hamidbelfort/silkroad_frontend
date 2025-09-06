@@ -242,7 +242,9 @@
       "exchanges": "Exchanges",
       "supportTickets": "Support Tickets",
       "bankAccounts": "Bank Accounts",
-      "sliderManagement": "Slider Management"
+      "sliderManagement": "Slider Management",
+      "usersManagement": "Users Management",
+      "ordersManagement": "Orders Management"
     }
   },
   "forms": {
