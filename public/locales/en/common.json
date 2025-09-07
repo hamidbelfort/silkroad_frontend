@@ -168,7 +168,6 @@
       "exchangeHistory": "Exchange History",
       "nextUpdateIn": "Next Update In"
     },
-
     "testimonials": "What our customers say",
     "settings": {
       "main": "App Settings",
@@ -343,5 +342,30 @@
   },
   "footer": {
     "aboutText": "Discover the heart of Iran, worry-free. As your dedicated partner, we provide Chinese tourists with trusted local services for an unforgettable journey."
+  },
+  "recentOrders": {
+    "title": "Recent Orders",
+    "desc": "Here are your last 3 exchange orders.",
+    "viewAll": "View All",
+    "noOrders": "You have no order history yet.",
+    "columns": {
+      "date": "Date",
+      "amount": "Yuan Amount",
+      "status": "Status"
+    }
+  },
+  "ordersHistory": {
+    "title": "Order History",
+    "myOrders": "My Orders",
+    "desc": "Here is a complete list of all your exchange orders.",
+    "desc2": "A full record of your past transactions.",
+    "viewAll": "View All",
+    "noOrders": "You have no order history yet.",
+    "columns": {
+      "date": "Date",
+      "amount": "Yuan Amount",
+      "rialAmount": "Rial Amount",
+      "status": "Status"
+    }
   }
 }

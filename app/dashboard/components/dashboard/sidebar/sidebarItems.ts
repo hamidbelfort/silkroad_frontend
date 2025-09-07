@@ -147,7 +147,7 @@ export const customerSidebarItems: SidebarItemType[] = [
     children: [
       {
         label: "label.sidebar.exchanges",
-        href: "#",
+        href: "/dashboard/orders",
         icon: Banknote,
       },
       {

@@ -347,5 +347,30 @@
   },
   "footer": {
     "aboutText": "无忧探索伊朗的精髓。作为您的专属合作伙伴，我们为中国游客提供值得信赖的本地服务，确保您的旅程终生难忘。"
+  },
+  "recentOrders": {
+    "title": "最近的订单",
+    "desc": "这是您最近的 3 个汇率交换订单。",
+    "viewAll": "查看所有",
+    "noOrders": "您还没有订单历史。",
+    "columns": {
+      "date": "日期",
+      "amount": "人民币金额",
+      "status": "状态"
+    }
+  },
+  "ordersHistory": {
+    "title": "订单历史",
+    "myOrders": "我的订单",
+    "desc": "这是所有您的汇率交换订单的完整列表。",
+    "desc2": "您过去交易的完整记录。",
+    "viewAll": "查看所有",
+    "noOrders": "您还没有订单历史。",
+    "columns": {
+      "date": "日期",
+      "amount": "人民币金额",
+      "rialAmount": "伊朗里亚金额",
+      "status": "状态"
+    }
   }
 }

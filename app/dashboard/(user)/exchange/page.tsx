@@ -11,28 +11,17 @@ import { BankAccount } from "@/lib/types/bankAccount";
 import { getBankAccounts } from "@/lib/api/bankAccount";
 import { useTranslation } from "react-i18next";
 import { ExchangeRate } from "@/lib/types/exchange";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-
+import { RecentOrders } from "../../components/dashboard/exchange/recentOrders";
 const Exchange = () => {
   const { t } = useTranslation("common");
-  const [rate, setRate] = useState<ExchangeRate | null>(
-    null
-  );
+  const [rate, setRate] = useState<ExchangeRate | null>(null);
   const [loadingRate, setLoadingRate] = useState(true);
-  const [accounts, setAccounts] = useState<BankAccount[]>(
-    []
-  );
-  const [loadingAccounts, setLoadingAccounts] =
-    useState(true);
-  const [disputeThreshold, setDisputeThreshold] =
-    useState<number>(Infinity); // Default to a high number
+  const [accounts, setAccounts] = useState<BankAccount[]>([]);
+  const [loadingAccounts, setLoadingAccounts] = useState(true);
+  const [disputeThreshold, setDisputeThreshold] = useState<number>(Infinity); // Default to a high number
   const userId = useAuthStore((state) => state.userId);
 
   useEffect(() => {
@@ -63,17 +52,12 @@ const Exchange = () => {
 
     const fetchDisputeThreshold = async () => {
       try {
-        const setting = await getSetting(
-          "ORDER_DISPUTE_THRESHOLD"
-        );
+        const setting = await getSetting("ORDER_DISPUTE_THRESHOLD");
         if (setting && !isNaN(Number(setting.value))) {
           setDisputeThreshold(Number(setting.value));
         }
       } catch (error) {
-        console.error(
-          "Error fetching dispute threshold:",
-          error
-        );
+        console.error("Error fetching dispute threshold:", error);
         // Keep it at Infinity so the checkbox never shows on error
       }
     };
@@ -82,27 +66,23 @@ const Exchange = () => {
     getUserBankAccounts(userId);
     fetchDisputeThreshold(); // Fetch the threshold
 
-    const interval = setInterval(
-      getExchangeRatePrice,
-      10 * 60 * 1000
-    );
+    const interval = setInterval(getExchangeRatePrice, 10 * 60 * 1000);
     return () => clearInterval(interval);
   }, [userId]);
 
   return (
-    <div className="container mx-auto p-4">
+    // از space-y-8 برای ایجاد فاصله بین بخش‌ها استفاده می‌کنیم
+    <div className="container mx-auto p-4 space-y-8">
+      {/* بخش اصلی با چیدمان دو ستونی */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* ستون چپ */}
         <div className="space-y-6">
-          <ExchangeRateCard
-            rate={rate}
-            loading={loadingRate}
-          />
+          <ExchangeRateCard rate={rate} loading={loadingRate} />
           <PriceChartCard />
         </div>
+        {/* ستون راست */}
         <div className="lg:col-span-2 space-y-6">
-          <h1 className="text-3xl font-bold">
-            {t("label.exchange.title")}
-          </h1>
+          <h1 className="text-3xl font-bold">{t("label.exchange.title")}</h1>
 
           {loadingAccounts ? (
             <Card>
@@ -116,7 +96,6 @@ const Exchange = () => {
               </CardContent>
             </Card>
           ) : accounts.length > 0 ? (
-            // Pass the threshold to the form
             <ExchangeForm
               exchangeRate={rate?.basePrice || 0}
               accounts={accounts}
@@ -125,20 +104,23 @@ const Exchange = () => {
           ) : (
             <Card className="flex flex-col items-center justify-center p-8 text-center">
               <CardHeader>
-                <CardTitle>
-                  No Bank Account Found!
-                </CardTitle>
+                <CardTitle>No Bank Account Found!</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4">
-                  Please add a bank account before you can
-                  start exchanging currency.
+                  Please add a bank account before you can start exchanging
+                  currency.
                 </p>
                 <Button>Add Bank Account</Button>
               </CardContent>
             </Card>
           )}
         </div>
+      </div>
+
+      {/* بخش سفارشات اخیر */}
+      <div className="w-full">
+        <RecentOrders />
       </div>
     </div>
   );
