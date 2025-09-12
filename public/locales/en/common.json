@@ -367,5 +367,15 @@
       "rialAmount": "Rial Amount",
       "status": "Status"
     }
+  },
+  "orderStatus": {
+    "pending": "Pending...",
+    "waitingReview": "Waiting Review",
+    "waitingPayment": "Waiting Payment",
+    "approved": "Approved",
+    "cancelled": "Cancelled",
+    "completed": "Completed",
+    "rejected": "Rejected",
+    "paid": "Paid"
   }
 }

@@ -372,5 +372,15 @@
       "rialAmount": "伊朗里亚金额",
       "status": "状态"
     }
+  },
+  "orderStatus": {
+    "pending": "待办的",
+    "waitingReview": "等待评论",
+    "waitingPayment": "等待付款",
+    "approved": "得到正式认可的",
+    "cancelled": "取消",
+    "completed": "完全的",
+    "rejected": "被拒绝",
+    "paid": "有薪酬的"
   }
 }
