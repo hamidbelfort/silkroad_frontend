@@ -354,7 +354,7 @@
       "status": "Status"
     }
   },
-  "ordersHistory": {
+  "orderHistory": {
     "title": "Order History",
     "myOrders": "My Orders",
     "desc": "Here is a complete list of all your exchange orders.",

@@ -359,7 +359,7 @@
       "status": "状态"
     }
   },
-  "ordersHistory": {
+  "orderHistory": {
     "title": "订单历史",
     "myOrders": "我的订单",
     "desc": "这是所有您的汇率交换订单的完整列表。",
