@@ -369,7 +369,7 @@
     }
   },
   "orderStatus": {
-    "pending": "Pending...",
+    "pending": "Pending",
     "waitingReview": "Waiting Review",
     "waitingPayment": "Waiting Payment",
     "approved": "Approved",

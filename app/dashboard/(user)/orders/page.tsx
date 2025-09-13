@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { OrderStatusBadge } from "../../components/dashboard/exchange/orderStatusBadge";
+import { OrderStatusBadge } from "../../../../components/ui/orderStatusBadge";
 import { useTranslation } from "react-i18next";
 // Main component for the page
 export default function OrdersPage() {
@@ -55,24 +55,37 @@ export default function OrdersPage() {
 
   return (
     <div className="container mx-auto p-4 space-y-6">
-      <h1 className="text-3xl font-bold">{t("orderHistory.myOrders")}</h1>
-      <p className="text-muted-foreground">{t("orderHistory.desc")}</p>
+      <h1 className="text-3xl font-bold">
+        {t("orderHistory.myOrders")}
+      </h1>
+      <p className="text-muted-foreground">
+        {t("orderHistory.desc")}
+      </p>
       <Card>
         <CardHeader>
           <CardTitle>{t("orderHistory.title")}</CardTitle>
-          <CardDescription>{t("orderHistory.desc2")}</CardDescription>
+          <CardDescription>
+            {t("orderHistory.desc2")}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="border rounded-lg">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t("orderHistory.columns.date")}</TableHead>
-                  <TableHead>{t("orderHistory.columns.amount")}(¥)</TableHead>
                   <TableHead>
-                    {t("orderHistory.columns.rialAmount")}(IRR)
+                    {t("orderHistory.columns.date")}
                   </TableHead>
-                  <TableHead>{t("orderHistory.columns.status")}</TableHead>
+                  <TableHead>
+                    {t("orderHistory.columns.amount")}(¥)
+                  </TableHead>
+                  <TableHead>
+                    {t("orderHistory.columns.rialAmount")}
+                    (IRR)
+                  </TableHead>
+                  <TableHead>
+                    {t("orderHistory.columns.status")}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -87,20 +100,29 @@ export default function OrdersPage() {
                   orders.map((order) => (
                     <TableRow key={order.id}>
                       <TableCell>
-                        {new Date(order.createdAt!).toLocaleDateString()}
+                        {new Date(
+                          order.createdAt!
+                        ).toLocaleDateString()}
                       </TableCell>
-                      <TableCell>{order.amount.toLocaleString()}</TableCell>
+                      <TableCell>
+                        {order.amount.toLocaleString()}
+                      </TableCell>
                       <TableCell>
                         {order.finalAmount.toLocaleString()}
                       </TableCell>
                       <TableCell>
-                        <OrderStatusBadge status={order.status} />
+                        <OrderStatusBadge
+                          status={order.status}
+                        />
                       </TableCell>
                     </TableRow>
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={4} className="h-24 text-center">
+                    <TableCell
+                      colSpan={4}
+                      className="h-24 text-center"
+                    >
                       {t("orderHistory.noOrders")}
                     </TableCell>
                   </TableRow>

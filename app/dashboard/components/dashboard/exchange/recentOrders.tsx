@@ -22,7 +22,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { OrderStatusBadge } from "./orderStatusBadge";
+import { OrderStatusBadge } from "../../../../../components/ui/orderStatusBadge";
 import { useTranslation } from "react-i18next";
 
 export function RecentOrders() {
@@ -59,7 +59,9 @@ export function RecentOrders() {
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle>{t("recentOrders.title")}</CardTitle>
-          <CardDescription>{t("recentOrders.desc")}</CardDescription>
+          <CardDescription>
+            {t("recentOrders.desc")}
+          </CardDescription>
         </div>
         <Button asChild variant="outline" size="sm">
           <Link href="/dashboard/orders">
@@ -72,9 +74,15 @@ export function RecentOrders() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>{t("recentOrders.columns.date")}</TableHead>
-              <TableHead>{t("recentOrders.columns.amount")}(¥)</TableHead>
-              <TableHead>{t("recentOrders.columns.status")}</TableHead>
+              <TableHead>
+                {t("recentOrders.columns.date")}
+              </TableHead>
+              <TableHead>
+                {t("recentOrders.columns.amount")}(¥)
+              </TableHead>
+              <TableHead>
+                {t("recentOrders.columns.status")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -87,17 +95,26 @@ export function RecentOrders() {
               orders.map((order) => (
                 <TableRow key={order.id}>
                   <TableCell>
-                    {new Date(order.createdAt!).toLocaleDateString()}
+                    {new Date(
+                      order.createdAt!
+                    ).toLocaleDateString()}
                   </TableCell>
-                  <TableCell>{order.amount.toLocaleString()}</TableCell>
                   <TableCell>
-                    <OrderStatusBadge status={order.status} />
+                    {order.amount.toLocaleString()}
+                  </TableCell>
+                  <TableCell>
+                    <OrderStatusBadge
+                      status={order.status}
+                    />
                   </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={3} className="h-24 text-center">
+                <TableCell
+                  colSpan={3}
+                  className="h-24 text-center"
+                >
                   {t("recentOrders.noOrders")}
                 </TableCell>
               </TableRow>

@@ -10,7 +10,9 @@ import { OrderStatus } from "../types/orderStatus";
  * Fetches a list of all users for the admin panel.
  */
 export const getAllUsers = async (): Promise<User[]> => {
-  const response = await axiosInstance.get("/api/admin/users");
+  const response = await axiosInstance.get(
+    "/api/admin/users"
+  );
   return response.data;
 };
 
@@ -19,7 +21,10 @@ export const getAllUsers = async (): Promise<User[]> => {
  * @param userId - The ID of the user to update.
  * @param isActive - The new status.
  */
-export const updateUserStatus = async (userId: string, isActive: boolean) => {
+export const updateUserStatus = async (
+  userId: string,
+  isActive: boolean
+) => {
   const response = await axiosInstance.put(
     `/api/admin/users/${userId}/status`,
     { isActive }
@@ -32,10 +37,16 @@ export const updateUserStatus = async (userId: string, isActive: boolean) => {
  * @param userId - The ID of the user to update.
  * @param role - The new role.
  */
-export const updateUserRole = async (userId: string, role: ROLE) => {
-  const response = await axiosInstance.put(`/api/admin/users/${userId}/role`, {
-    role,
-  });
+export const updateUserRole = async (
+  userId: string,
+  role: ROLE
+) => {
+  const response = await axiosInstance.put(
+    `/api/admin/users/${userId}/role`,
+    {
+      role,
+    }
+  );
   return response.data;
 };
 
@@ -67,6 +78,26 @@ export const getOrdersByStatus = async (
 ): Promise<ExchangeOrder[]> => {
   // The endpoint needs to be created in your backend routes.
   // Example: router.get("/orders/:status", getOrdersByStatus);
-  const response = await axiosInstance.get(`/api/admin/orders/${status}`);
+  const response = await axiosInstance.get(
+    `/api/admin/orders/${status}`
+  );
   return response.data;
+};
+export const updateOrderStatus = async (
+  orderId: string,
+  status: OrderStatus
+): Promise<ExchangeOrder> => {
+  try {
+    const response = await axiosInstance.patch(
+      `/api/admin/orders/${orderId}/status`,
+      { status }
+    );
+    return response.data.data;
+  } catch (error: unknown) {
+    // یک خطای خواناتر برای نمایش به کاربر برمی‌گردانیم
+    throw new Error(
+      (error as Error).message ||
+        "An unexpected error occurred."
+    );
+  }
 };
