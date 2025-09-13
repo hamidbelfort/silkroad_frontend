@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useReducer, useCallback } from "react";
 import { getOrdersByStatus } from "@/lib/api/admin";
 import { ExchangeOrder } from "@/lib/types/exchangeOrder";
 import { OrderStatus } from "@/lib/types/orderStatus";
@@ -10,6 +10,13 @@ import {
   Eye,
   Edit,
   Info,
+  Hourglass,
+  CreditCard,
+  BadgeDollarSign,
+  BadgeCheck,
+  BadgeX,
+  CheckCircle2,
+  CircleSlash,
 } from "lucide-react";
 import {
   Table,
@@ -19,16 +26,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -36,91 +35,124 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import { OrderDetailsModal } from "@/components/admin/orderDetailsModal";
 import { UpdateStatusModal } from "@/components/admin/updateStatusModal";
 import { OrderStatusBadge } from "@/components/ui/orderStatusBadge";
 
-const orderStatuses: OrderStatus[] = [
-  OrderStatus.PENDING,
-  OrderStatus.WAITING_REVIEW,
-  OrderStatus.WAITING_PAYMENT,
-  OrderStatus.PAID,
-  OrderStatus.APPROVED,
-  OrderStatus.REJECTED,
-  OrderStatus.COMPLETED,
-  OrderStatus.CANCELED,
-];
+// --- UI Configuration for Tabs ---
+const statusConfig = {
+  [OrderStatus.PENDING]: { icon: Hourglass, color: "text-yellow-500" },
+  [OrderStatus.WAITING_REVIEW]: { icon: Info, color: "text-orange-500" },
+  [OrderStatus.WAITING_PAYMENT]: { icon: CreditCard, color: "text-blue-500" },
+  [OrderStatus.PAID]: { icon: BadgeDollarSign, color: "text-sky-500" },
+  [OrderStatus.APPROVED]: { icon: BadgeCheck, color: "text-green-600" },
+  [OrderStatus.REJECTED]: { icon: BadgeX, color: "text-red-500" },
+  [OrderStatus.COMPLETED]: { icon: CheckCircle2, color: "text-emerald-600" },
+  [OrderStatus.CANCELED]: { icon: CircleSlash, color: "text-gray-500" },
+};
+const orderStatuses = Object.keys(statusConfig) as OrderStatus[];
+
+// --- State Management with useReducer ---
+type State = {
+  orders: ExchangeOrder[];
+  loading: boolean;
+  currentStatus: OrderStatus | null;
+  selectedOrder: ExchangeOrder | null;
+  isDetailsModalOpen: boolean;
+  isUpdateModalOpen: boolean;
+};
+
+type Action =
+  | { type: "FETCH_START"; payload: OrderStatus }
+  | { type: "FETCH_SUCCESS"; payload: ExchangeOrder[] }
+  | { type: "FETCH_ERROR" }
+  | { type: "OPEN_DETAILS_MODAL"; payload: ExchangeOrder }
+  | { type: "OPEN_UPDATE_MODAL"; payload: ExchangeOrder }
+  | { type: "CLOSE_MODALS" };
+
+const initialState: State = {
+  orders: [],
+  loading: false,
+  currentStatus: null,
+  selectedOrder: null,
+  isDetailsModalOpen: false,
+  isUpdateModalOpen: false,
+};
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "FETCH_START":
+      return {
+        ...state,
+        loading: true,
+        currentStatus: action.payload,
+        orders: [],
+      };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, orders: action.payload };
+    case "FETCH_ERROR":
+      return { ...state, loading: false };
+    case "OPEN_DETAILS_MODAL":
+      return {
+        ...state,
+        selectedOrder: action.payload,
+        isDetailsModalOpen: true,
+      };
+    case "OPEN_UPDATE_MODAL":
+      return {
+        ...state,
+        selectedOrder: action.payload,
+        isUpdateModalOpen: true,
+      };
+    case "CLOSE_MODALS":
+      return {
+        ...state,
+        selectedOrder: null,
+        isDetailsModalOpen: false,
+        isUpdateModalOpen: false,
+      };
+    default:
+      return state;
+  }
+}
 
 export default function AdminOrdersPage() {
-  const [orders, setOrders] = useState<ExchangeOrder[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [currentStatus, setCurrentStatus] =
-    useState<OrderStatus>(OrderStatus.PENDING);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const {
+    orders,
+    loading,
+    currentStatus,
+    selectedOrder,
+    isDetailsModalOpen,
+    isUpdateModalOpen,
+  } = state;
 
-  const [selectedOrder, setSelectedOrder] =
-    useState<ExchangeOrder | null>(null);
-  const [isDetailsModalOpen, setIsDetailsModalOpen] =
-    useState(false);
-  const [isUpdateModalOpen, setIsUpdateModalOpen] =
-    useState(false);
+  const handleTabChange = useCallback(async (statusValue: string) => {
+    const status = statusValue as OrderStatus;
+    dispatch({ type: "FETCH_START", payload: status });
+    try {
+      const fetchedOrders = await getOrdersByStatus(status);
+      dispatch({ type: "FETCH_SUCCESS", payload: fetchedOrders });
+    } catch {
+      toast.error(`Failed to fetch ${status.toLowerCase()} orders.`);
+      dispatch({ type: "FETCH_ERROR" });
+    }
+  }, []);
 
-  // تابع fetchOrders حالا وضعیت را به عنوان آرگومان می‌گیرد
-  const fetchOrdersByStatus = useCallback(
-    async (status: OrderStatus) => {
-      try {
-        setLoading(true);
-        const fetchedOrders = await getOrdersByStatus(
-          status
-        );
-        setOrders(fetchedOrders);
-      } catch {
-        toast.error(
-          `Failed to fetch ${status.toLowerCase()} orders.`
-        );
-      } finally {
-        setLoading(false);
-      }
-    },
-    []
-  ); // این تابع هیچ وابستگی‌ای ندارد و یک بار ساخته می‌شود
-
-  // این useEffect فقط یک بار در اولین رندر برای گرفتن داده‌های اولیه اجرا می‌شود
-  useEffect(() => {
-    fetchOrdersByStatus(OrderStatus.PENDING);
-  }, [fetchOrdersByStatus]);
-
-  // وقتی کاربر تب را عوض می‌کند، داده‌های جدید را می‌گیریم
-  const handleTabChange = (status: string) => {
-    const newStatus = status as OrderStatus;
-    setCurrentStatus(newStatus);
-    fetchOrdersByStatus(newStatus);
-  };
-
-  // وقتی وضعیت با موفقیت آپدیت شد، داده‌ها را دوباره می‌گیریم
   const handleStatusUpdateSuccess = useCallback(() => {
-    setIsUpdateModalOpen(false);
+    dispatch({ type: "CLOSE_MODALS" });
     toast.success("Order status updated successfully!");
-    fetchOrdersByStatus(currentStatus);
-  }, [currentStatus, fetchOrdersByStatus]);
-
-  const openDetailsModal = (order: ExchangeOrder) => {
-    setSelectedOrder(order);
-    setIsDetailsModalOpen(true);
-  };
-
-  const openUpdateModal = (order: ExchangeOrder) => {
-    setSelectedOrder(order);
-    setIsUpdateModalOpen(true);
-  };
-
-  const handleDetailsModalClose = useCallback(() => {
-    setIsDetailsModalOpen(false);
-  }, []);
-
-  const handleUpdateModalClose = useCallback(() => {
-    setIsUpdateModalOpen(false);
-  }, []);
+    if (currentStatus) {
+      handleTabChange(currentStatus);
+    }
+  }, [currentStatus, handleTabChange]);
 
   const finalStatuses: OrderStatus[] = [
     OrderStatus.COMPLETED,
@@ -130,38 +162,45 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="container mx-auto p-4 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">
-            Orders Management
-          </h1>
-          <p className="text-muted-foreground">
-            Manage and review all exchange orders.
-          </p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold">Orders Management</h1>
+        <p className="text-muted-foreground">
+          Manage and review all exchange orders.
+        </p>
       </div>
       <Card>
         <CardHeader>
-          <Tabs
-            value={currentStatus}
-            onValueChange={handleTabChange}
-          >
-            {/* --- START OF UI FIX --- */}
-            {/* Wrap TabsList in a div to make it horizontally scrollable on small screens */}
-            <div className="relative w-full overflow-x-auto">
-              <TabsList className="inline-flex h-auto">
-                {orderStatuses.map((status) => (
-                  <TabsTrigger
-                    key={status}
-                    value={status}
-                    className="whitespace-nowrap"
-                  >
-                    {status.replace("_", " ")}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
-            {/* --- END OF UI FIX --- */}
+          <Tabs onValueChange={handleTabChange}>
+            <TabsList>
+              <TooltipProvider delayDuration={0}>
+                {orderStatuses.map((status) => {
+                  const config = statusConfig[status];
+                  const Icon = config.icon;
+                  return (
+                    <Tooltip key={status}>
+                      <TooltipTrigger asChild>
+                        <TabsTrigger
+                          value={status}
+                          className="data-[state=active]:shadow-sm"
+                        >
+                          {/* Mobile View: Icon */}
+                          <Icon
+                            className={`h-5 w-5 sm:hidden ${config.color}`}
+                          />
+                          {/* Desktop View: Text */}
+                          <span className="hidden sm:inline">
+                            {status.replace("_", " ")}
+                          </span>
+                        </TabsTrigger>
+                      </TooltipTrigger>
+                      <TooltipContent className="sm:hidden">
+                        <p>{status.replace("_", " ")}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                })}
+              </TooltipProvider>
+            </TabsList>
           </Tabs>
         </CardHeader>
         <CardContent>
@@ -179,24 +218,25 @@ export default function AdminOrdersPage() {
                       <TableHead className="hidden md:table-cell">
                         Amount (¥)
                       </TableHead>
-                      <TableHead className="hidden sm:table-cell">
-                        Date
-                      </TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead className="text-right">
-                        Actions
-                      </TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {orders.length > 0 ? (
+                    {!currentStatus ? (
+                      <TableRow>
+                        <TableCell
+                          colSpan={4}
+                          className="h-48 text-center text-muted-foreground"
+                        >
+                          Please select a status tab to view orders.
+                        </TableCell>
+                      </TableRow>
+                    ) : orders.length > 0 ? (
                       orders.map((order) => (
                         <TableRow key={order.id}>
                           <TableCell className="font-medium">
-                            <div>
-                              {order.user?.fullname ||
-                                "N/A"}
-                            </div>
+                            <div>{order.user?.fullname || "N/A"}</div>
                             <div className="text-xs text-muted-foreground hidden sm:block">
                               {order.user?.email}
                             </div>
@@ -204,25 +244,20 @@ export default function AdminOrdersPage() {
                           <TableCell className="hidden md:table-cell">
                             {order.amount.toLocaleString()}
                           </TableCell>
-                          <TableCell className="hidden sm:table-cell">
-                            {new Date(
-                              order.createdAt!
-                            ).toLocaleDateString()}
-                          </TableCell>
                           <TableCell>
-                            <OrderStatusBadge
-                              status={order.status}
-                            />
+                            <OrderStatusBadge status={order.status} />
                           </TableCell>
                           <TableCell className="text-right">
-                            {order.status ===
-                              OrderStatus.WAITING_REVIEW && (
+                            {order.status === OrderStatus.WAITING_REVIEW && (
                               <Button
                                 variant="outline"
                                 size="sm"
-                                className="mr-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50"
+                                className="mr-2 border-orange-500 text-orange-600 hover:bg-orange-50"
                                 onClick={() =>
-                                  openDetailsModal(order)
+                                  dispatch({
+                                    type: "OPEN_DETAILS_MODAL",
+                                    payload: order,
+                                  })
                                 }
                               >
                                 <Info className="mr-2 h-4 w-4" />
@@ -231,37 +266,33 @@ export default function AdminOrdersPage() {
                             )}
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  className="h-8 w-8 p-0"
-                                >
-                                  <span className="sr-only">
-                                    Open menu
-                                  </span>
+                                <Button variant="ghost" className="h-8 w-8 p-0">
                                   <MoreVertical className="h-4 w-4" />
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
                                 <DropdownMenuItem
                                   onClick={() =>
-                                    openDetailsModal(order)
+                                    dispatch({
+                                      type: "OPEN_DETAILS_MODAL",
+                                      payload: order,
+                                    })
                                   }
                                 >
                                   <Eye className="mr-2 h-4 w-4" />
-                                  <span>View Details</span>
+                                  View Details
                                 </DropdownMenuItem>
-                                {!finalStatuses.includes(
-                                  order.status
-                                ) && (
+                                {!finalStatuses.includes(order.status) && (
                                   <DropdownMenuItem
                                     onClick={() =>
-                                      openUpdateModal(order)
+                                      dispatch({
+                                        type: "OPEN_UPDATE_MODAL",
+                                        payload: order,
+                                      })
                                     }
                                   >
                                     <Edit className="mr-2 h-4 w-4" />
-                                    <span>
-                                      Update Status
-                                    </span>
+                                    Update Status
                                   </DropdownMenuItem>
                                 )}
                               </DropdownMenuContent>
@@ -272,8 +303,8 @@ export default function AdminOrdersPage() {
                     ) : (
                       <TableRow>
                         <TableCell
-                          colSpan={5}
-                          className="h-24 text-center"
+                          colSpan={4}
+                          className="h-48 text-center text-muted-foreground"
                         >
                           No orders found for this status.
                         </TableCell>
@@ -290,12 +321,12 @@ export default function AdminOrdersPage() {
       <OrderDetailsModal
         order={selectedOrder}
         isOpen={isDetailsModalOpen}
-        onClose={handleDetailsModalClose}
+        onClose={() => dispatch({ type: "CLOSE_MODALS" })}
       />
       <UpdateStatusModal
         order={selectedOrder}
         isOpen={isUpdateModalOpen}
-        onClose={handleUpdateModalClose}
+        onClose={() => dispatch({ type: "CLOSE_MODALS" })}
         onStatusUpdate={handleStatusUpdateSuccess}
       />
     </div>
